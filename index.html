@@ -444,6 +444,98 @@
   .mat-date { width: 100px; flex: none; text-align: right; font-size: 12px; line-height: 20px; color: #8D8785; }
   .mat-read { width: 100px; flex: none; text-align: right; font-size: 12px; line-height: 20px; color: #8D8785; }
 
+  /* ===== 子页面（资料中心 / 视频学堂 / 我的学习） ===== */
+  a.entry, a.more, a.mat-row, a.btn-primary, a.vcard, a.doc-row { text-decoration: none; color: inherit; }
+  .phead { margin-top: 32px; flex: none; }
+  .crumb { display: flex; align-items: center; gap: 6px; font-size: 12px; line-height: 20px; color: #8D8785; }
+  .crumb a { color: #8D8785; }
+  .crumb a:hover { color: #0073FF; }
+  .crumb b { color: #1E1C1A; font-weight: 500; }
+  .phead h1 { margin-top: 8px; font-size: 24px; line-height: 32px; font-weight: 500; color: #1E1C1A; }
+  .ph-desc { margin-top: 4px; font-size: 14px; line-height: 22px; color: #8D8785; }
+  .ph-search { margin-top: 16px; }
+  .filters { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .chips { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .chip {
+    height: 32px; padding: 0 14px;
+    display: inline-flex; align-items: center;
+    border-radius: 16px; border: 1px solid transparent;
+    background: #F7F5F3; color: #5B5552;
+    font-size: 13px; line-height: 20px; cursor: pointer;
+    transition: color .16s ease, background .16s ease, border-color .16s ease;
+  }
+  .chip:hover { color: #0073FF; }
+  .chip.active { background: #EAF3FF; color: #0073FF; border-color: #CFE5FF; }
+  .sort { display: flex; align-items: center; gap: 4px; font-size: 12px; line-height: 20px; color: #8D8785; }
+  .doc-list { display: flex; flex-direction: column; gap: 12px; }
+  .doc-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px; border: 1px solid #F1EFEC; border-radius: 12px;
+    background: #FFFFFF;
+    transition: border-color .18s ease, box-shadow .18s ease;
+  }
+  .doc-row:hover { border-color: #CFE5FF; box-shadow: 0 6px 18px rgba(30,28,26,0.06); }
+  .doc-row .f-ic { width: 40px; height: 40px; flex: none; }
+  .doc-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .doc-cat { flex: none; padding: 0 8px; font-size: 12px; line-height: 20px; color: #5B5552; background: #F7F5F3; border-radius: 4px; }
+  .btn-ghost {
+    height: 32px; padding: 0 12px; flex: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid #E4E1DE; border-radius: 4px; background: #FFFFFF;
+    color: #5B5552; font-size: 13px; line-height: 20px; cursor: pointer;
+    transition: color .16s ease, border-color .16s ease;
+  }
+  .btn-ghost:hover { color: #0073FF; border-color: #CFE5FF; }
+  .pager { display: flex; align-items: center; justify-content: center; gap: 8px; padding-top: 8px; }
+  .pg {
+    min-width: 32px; height: 32px; padding: 0 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid #F1EFEC; border-radius: 6px; background: #FFFFFF;
+    color: #5B5552; font-size: 13px; cursor: pointer;
+  }
+  .pg.on { background: #0073FF; border-color: #0073FF; color: #FFFFFF; }
+  .videos-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .stat {
+    padding: 16px; border: 1px solid #F1EFEC; border-radius: 12px;
+    background: linear-gradient(180deg, #F7FBFF 0%, #FFFFFF 100%);
+  }
+  .stat .num { font-size: 24px; line-height: 32px; font-weight: 600; color: #1E1C1A; }
+  .stat .num small { font-size: 13px; font-weight: 400; color: #8D8785; margin-left: 2px; }
+  .stat .lbl { margin-top: 2px; font-size: 12px; line-height: 20px; color: #8D8785; }
+  .ltabs { display: flex; gap: 24px; border-bottom: 1px solid #F1EFEC; }
+  .ltab {
+    position: relative; height: 40px;
+    display: inline-flex; align-items: center;
+    font-size: 14px; line-height: 22px; color: #5B5552;
+    cursor: pointer; transition: color .16s ease;
+  }
+  .ltab:hover { color: #0073FF; }
+  .ltab.on { color: #0073FF; font-weight: 500; }
+  .ltab.on::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: #0073FF; }
+  .lpanel[hidden] { display: none; }
+  .rec-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F1EFEC; }
+  .rec-row:last-child { border-bottom: 0; }
+  .rec-cover { width: 120px; height: 68px; flex: none; border-radius: 6px; object-fit: cover; }
+  .rec-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .rec-title { font-size: 14px; line-height: 22px; font-weight: 500; color: #1E1C1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rec-meta { font-size: 12px; line-height: 20px; color: #8D8785; }
+  .rec-progress { width: 200px; height: 6px; border-radius: 3px; background: #CFE5FF; overflow: hidden; }
+  .rec-progress i { display: block; height: 100%; border-radius: 3px; background: #0073FF; }
+  .rec-time { flex: none; font-size: 12px; line-height: 20px; color: #8D8785; }
+  .req-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F1EFEC; }
+  .req-row:last-child { border-bottom: 0; }
+  .req-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .req-title { font-size: 14px; line-height: 22px; font-weight: 500; color: #1E1C1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .req-sub { font-size: 12px; line-height: 20px; color: #8D8785; }
+  .req-state { flex: none; display: inline-flex; align-items: center; gap: 4px; font-size: 12px; line-height: 20px; }
+  .req-state.wait { color: #FF7300; }
+  .req-state.pass { color: #16B364; }
+  .req-time { flex: none; width: 100px; text-align: right; font-size: 12px; line-height: 20px; color: #8D8785; }
+  .empty-hint { padding: 24px 0; font-size: 13px; color: #8D8785; text-align: center; }
+  @media (max-width: 1500px) { .videos-4 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 1330px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
   /* 窄屏（≈1280）顶栏收紧间距，避免用户名换行；内容区栅格自适应由上面的宽度规则完成 */
   @media (max-width: 1330px) {
     .topbar { padding: 0 12px; }
@@ -622,7 +714,7 @@
 
       <!-- 三入口 -->
       <section class="entries">
-        <div class="entry">
+        <a class="entry" href="./materials.html">
           <img class="e-ic" src="./assets/entry-1.png" alt="" />
           <div class="e-txt">
             <span class="e-title">资料中心</span>
@@ -631,8 +723,8 @@
           <span class="go">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
           </span>
-        </div>
-        <div class="entry purple">
+        </a>
+        <a class="entry purple" href="./videos.html">
           <img class="e-ic" src="./assets/entry-2.png" alt="" />
           <div class="e-txt">
             <span class="e-title">视频学堂</span>
@@ -641,8 +733,8 @@
           <span class="go">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
           </span>
-        </div>
-        <div class="entry blue">
+        </a>
+        <a class="entry blue" href="./learning.html">
           <img class="e-ic" src="./assets/entry-3.png" alt="" />
           <div class="e-txt">
             <span class="e-title">我的学习</span>
@@ -651,16 +743,16 @@
           <span class="go">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
           </span>
-        </div>
+        </a>
       </section>
 
       <!-- 继续学习 -->
       <section class="section">
         <div class="sec-head">
           <div class="sec-title"><i class="bar"></i><h2>继续学习</h2></div>
-          <span class="more">我的学习
+          <a class="more" href="./learning.html">我的学习
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
-          </span>
+          </a>
         </div>
         <div class="continue-card">
           <img class="cover" src="./assets/cover-continue.png" alt="" />
@@ -674,7 +766,7 @@
             </div>
             <div class="c-progress"><i></i></div>
           </div>
-          <button class="btn-primary">继续学习</button>
+          <a class="btn-primary" href="./videos.html">继续学习</a>
         </div>
       </section>
 
@@ -682,12 +774,12 @@
       <section class="section">
         <div class="sec-head">
           <div class="sec-title"><i class="bar"></i><h2>热门视频</h2></div>
-          <span class="more">前往视频学堂
+          <a class="more" href="./videos.html">前往视频学堂
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
-          </span>
+          </a>
         </div>
         <div class="video-grid">
-          <article class="vcard">
+          <a class="vcard" href="./videos.html">
             <img class="v-cover" src="./assets/cover-1.png" alt="" />
             <div class="v-body">
               <div class="v-title">室内天花造型施工工艺演示</div>
@@ -699,8 +791,8 @@
                 </span>
               </div>
             </div>
-          </article>
-          <article class="vcard">
+          </a>
+          <a class="vcard" href="./videos.html">
             <img class="v-cover" src="./assets/cover-2.png" alt="" />
             <div class="v-body">
               <div class="v-title">初尺、复尺标准操作演示</div>
@@ -712,8 +804,8 @@
                 </span>
               </div>
             </div>
-          </article>
-          <article class="vcard">
+          </a>
+          <a class="vcard" href="./videos.html">
             <img class="v-cover" src="./assets/cover-3.png" alt="" />
             <div class="v-body">
               <div class="v-title">隐蔽工程验收标准解读</div>
@@ -725,8 +817,8 @@
                 </span>
               </div>
             </div>
-          </article>
-          <article class="vcard">
+          </a>
+          <a class="vcard" href="./videos.html">
             <img class="v-cover" src="./assets/cover-4.png" alt="" />
             <div class="v-body">
               <div class="v-title">沿海大风区域招牌加固演示</div>
@@ -734,7 +826,7 @@
                 <span class="v-meta">1,283播放量</span>
               </div>
             </div>
-          </article>
+          </a>
         </div>
       </section>
 
@@ -742,12 +834,12 @@
       <section class="section">
         <div class="sec-head">
           <div class="sec-title"><i class="bar"></i><h2>最新资料</h2></div>
-          <span class="more">资料中心
+          <a class="more" href="./materials.html">资料中心
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
-          </span>
+          </a>
         </div>
         <div class="mat-list">
-          <div class="mat-row">
+          <a class="mat-row" href="./materials.html">
             <img class="f-ic" src="./assets/file-pdf.png" alt="" />
             <div class="mat-main">
               <div class="mat-title-row">
@@ -759,8 +851,8 @@
             </div>
             <p class="mat-date">10-05 更新</p>
             <p class="mat-read">阅读1,286</p>
-          </div>
-          <div class="mat-row">
+          </a>
+          <a class="mat-row" href="./materials.html">
             <img class="f-ic" src="./assets/file-pdf.png" alt="" />
             <div class="mat-main">
               <div class="mat-title-row">
@@ -772,8 +864,8 @@
             </div>
             <p class="mat-date">10-05 更新</p>
             <p class="mat-read">阅读1,286</p>
-          </div>
-          <div class="mat-row">
+          </a>
+          <a class="mat-row" href="./materials.html">
             <img class="f-ic" src="./assets/file-pdf.png" alt="" />
             <div class="mat-main">
               <div class="mat-title-row">
@@ -785,8 +877,8 @@
             </div>
             <p class="mat-date">10-05 更新</p>
             <p class="mat-read">阅读1,286</p>
-          </div>
-          <div class="mat-row">
+          </a>
+          <a class="mat-row" href="./materials.html">
             <img class="f-ic" src="./assets/file-pdf.png" alt="" />
             <div class="mat-main">
               <div class="mat-title-row">
@@ -798,8 +890,8 @@
             </div>
             <p class="mat-date">10-05 更新</p>
             <p class="mat-read">阅读1,286</p>
-          </div>
-          <div class="mat-row">
+          </a>
+          <a class="mat-row" href="./materials.html">
             <img class="f-ic" src="./assets/file-pdf.png" alt="" />
             <div class="mat-main">
               <div class="mat-title-row">
@@ -810,7 +902,7 @@
             </div>
             <p class="mat-date">10-05 更新</p>
             <p class="mat-read">阅读1,286</p>
-          </div>
+          </a>
         </div>
       </section>
     </main>
