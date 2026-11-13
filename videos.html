@@ -235,7 +235,7 @@
   .content::-webkit-scrollbar { width: 0; height: 0; }
   /* 卡内内容统一按 1200 居中；白卡变窄时左右边距最小保留 32px */
   /* 多页签：每个视图独立成块，仅当前页签可见 */
-  .content > .view { display: none; flex-direction: column; flex: none; width: 100%; }
+  .content > .view { display: none; flex-direction: column; flex: none; width: 100%; margin: 0; }
   .content > .view.active { display: flex; }
   .view-home > * { width: min(1200px, calc(100% - 64px)); margin-left: auto; margin-right: auto; }
   .view-home > * + * { margin-top: 32px; }
