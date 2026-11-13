@@ -234,11 +234,14 @@
   }
   .content::-webkit-scrollbar { width: 0; height: 0; }
   /* 卡内内容统一按 1200 居中；白卡变窄时左右边距最小保留 32px */
-  .content > * { width: min(1200px, calc(100% - 64px)); margin-left: auto; margin-right: auto; }
-  .content > * + * { margin-top: 32px; }
+  /* 多页签：每个视图独立成块，仅当前页签可见 */
+  .content > .view { display: none; flex-direction: column; flex: none; width: 100%; }
+  .content > .view.active { display: flex; }
+  .view-home > * { width: min(1200px, calc(100% - 64px)); margin-left: auto; margin-right: auto; }
+  .view-home > * + * { margin-top: 32px; }
   /* Hero 背景铺满白卡，内部文字/插画仍与 1200 栅格对齐 */
-  .content > .hero { width: 100%; max-width: none; margin: 0; }
-  .content > .hero + * { margin-top: 32px; }
+  .view-home > .hero { width: 100%; max-width: none; margin: 0; }
+  .view-home > .hero + * { margin-top: 32px; }
 
   /* Hero */
   .hero {
@@ -299,13 +302,13 @@
     opacity: 0; pointer-events: none;
     transition: opacity .18s ease;
   }
-  .content > .dock { width: 100%; max-width: none; margin: 0 0 -96px; }
+  .view-home > .dock { width: 100%; max-width: none; margin: 0 0 -96px; }
   /* 窄卡时吸顶搜索框同步收缩，不越过白卡安全边距 */
-  .content > .dock .search { width: min(600px, calc(100% - 64px)); }
-  .content > .dock + .hero { margin-top: 0; }
-  .content.docked .dock { opacity: 1; pointer-events: auto; }
+  .view-home > .dock .search { width: min(600px, calc(100% - 64px)); }
+  .view-home > .dock + .hero { margin-top: 0; }
+  .view-home.docked .dock { opacity: 1; pointer-events: auto; }
   /* 吸附时 Hero 内原搜索框让位，避免两层搜索框重叠 */
-  .content.docked .hero .search { opacity: 0; }
+  .view-home.docked .hero .search { opacity: 0; }
 
   /* 入口卡 */
   .entries {
@@ -394,11 +397,11 @@
   .c-progress { width: 200px; height: 6px; border-radius: 3px; background: #CFE5FF; overflow: hidden; }
   .c-progress i { display: block; height: 100%; width: 45%; border-radius: 3px; background: #0073FF; }
   .btn-primary {
-    height: 32px; padding: 0 12px;
+    height: 32px; padding: 0 16px;
     display: inline-flex; align-items: center; justify-content: center;
     background: #0073FF; color: #FFFFFF;
     font-size: 14px; line-height: 22px;
-    border: 0; border-radius: 4px;
+    border: 0; border-radius: 6px;
     cursor: pointer;
     flex: none;
   }
@@ -424,6 +427,9 @@
   .status.learning { color: #0073FF; }
   .status.done { color: #16B364; }
   .vcard:hover { box-shadow: 0 4px 16px rgba(30,28,26,0.08); }
+  @media (max-width: 1399px) {
+    .vgrid .vcard2 { width: calc((100% - 32px) / 3); }
+  }
 
   /* 最新资料 */
   .mat-list { display: flex; flex-direction: column; gap: 0; padding-top: 0; }
@@ -445,9 +451,10 @@
   .mat-read { width: 100px; flex: none; text-align: right; font-size: 12px; line-height: 20px; color: #8D8785; }
 
   /* ===== 子页面（资料中心 / 视频学堂 / 我的学习） ===== */
-  a.entry, a.more, a.mat-row, a.btn-primary, a.vcard, a.doc-row { text-decoration: none; color: inherit; }
+  a.entry, a.more, a.mat-row, a.vcard, a.doc-row { text-decoration: none; color: inherit; }
+  a.btn-primary { text-decoration: none; }
   .phead { margin-top: 32px; flex: none; }
-  .crumb { display: flex; align-items: center; gap: 6px; font-size: 12px; line-height: 20px; color: #8D8785; }
+  .crumb { display: block; font-size: 12px; line-height: 20px; color: #8D8785; }
   .crumb a { color: #8D8785; }
   .crumb a:hover { color: #0073FF; }
   .crumb b { color: #1E1C1A; font-weight: 500; }
@@ -503,16 +510,6 @@
   .stat .num { font-size: 24px; line-height: 32px; font-weight: 600; color: #1E1C1A; }
   .stat .num small { font-size: 13px; font-weight: 400; color: #8D8785; margin-left: 2px; }
   .stat .lbl { margin-top: 2px; font-size: 12px; line-height: 20px; color: #8D8785; }
-  .ltabs { display: flex; gap: 24px; border-bottom: 1px solid #F1EFEC; }
-  .ltab {
-    position: relative; height: 40px;
-    display: inline-flex; align-items: center;
-    font-size: 14px; line-height: 22px; color: #5B5552;
-    cursor: pointer; transition: color .16s ease;
-  }
-  .ltab:hover { color: #0073FF; }
-  .ltab.on { color: #0073FF; font-weight: 500; }
-  .ltab.on::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: #0073FF; }
   .lpanel[hidden] { display: none; }
   .rec-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F1EFEC; }
   .rec-row:last-child { border-bottom: 0; }
@@ -546,6 +543,208 @@
     .user .uname { white-space: nowrap; }
     .hd-right { flex: none; }
   }
+
+  /* ============ 子页（资料中心 / 视频学堂 / 我的学习） ============ */
+  /* 顶部 96 渐变头 + 居中搜索 */
+  .ph-head {
+    flex: none; position: relative;
+    width: 100%; height: 96px;
+    background: linear-gradient(180deg, #EAF3FF 0%, rgba(234,243,255,0) 100%);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 12px;
+  }
+  .ph-head .search { position: absolute; left: 50%; top: 24px; transform: translateX(-50%); }
+  /* 主体：左分类树 240 + 右内容，左右各 64 内边距 */
+  .sub-body { flex: none; display: flex; align-items: flex-start; gap: 32px; padding: 0; width: min(1200px, calc(100% - 64px)); margin: 0 auto; }
+
+  /* 分类树 */
+  .tree { width: 240px; flex: none; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+  .tree-item {
+    display: flex; align-items: center; gap: 4px;
+    padding: 6px 8px; border-radius: 6px;
+    font-size: 14px; line-height: 22px; color: #1E1C1A;
+    cursor: pointer; user-select: none;
+  }
+  .tree-item .ti-caret { width: 16px; height: 16px; flex: none; color: #5F6673; transition: transform .16s ease; }
+  .tree-item .ti-caret.closed { transform: rotate(-90deg); }
+  .tree-item .ti-ic { width: 16px; height: 16px; flex: none; color: #5F6673; }
+  .tree-item .ti-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tree-item .ti-count { font-size: 12px; line-height: 20px; color: #BDBBB9; flex: none; }
+  .tree-item.lv2 { padding-left: 28px; }
+  .tree-item.lv3 { padding-left: 48px; }
+  .tree-item.sel { background: rgba(0,115,255,0.1); color: #0073FF; }
+  .tree-item.sel .ti-count, .tree-item.sel .ti-caret, .tree-item.sel .ti-ic { color: #0073FF; }
+  .tree-item:hover:not(.sel) { background: #F7F5F3; }
+
+  /* 右列 */
+  .pane { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .pane-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .crumb { display: block; font-size: 14px; line-height: 22px; color: #8D8785; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .crumb b { font-weight: 400; color: #1E1C1A; }
+  .pane-ops { display: flex; align-items: center; gap: 24px; flex: none; }
+  .op {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 0; border: 0; background: none;
+    font-family: inherit; font-size: 14px; line-height: 22px; color: #8D8785;
+    cursor: pointer; white-space: nowrap;
+  }
+  .op svg { width: 16px; height: 16px; flex: none; }
+  .op.blue { color: #0073FF; }
+  .op:hover { color: #0073FF; }
+
+  /* 资料列表 */
+  .doc-list { display: flex; flex-direction: column; gap: 0; padding-top: 0; }
+  .doc {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid #F1EFEC;
+    cursor: pointer; transition: background .16s ease;
+  }
+  .doc:last-child { border-bottom: 0; padding-bottom: 12px; }
+  .doc:hover, .doc.is-hover { background: #F9F9F9; }
+  .doc:hover .doc-title, .doc.is-hover .doc-title { color: #0073FF; }
+  .doc-ic { width: 40px; height: 40px; flex: none; }
+  .doc-ic img { width: 40px; height: 40px; display: block; }
+  .doc-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .doc-title-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .doc-title { font-size: 14px; line-height: 22px; font-weight: 500; color: #1E1C1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .16s ease; }
+  .doc-meta { font-size: 12px; line-height: 20px; color: #8D8785; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .doc-date, .doc-read { width: 100px; flex: none; text-align: right; font-size: 12px; line-height: 20px; color: #8D8785; }
+  .ph-tag {
+    height: 20px; padding: 0 6px; flex: none;
+    display: inline-flex; align-items: center;
+    border: 1px solid #E4E1DE; border-radius: 4px;
+    font-size: 12px; line-height: 20px; color: #5F6673;
+  }
+  .ph-tag.orange { border-color: #FFD9C2; color: #FF7300; }
+
+  /* 视频筛选 chips */
+  .chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    height: 22px; padding: 0 4px; border-radius: 4px; background: #F7F5F3;
+    font-size: 12px; line-height: 20px;
+  }
+  .chip .k { color: #8D8785; }
+  .chip .v { color: #1E1C1A; }
+  .chip .x { width: 16px; height: 16px; flex: none; color: #8D8785; cursor: pointer; }
+  .chip .x:hover { color: #1E1C1A; }
+  .chip-clear { border: 0; background: none; padding: 0; font-family: inherit; font-size: 12px; line-height: 20px; color: #0073FF; cursor: pointer; }
+
+  /* 视频网格 */
+  .vgrid { display: flex; flex-wrap: wrap; gap: 16px; }
+  .vcard2 {
+    width: calc((100% - 48px) / 4); flex: none;
+    display: flex; flex-direction: column;
+    background: #FFFFFF; border: 1px solid #F1EFEC; border-radius: 8px;
+    overflow: hidden; cursor: pointer;
+    transition: box-shadow .16s ease;
+  }
+  .vcard2:hover { box-shadow: 0 4px 16px rgba(30,28,26,0.08); }
+  .vthumb { position: relative; aspect-ratio: 16 / 9; flex: none; background: #F1EFEC; overflow: hidden; container-type: inline-size; }
+  .vthumb img { width: 100%; height: 100%; object-fit: cover; }
+  .vthumb::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 32%;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 100%);
+    pointer-events: none; z-index: 1;
+  }
+  .vplay {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 15.1cqw; aspect-ratio: 1 / 1; border-radius: 50%;
+    background: rgba(0,0,0,0.40);
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none; z-index: 2;
+  }
+  .vplay::after {
+    content: ""; display: block; width: 52%; height: 57%; margin-left: 5%;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 36'><path d='M7 7 L26 18 L7 29 Z' fill='%23fff' stroke='%23fff' stroke-width='6' stroke-linejoin='round'/></svg>") center / contain no-repeat;
+  }
+  .vbadge {
+    position: absolute; left: 8px; top: 8px; z-index: 2;
+    height: 20px; padding: 0 6px; border-radius: 4px;
+    background: rgba(0,0,0,0.4); color: #FFFFFF; font-size: 12px; line-height: 20px;
+  }
+  .vdur {
+    position: absolute; right: 8px; bottom: 6px; z-index: 2;
+    color: #FFFFFF; font-size: 12px; line-height: 20px;
+  }
+  .vbody2 { padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .vtitle2 { font-size: 14px; line-height: 22px; font-weight: 500; color: #1E1C1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .vmeta2 { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; line-height: 20px; color: #8D8785; white-space: nowrap; }
+  .vmeta2 .status { flex: none; }
+
+  /* 我的学习 */
+  .learn-wrap { flex: none; display: flex; flex-direction: column; gap: 32px; padding: 0; width: min(1200px, calc(100% - 64px)); margin: 0 auto; }
+  .lstats { display: flex; align-items: center; gap: 16px; }
+  .lstat { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; padding-right: 16px; border-right: 1px solid #F1EFEC; }
+  .lstat:last-child { border-right: 0; padding-right: 16px; }
+  .s-ic { position: relative; width: 54px; height: 54px; flex: none; }
+  .s-ic img { display: block; width: 54px; height: 54px; }
+  .lstat .s-txt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .lstat .s-label { font-size: 14px; line-height: 22px; color: #5C5450; white-space: nowrap; }
+  .lstat .s-val { display: flex; align-items: flex-end; gap: 4px; }
+  .lstat .s-num { font-size: 32px; line-height: 36px; font-weight: 700; color: #1E1C1A; font-family: "AlibabaPuHuiTi", "PingFang SC", sans-serif; }
+  .lstat .s-unit { font-size: 12px; line-height: 20px; font-weight: 500; color: #1E1C1A; padding-bottom: 2px; }
+
+  /* 我的学习 - 左侧竖排 Tab */
+  .ltabs { width: 240px; flex: none; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+  .ltab {
+    display: flex; align-items: center; gap: 4px;
+    padding: 6px 8px; border-radius: 6px;
+    font-size: 14px; line-height: 22px; color: #1E1C1A;
+    cursor: pointer; user-select: none;
+  }
+  .ltab > span:first-child { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ltab .n { font-size: 12px; line-height: 20px; color: #BDBBB9; flex: none; }
+  .ltab.sel { background: rgba(0,115,255,0.1); color: #0073FF; }
+  .ltab.sel .n { color: #0073FF; }
+  .ltab:hover:not(.sel) { background: #F7F5F3; }
+
+  /* 学习记录行 */
+  .lrec { display: flex; align-items: center; gap: 16px; padding-right: 16px; border-radius: 12px; }
+  .lrec:hover { background: #FAFCFF; }
+  .lcover { position: relative; width: 160px; height: 90px; flex: none; border-radius: 8px; overflow: hidden; background: #EFF3F8; }
+  .lcover img { width: 100%; height: 100%; object-fit: cover; }
+  .lcover .l-play {
+    position: absolute; left: 68px; top: 33px; width: 24px; height: 24px;
+    border-radius: 50%; background: rgba(0,0,0,0.4); z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lcover .l-play svg { width: 24px; height: 24px; }
+  .lcover .l-dur {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+    padding: 4px 8px; text-align: right;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%);
+    color: #FFFFFF; font-size: 12px; line-height: 20px;
+  }
+  .linfo { flex: 1; min-width: 0; height: 90px; display: flex; flex-direction: column; justify-content: space-between; padding: 12px 0; }
+  .linfo > div:first-child { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .l-title-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .l-title { font-size: 16px; line-height: 24px; font-weight: 500; color: #1E1C1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lrec .ph-tag { padding: 0 4px; border: 0; background: rgba(0,0,0,0.1); color: #1E1C1A; }
+  .l-meta { display: flex; align-items: center; gap: 4px; font-size: 12px; line-height: 20px; color: #8D8785; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .l-meta .ok { width: 16px; height: 16px; flex: none; color: #16B364; }
+  .l-meta .done-label { color: #16B364; flex: none; }
+  .l-meta .l-path { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .lbar { width: 200px; height: 6px; border-radius: 3px; background: rgba(0,115,255,0.2); overflow: hidden; flex: none; }
+  .lbar i { display: block; height: 100%; border-radius: 3px; background: #0073FF; }
+  .lbar.done { background: rgba(22,179,100,0.2); }
+  .lbar.done i { background: #16B364; }
+  .btn-line {
+    height: 32px; padding: 0 12px; flex: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #FFFFFF; color: #1E1C1A;
+    border: 1px solid #E4E1DE; border-radius: 4px;
+    font-family: inherit; font-size: 14px; line-height: 22px;
+    cursor: pointer;
+  }
+  .btn-line:hover { border-color: #0073FF; color: #0073FF; }
+  .lrec .btn-primary, .lrec .btn-line { padding: 0 16px; border-radius: 6px; }
+  .lrec .btn-line { border-color: #DDDDDC; padding: 0 15px; }
+
+  /* 页签可点击 */
+  .tab[data-tab] { cursor: pointer; }
+  .tab .close { cursor: pointer; }
+  .tab .close:hover { color: #1E1C1A; }
 </style>
 <style id="site-design-tokens">
   /* 站点设计变量（Nudge）：默认值与设计稿一致，不改变现有视觉 */
@@ -579,6 +778,7 @@
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs><symbol id="ic-layers" viewBox="0 0 16 16"><path d="M1.557428934,6.0746036L1.557564244,6.074676L7.219313125,9.1120749Q8.000264625,9.5317564,8.780814625,9.1122894L14.443930125,6.0736928Q15.199543125,5.6685371,15.199543125,4.8045084Q15.199543125,3.9404788,14.444105125,3.5354178L8.781216125,0.49694192000000004Q8.000264625,0.07726120999999997,7.219671225,0.49675011999999996L1.55665113,3.5358148Q0.801953015,3.9419196,0.801953015,4.8053687Q0.801953135,5.6694441,1.557428934,6.0746036ZM7.882036225,7.8788681L2.219269995,4.840923500000001L2.219134625,4.8408508Q2.201952995,4.8316383,2.201952995,4.8053687Q2.201952995,4.7783959,2.2200477149999998,4.7686589L7.881678625,1.7303408999999998Q8.000264625,1.6666131,8.118494025,1.7301490899999998L13.782184125,4.7690558Q13.799541125,4.7783625,13.799541125,4.8045084Q13.799541125,4.8306553,13.782360125,4.8398681L8.118895025,7.8786526Q8.000264625,7.9424038,7.882036225,7.8788681Z" fill="currentColor"/><path d="M0.80013996,8.000000476837158Q0.80014002,7.931070282837158,0.81358761,7.863464566837158Q0.82703525,7.795858846837159,0.8534137,7.732175646837158Q0.87979209,7.668492436837158,0.91808772,7.611179086837158Q0.95638323,7.5538657268371585,1.00512424,7.505124716837158Q1.0538652499999999,7.456383706837158,1.1111786399999999,7.4180881368371585Q1.1684919599999999,7.379792566837159,1.23217517,7.353414176837158Q1.29585837,7.327035726837158,1.36346409,7.313588086837158Q1.431069806,7.300140496837158,1.5,7.300140436837158Q1.568930194,7.300140496837158,1.63653591,7.313588086837158Q1.70414163,7.327035726837158,1.76782483,7.353414176837158Q1.8315080400000001,7.379792566837159,1.88882139,7.418088196837158Q1.9461347500000001,7.456383706837158,1.99487576,7.505124716837158Q2.04361677,7.5538657268371585,2.08191234,7.6111791168371585Q2.12020791,7.668492436837158,2.1465863,7.732175646837158Q2.1729647500000002,7.795858846837159,2.18641239,7.863464566837158Q2.1998599800000003,7.931070282837158,2.19986004,8.000000476837158L2.1999999900000002,8.000000476837158Q2.1999999900000002,8.026344716837158,2.21857685,8.036340940837158L7.8811288,11.074635476837159Q7.9997587,11.138386676837158,8.1179872,11.074851076837158L13.781678,8.035944454837159Q13.799518,8.026344520837158,13.799518,8.000000476837158L13.799657,8.000000476837158Q13.799656,7.931070282837158,13.813104,7.863464566837158Q13.826551,7.795858846837159,13.852929,7.732175646837158Q13.879307,7.668492436837158,13.917603,7.611179086837158Q13.955898,7.5538657268371585,14.004641,7.505124716837158Q14.053381,7.456383706837158,14.110695,7.4180881368371585Q14.168008,7.379792566837159,14.23169,7.353414176837158Q14.295374,7.327035726837158,14.36298,7.313588086837158Q14.430586,7.300140496837158,14.499516,7.300140436837158Q14.568446,7.300140496837158,14.636051,7.313588086837158Q14.703657,7.327035726837158,14.76734,7.353414176837158Q14.831023,7.379792566837159,14.888337,7.418088196837158Q14.94565,7.456383706837158,14.994391,7.505124716837158Q15.043132,7.5538657268371585,15.081428,7.6111791168371585Q15.119722,7.668492436837158,15.146101,7.732175646837158Q15.17248,7.795858846837159,15.185927,7.863464566837158Q15.199375,7.931070282837158,15.199376,8.000000476837158L15.199517,8.000000476837158Q15.199517,8.384470726837158,15.011604,8.715884566837158Q14.809203,9.072850376837158,14.443599,9.269582076837159L8.7807097,12.308057776837158Q7.9997582,12.727739376837159,7.2192092,12.30827327683716L1.555181015,9.269185576837158Q1.19032732,9.072857276837158,0.98807305,8.716535206837158Q0.80000001,8.385197016837159,0.80000001,8.000000476837158L0.80013996,8.000000476837158Z" fill="currentColor"/><path d="M0.80013996,11.1953125Q0.80014002,11.126382306,0.81358761,11.05877659Q0.82703525,10.99117087,0.8534137,10.92748767Q0.87979209,10.86380446,0.91808772,10.80649111Q0.95638323,10.74917775,1.00512424,10.70043674Q1.0538652499999999,10.65169573,1.1111786399999999,10.61340016Q1.1684919599999999,10.57510459,1.23217517,10.5487262Q1.29585837,10.52234775,1.36346409,10.50890011Q1.431069806,10.49545252,1.5,10.49545246Q1.568930194,10.49545252,1.63653591,10.50890011Q1.70414163,10.52234775,1.76782483,10.5487262Q1.8315080400000001,10.57510459,1.88882139,10.61340022Q1.9461347500000001,10.65169573,1.99487576,10.70043674Q2.04361677,10.74917775,2.08191234,10.80649114Q2.12020791,10.86380446,2.1465863,10.92748767Q2.1729647500000002,10.99117087,2.18641239,11.05877659Q2.1998599800000003,11.126382306,2.19986004,11.1953125L2.1999999900000002,11.1953125Q2.1999999900000002,11.22165674,2.21857685,11.231652964L7.8811288,14.2699475Q7.9997587,14.3336987,8.1179872,14.2701631L13.781678,11.231256478Q13.799518,11.221656544,13.799518,11.1953125L13.799657,11.1953125Q13.799656,11.126382306,13.813104,11.05877659Q13.826551,10.99117087,13.852929,10.92748767Q13.879307,10.86380446,13.917603,10.80649111Q13.955898,10.74917775,14.004641,10.70043674Q14.053381,10.65169573,14.110695,10.61340016Q14.168008,10.57510459,14.23169,10.5487262Q14.295374,10.52234775,14.36298,10.50890011Q14.430586,10.49545252,14.499516,10.49545246Q14.568446,10.49545252,14.636051,10.50890011Q14.703657,10.52234775,14.76734,10.5487262Q14.831023,10.57510459,14.888337,10.61340022Q14.94565,10.65169573,14.994391,10.70043674Q15.043132,10.74917775,15.081428,10.80649114Q15.119722,10.86380446,15.146101,10.92748767Q15.17248,10.99117087,15.185927,11.05877659Q15.199375,11.126382306,15.199376,11.1953125L15.199517,11.1953125Q15.199517,11.57978275,15.011604,11.91119659Q14.809203,12.2681624,14.443599,12.4648941L8.7807097,15.5033698Q7.9997582,15.9230514,7.2192092,15.503585300000001L1.555181015,12.4644976Q1.19032732,12.2681693,0.98807305,11.91184723Q0.80000001,11.58050904,0.80000001,11.1953125L0.80013996,11.1953125Z" fill="currentColor"/></symbol><symbol id="ic-caret" viewBox="0 0 16 16"><path d="M5.2483751000000005,6L10.7516251,6C11.254728799999999,6,11.5344324,6.5819591299999995,11.2201462,6.97481716L8.4685211,10.4143481C8.2283258,10.7145925,7.7716739,10.7145925,7.5314786,10.4143486L4.77985382,6.97481728C4.46556729,6.5819591299999995,4.74527133,6,5.2483751000000005,6" fill="currentColor"/></symbol><symbol id="ic-funnel" viewBox="0 0 16 16"><path d="M12.456631795654296,2.6999999900000002L3.544449995654297,2.6999999900000002Q3.095919605654297,2.6999999900000002,2.908494055654297,3.1074938000000003Q2.721068565654297,3.5149875,3.0129617456542968,3.8555434L7.0318665956542965,8.544456499999999L6.500377695654297,9L6.500377695654297,8.2999997L6.500621795654297,8.2999997Q6.569565795654297,8.2999997,6.637184595654297,8.3134499Q6.704803495654297,8.3269005,6.768499395654297,8.353283900000001Q6.832195295654297,8.379667300000001,6.889520595654297,8.4179707Q6.946845095654297,8.456274,6.995595895654297,8.5050249Q7.044346795654297,8.5537758,7.082649695654297,8.6111002Q7.120953095654297,8.6684251,7.147336995654297,8.732121Q7.1737207956542965,8.7958169,7.1871714956542965,8.863436199999999Q7.2006215956542965,8.9310555,7.200622095654297,9L7.200622095654297,13.196749Q7.200622095654297,13.373425,7.355129695654297,13.459107Q7.509637795654297,13.54479,7.6595019956542965,13.451222L8.189104595654296,13.120565Q8.800621495654298,12.738765,8.800621495654298,12.017845L8.800621495654298,8.9997153Q8.800621995654296,8.8743887,8.844104795654296,8.7568469Q8.887587595654296,8.6393051,8.969150495654297,8.5441513L12.988101795654297,3.8555647Q13.280015795654297,3.5150126,13.092593795654297,3.1075066Q12.905173795654298,2.70000005,12.456631795654296,2.6999999900000002ZM12.456631795654296,1.30000001Q13.802252795654297,1.30000013,14.364517795654297,2.52251995Q14.926781795654296,3.7450400999999998,14.051043795654296,4.7666941000000005L10.032092095654296,9.4552798L9.500621295654298,8.9997153L10.200621595654297,8.9997153L10.200621595654297,12.017845Q10.200621595654297,13.515139,8.930546295654297,14.308111L8.400945695654297,14.638767Q7.551713495654297,15.168984,6.676167495654297,14.683448Q5.800621795654297,14.197911,5.800621795654297,13.196749L5.800621795654297,9L6.500621795654297,9L6.500621795654297,9.7000003L6.500377695654297,9.7000003Q6.347113095654297,9.6999998,6.207870995654297,9.6359563Q6.068629295654297,9.571911799999999,5.968888495654297,9.455543500000001L1.9499841056542968,4.7666299Q1.0743051956542968,3.7449630000000003,1.636581835654297,2.52248156Q2.1988584586542967,1.30000001,3.544449995654297,1.30000001L12.456631795654296,1.30000001Z" fill="currentColor"/></symbol><symbol id="ic-sort" viewBox="0 0 16 16"><g fill="currentColor"><rect x="2" y="2.1" width="7" height="1.4" rx=".7"/><rect x="2" y="7.3" width="7" height="1.4" rx=".7"/><rect x="2" y="12.5" width="7" height="1.4" rx=".7"/><g transform="translate(12 2) scale(0.641 0.8955)"><path d="M0,0.7Q0,0.63,0.01,0.56Q0.03,0.5,0.05,0.43Q0.08,0.37,0.12,0.31Q0.16,0.25,0.21,0.21Q0.25,0.16,0.31,0.12Q0.37,0.08,0.43,0.05Q0.5,0.03,0.56,0.01Q0.63,0,0.7,0Q0.77,0,0.84,0.01Q0.9,0.03,0.97,0.05Q1.03,0.08,1.09,0.12Q1.15,0.16,1.19,0.21Q1.24,0.25,1.28,0.31Q1.32,0.37,1.35,0.43Q1.37,0.5,1.39,0.56Q1.4,0.63,1.4,0.7L1.4,0.7L1.4,9L3.2,9Q3.27,9,3.34,9.01Q3.4,9.03,3.47,9.05Q3.53,9.08,3.59,9.12Q3.65,9.16,3.69,9.21Q3.74,9.25,3.78,9.31Q3.82,9.37,3.85,9.43Q3.87,9.5,3.89,9.56Q3.9,9.63,3.9,9.7Q3.9,9.82,3.86,9.94Q3.82,10.05,3.74,10.15L1.24,13.15Q1.19,13.2,1.14,13.24Q1.09,13.29,1.03,13.32Q0.96,13.35,0.9,13.37Q0.83,13.39,0.76,13.4Q0.69,13.4,0.63,13.4Q0.56,13.39,0.49,13.37Q0.43,13.35,0.37,13.31Q0.3,13.28,0.25,13.24Q0.13,13.14,0.07,13Q-6.19e-8,12.86,-6.19e-8,12.7L-1.92e-9,9.7L-1.92e-9,0.7L0,0.7ZM1.4,10.4L1.4,10.77L1.71,10.4L1.4,10.4Z"/></g></g></symbol></defs></svg>
 <div class="page">
 
   <div class="glass"></div>
@@ -621,14 +821,7 @@
   </header>
 
   <div class="tabbar">
-    <div class="tabs">
-      <div class="tab"><span class="dot" style="background:#FF7300"></span>工作台</div>
-      <div class="tab active">
-        <span class="dot" style="background:#00B87A"></span>工程知识库
-        <svg class="fav" viewBox="0 0 24 24"></svg>
-        <svg class="close" viewBox="0 0 14 14"><path d="M3.5 3.5 10.5 10.5M10.5 3.5 3.5 10.5"/></svg>
-      </div>
-    </div>
+    <div class="tabs" id="tabs"></div>
     <div class="expand">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5"/><path d="M20 9V4h-5"/><path d="M4 15v5h5"/><path d="M20 15v5h-5"/></svg>
     </div>
