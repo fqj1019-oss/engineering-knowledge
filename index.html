@@ -188,7 +188,7 @@
   }
   .mi svg.gl { width: 14px; height: 14px; flex: none; display: block; }
   .mi .label { white-space: nowrap; }
-  .mi .demo-dot { width: 6px; height: 6px; border-radius: 50%; background: #FF4D4F; flex: none; }
+  .mi .demo-dot { width: 6px; height: 6px; border-radius: 50%; background: #FF4D4F; flex: none; margin-left: auto; }
   .mi .arrow { margin-left: auto; width: 12px; height: 12px; color: #B8B8B8; flex: none; }
   .mi.lv2 { padding-left: 32px; }
   .mi.gopen { color: #0073FF; }
@@ -242,10 +242,20 @@
   /* ============ 概览（知识库概览） ============ */
   .view-overview {
     flex: 1 0 auto;
-    padding-bottom: 12px;
     border-radius: 12px;
-    background: linear-gradient(90deg, #EEF3F7 0%, #E9EAF7 100%);
+    background: none;
   }
+  /* 高度适配：不足一屏时铺满内容区；有富余高度时由中部图表行吸收（图表纵向拉伸），
+     其余行保持设计稿尺寸；不足 854 时按原尺寸滚动 */
+  .content > .view.view-overview.active { flex: 1 0 auto; }
+  .content:has(> .view-overview.active) { padding-bottom: 0; background: transparent; box-shadow: none; }
+  .view-overview .ov-wrap { flex: 1; padding-bottom: 0; }
+  .view-overview { overflow: hidden; }
+  .view-overview .ov-mid-row { flex: 1 1 auto; min-height: 260px; }
+  .view-overview .ov-chart-card, .view-overview .ov-source-card { height: auto; }
+  .view-overview .ov-yaxis, .view-overview .ov-frame { height: auto; }
+  .view-overview .ov-frame .grid { height: 100%; }
+  .view-overview .ov-frame .line { height: calc(100% - 13px); }
   .ov-wrap {
     display: flex; flex-direction: column; gap: 12px;
     padding: 12px 0;
@@ -348,21 +358,26 @@
   }
   .ov-more { display: flex; align-items: center; gap: 0; color: #8D8785; font-size: 12px; line-height: 20px; }
   .ov-more svg { width: 16px; height: 16px; display: block; }
-  .ov-list { display: flex; flex-direction: column; gap: 12px; padding-top: 12px; }
+  .ov-list { display: flex; flex-direction: column; gap: 0; padding-top: 0; }
   .ov-row {
     display: flex; align-items: center; gap: 12px;
-    padding-bottom: 12px;
+    padding: 12px 0;
     border-bottom: 1px solid #F1EFEC;
   }
-  .ov-row:last-child { padding-bottom: 0; border-bottom: 0; }
+  .ov-row:last-child { border-bottom: 0; }
+  /* 行 hover：与最新资料列表一致（整行浅灰底+标题变蓝） */
+  .ov-row { transition: background .16s ease; cursor: pointer; }
+  .ov-row:hover { background: #F9F9F9; }
+  .ov-row:hover .t { color: #0073FF; transition: color .16s ease; }
   .ov-rank { width: 32px; height: 32px; flex: none; display: flex; align-items: center; justify-content: center; }
   .ov-rank img { display: block; }
   .ov-rank.r1 img, .ov-rank.r2 img, .ov-rank.r3 img { width: 24px; height: 28px; }
   .ov-rank.plain {
+    width: 24px; height: 24px; margin: 0 4px; /* 两侧留 4px，与上方 32px 槽位里的奖牌图标对齐 */
     border-radius: 50%; background: #F5F5F5;
-    color: #8D8785; font-size: 16px; line-height: 20px; font-weight: 700;
+    color: #8D8785; font-size: 14px; line-height: 24px; font-weight: 500;
   }
-  .ov-row .thumb { width: 40px; height: 40px; flex: none; border-radius: 6px; object-fit: cover; display: block; }
+  .ov-row .thumb { width: 40px; height: 40px; flex: none; padding: 0; border-radius: 6px; object-fit: cover; display: block; }
   .ov-row .f-ic { width: 40px; height: 40px; flex: none; }
   .ov-row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
   .ov-row-title { display: flex; align-items: center; gap: 8px; min-width: 0; }
@@ -373,6 +388,8 @@
     border-radius: 4px; font-size: 12px; line-height: 20px; white-space: nowrap;
   }
   .ov-tag.gray { background: #E5E5E5; color: #1E1C1A; }
+  /* 草稿：白底蓝描边（对齐设计稿） */
+  .ov-tag.draft { background: #F1EFEC; color: #8D8785; }
   .ov-tag.green { background: #EDFCF2; color: #16B364; }
   .ov-tag.orange { background: #FEF4ED; color: #FF7300; }
   .ov-row-desc { margin: 0; color: #8D8785; font-size: 12px; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -383,9 +400,19 @@
     padding: 16px; background: #FFFFFF; border-radius: 8px;
   }
   .ov-ops .ov-chead { margin-bottom: 16px; flex: none; }
-  .ov-op { display: flex; gap: 8px; align-items: flex-start; }
-  .ov-op > img { width: 10px; flex: none; display: block; }
-  .ov-op-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding-bottom: 36px; }
+  .ov-op { display: flex; gap: 8px; align-items: flex-start; position: relative; }
+  /* 时间轴：圆点+连线改用 CSS 绘制（原长图拉伸会压缩圆点、撑高条目） */
+  .ov-op > img { display: none; }
+  .ov-op::before {
+    content: ""; position: absolute; left: 0; top: 8px;
+    width: 10px; height: 10px; box-sizing: border-box;
+    border: 2px solid #0073FF; border-radius: 50%;
+  }
+  .ov-op::after {
+    content: ""; position: absolute; left: 4.5px; top: 21px; bottom: -2px;
+    width: 1px; background: #DDDDDC;
+  }
+  .ov-op-body { flex: 1; min-width: 0; margin-left: 18px; display: flex; flex-direction: column; gap: 4px; padding-bottom: 24px; }
   .ov-op:last-child .ov-op-body { padding-bottom: 0; }
   .ov-op p { margin: 0; color: #8D8785; font-size: 14px; line-height: 22px; }
   .ov-op p b { color: #1E1C1A; font-weight: 500; }
@@ -612,7 +639,8 @@
   .mat-read { width: 100px; flex: none; text-align: right; font-size: 12px; line-height: 20px; color: #8D8785; }
 
   /* ===== 子页面（资料中心 / 视频学堂 / 我的学习） ===== */
-  a.entry, a.more, a.mat-row, a.vcard, a.doc-row { text-decoration: none; color: inherit; }
+  a.entry, a.mat-row, a.vcard, a.doc-row { text-decoration: none; color: inherit; }
+  a.more { text-decoration: none; } /* 更多类链接保持 .more 的灰色 */
   a.btn-primary { text-decoration: none; }
   .phead { margin-top: 32px; flex: none; }
   .crumb { display: block; font-size: 12px; line-height: 20px; color: #8D8785; }
@@ -1154,7 +1182,7 @@
           <span class="label">知识库管理</span>
           <svg class="arrow" viewBox="0 0 1024 1024" fill="currentColor"><path d="M831.9 340.9 512 652.7 192.1 340.9a30.6 30.6 0 0 0-42.7 0 29.1 29.1 0 0 0 0 41.6l340.3 331.7a32 32 0 0 0 44.7 0l340.3-331.7a29.1 29.1 0 0 0 0-41.7 30.6 30.6 0 0 0-42.8 0z"/></svg>
         </div>
-        <div class="mi lv2" data-open="overview"><span class="label">概览</span></div>
+        <div class="mi lv2" data-open="overview"><span class="label">概览</span><span class="demo-dot" title="含交互演示"></span></div>
         <div class="mi lv2"><span class="label">分类管理</span></div>
         <div class="mi lv2"><span class="label">资料与视频管理</span></div>
         <div class="mi lv2"><span class="label">标签管理</span></div>
@@ -1354,7 +1382,7 @@
                     <div class="ov-row-title">
                       <span class="t">门店水电施工标准手册</span>
                       <span class="ov-tag gray">V2.0</span>
-                      <span class="ov-tag gray">草稿</span>
+                      <span class="ov-tag draft">草稿</span>
                     </div>
                     <p class="ov-row-desc">门店施工篇/水电篇/总项要求 · PDF</p>
                   </div>
@@ -2646,6 +2674,25 @@
         e.stopPropagation();
         var t = row.querySelector('.mat-title');
         openDetail('file', { title: t ? t.textContent.trim() : '' });
+      });
+    });
+    // 概览 TOP5：点击进详情，文件/视频分流入对应详情页
+    document.querySelectorAll('#view-overview .ov-row').forEach(function (row) {
+      row.addEventListener('click', function () {
+        var t = row.querySelector('.ov-row-title .t');
+        var title = t ? t.textContent.trim() : '';
+        var ver = row.querySelector('.ov-row-title .ov-tag.gray');
+        var isVideo = !!row.querySelector('.thumb');
+        if (isVideo) {
+          openDetail('video', {
+            title: title,
+            ver: ver ? ver.textContent.trim() : 'V2.0',
+            cover: coverFor(title),
+            meta: '时长 22:10 · 播放 615 次 · 完播率 58%'
+          });
+        } else {
+          openDetail('file', { title: title });
+        }
       });
     });
     // 配套视频 / 相关视频：列表会被动态重绘，用事件委托
