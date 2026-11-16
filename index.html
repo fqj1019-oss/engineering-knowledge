@@ -254,8 +254,6 @@
   .view-overview .ov-mid-row { flex: 1 1 auto; min-height: 260px; }
   .view-overview .ov-chart-card, .view-overview .ov-source-card { height: auto; }
   .view-overview .ov-yaxis, .view-overview .ov-frame { height: auto; }
-  .view-overview .ov-frame .grid { height: 100%; }
-  .view-overview .ov-frame .line { height: calc(100% - 13px); }
   .ov-wrap {
     display: flex; flex-direction: column; gap: 12px;
     padding: 12px 0;
@@ -317,8 +315,15 @@
     color: #8D8785; font-size: 12px; line-height: 20px;
   }
   .ov-frame { position: relative; flex: 1; min-width: 0; height: 188px; }
-  .ov-frame .grid { position: absolute; left: 0; top: 0; width: 100%; height: 188px; display: block; }
-  .ov-frame .line { position: absolute; left: 2px; top: 13px; width: calc(100% - 2px); height: 175px; display: block; }
+  /* 图表组件（JS/SVG 绘制，可悬停） */
+  .ov-frame svg.ov-trend-svg { position: absolute; left: 2px; top: 13px; width: calc(100% - 2px); height: calc(100% - 13px); display: block; overflow: visible; }
+  .ov-frame .ov-tip {
+    position: absolute; z-index: 3; pointer-events: none;
+    background: #FFFFFF; border: 1px solid #E5E3E0; border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(30,28,26,0.10);
+    padding: 6px 10px; font-size: 12px; line-height: 18px; color: #1E1C1A; white-space: nowrap;
+  }
+  .ov-frame .ov-tip b { font-weight: 600; }
   .ov-xaxis {
     position: absolute; left: 2px; right: 0; bottom: 0;
     display: flex; justify-content: space-between;
@@ -331,8 +336,9 @@
   }
   .ov-source-body { flex: 1; display: flex; align-items: center; gap: 16px; padding: 0 24px; min-height: 0; }
   .ov-donut { position: relative; width: 120px; height: 120px; flex: none; }
-  .ov-donut > img { position: absolute; left: 0; top: 0; width: 120px; height: 120px; display: block; }
-  .ov-donut .c1 { z-index: 1; } .ov-donut .c2 { z-index: 2; } .ov-donut .c3 { z-index: 3; }
+  .ov-donut > svg { position: absolute; left: 0; top: 0; width: 120px; height: 120px; display: block; }
+  .ov-donut svg path { transition: opacity .16s ease; cursor: pointer; }
+  .ov-legend .names span { cursor: pointer; }
   .ov-donut-center {
     position: absolute; left: 36px; top: 36px; width: 48px; height: 48px;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -1281,9 +1287,8 @@
               </div>
               <div class="ov-chart">
                 <div class="ov-yaxis"><span>500</span><span>400</span><span>300</span><span>200</span><span>100</span><span>0</span></div>
-                <div class="ov-frame">
-                  <img class="grid" src="./assets/overview/chart-grid.svg" alt="" />
-                  <img class="line" src="./assets/overview/chart-line.svg" alt="" />
+                <div class="ov-frame" id="ov-trend">
+                  <div class="ov-tip" hidden></div>
                   <div class="ov-xaxis">
                     <span>10-02</span><span>10-03</span><span>10-04</span><span>10-05</span><span>10-06</span><span>10-07</span><span>10-08</span>
                   </div>
@@ -1293,10 +1298,7 @@
             <div class="ov-source-card">
               <div class="ov-chead"><h3>阅读来源分布</h3></div>
               <div class="ov-source-body">
-                <div class="ov-donut">
-                  <img class="c1" src="./assets/overview/donut-green.svg" alt="" />
-                  <img class="c2" src="./assets/overview/donut-orange.svg" alt="" />
-                  <img class="c3" src="./assets/overview/donut-blue.svg" alt="" />
+                <div class="ov-donut" id="ov-donut">
                   <div class="ov-donut-center">
                     <span>日均阅读</span>
                     <b>655</b>
@@ -2182,6 +2184,7 @@
         v.classList.toggle('active', v.id === 'view-' + id);
       });
       if (id !== 'video') stopVideo();
+      if (id === 'overview') { renderTrend(); renderDonut(); }
       document.documentElement.classList.toggle('dtl-open', isDetail(id));
       document.body.classList.toggle('dtl-open', isDetail(id));
       content.scrollTop = 0;
@@ -2711,15 +2714,130 @@
       });
     });
 
+    // ============ 概览图表组件（SVG 交互演示） ============
+    var SVGNS = 'http://www.w3.org/2000/svg';
+    function svgEl(tag, attrs) {
+      var el = document.createElementNS(SVGNS, tag);
+      for (var k in attrs) el.setAttribute(k, attrs[k]);
+      return el;
+    }
+    // 近7日阅读趋势：折线+面积，悬停显示数值
+    var TREND = {
+      dates: ['10-02', '10-03', '10-04', '10-05', '10-06', '10-07', '10-08'],
+      values: [325, 240, 450, 210, 260, 130, 450],
+      max: 500
+    };
+    var trendState = { svg: null, dots: [], guide: null };
+    function renderTrend() {
+      var frame = document.getElementById('ov-trend');
+      if (!frame) return;
+      var old = frame.querySelector('svg.ov-trend-svg');
+      if (old) old.remove();
+      var W = frame.clientWidth, H = frame.clientHeight - 13;
+      if (W < 40 || H < 40) return;
+      var svg = svgEl('svg', { 'class': 'ov-trend-svg' });
+      svg.setAttribute('width', W); svg.setAttribute('height', H);
+      var padL = 6, padR = 6;
+      var n = TREND.values.length;
+      var xs = TREND.values.map(function (_, i) { return padL + (W - padL - padR) * i / (n - 1); });
+      var ys = TREND.values.map(function (v) { return H * (1 - v / TREND.max); });
+      for (var g = 1; g <= 5; g++) {
+        svg.appendChild(svgEl('line', { x1: 0, x2: W, y1: H * (1 - g / 5), y2: H * (1 - g / 5), stroke: '#E8E6E3', 'stroke-dasharray': '4 4', 'stroke-width': 1 }));
+      }
+      svg.appendChild(svgEl('line', { x1: 0, x2: W, y1: H, y2: H, stroke: '#DDDDDC', 'stroke-width': 1 }));
+      var defs = svgEl('defs', {});
+      var grad = svgEl('linearGradient', { id: 'ov-trend-grad', x1: 0, y1: 0, x2: 0, y2: 1 });
+      grad.appendChild(svgEl('stop', { offset: '0%', 'stop-color': '#368DFF', 'stop-opacity': 0.15 }));
+      grad.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#368DFF', 'stop-opacity': 0 }));
+      defs.appendChild(grad); svg.appendChild(defs);
+      var dLine = xs.map(function (x, i) { return (i ? 'L' : 'M') + x + ',' + ys[i]; }).join('');
+      svg.appendChild(svgEl('path', { d: dLine + 'L' + xs[n - 1] + ',' + H + 'L' + xs[0] + ',' + H + 'Z', fill: 'url(#ov-trend-grad)' }));
+      svg.appendChild(svgEl('path', { d: dLine, fill: 'none', stroke: '#368DFF', 'stroke-width': 2.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+      trendState.dots = TREND.values.map(function (_, i) {
+        var c = svgEl('circle', { cx: xs[i], cy: ys[i], r: 4, fill: '#FFFFFF', stroke: '#368DFF', 'stroke-width': 2 });
+        svg.appendChild(c); return c;
+      });
+      trendState.guide = svgEl('line', { x1: 0, x2: 0, y1: 0, y2: H, stroke: '#368DFF', 'stroke-dasharray': '3 3', 'stroke-width': 1, opacity: 0 });
+      svg.appendChild(trendState.guide);
+      frame.insertBefore(svg, frame.firstChild);
+      trendState.svg = svg;
+      var tip = frame.querySelector('.ov-tip');
+      svg.addEventListener('mousemove', function (e) {
+        var rect = svg.getBoundingClientRect();
+        var mx = e.clientX - rect.left;
+        var i = Math.round((mx - padL) / ((W - padL - padR) / (n - 1)));
+        i = Math.max(0, Math.min(n - 1, i));
+        trendState.guide.setAttribute('x1', xs[i]); trendState.guide.setAttribute('x2', xs[i]);
+        trendState.guide.setAttribute('opacity', 1);
+        trendState.dots.forEach(function (d, j) { d.setAttribute('r', j === i ? 5.5 : 4); d.setAttribute('fill', j === i ? '#368DFF' : '#FFFFFF'); });
+        tip.hidden = false;
+        tip.innerHTML = TREND.dates[i] + ' 阅读 <b>' + TREND.values[i] + '</b> 次';
+        var tx = xs[i] + 12, ty = ys[i] - 34;
+        if (tx + 110 > W) tx = xs[i] - 116;
+        if (ty < 0) ty = ys[i] + 12;
+        tip.style.left = tx + 'px'; tip.style.top = ty + 'px';
+      });
+      svg.addEventListener('mouseleave', function () {
+        trendState.guide.setAttribute('opacity', 0);
+        trendState.dots.forEach(function (d) { d.setAttribute('r', 4); d.setAttribute('fill', '#FFFFFF'); });
+        tip.hidden = true;
+      });
+    }
+    // 阅读来源分布：环形图，悬停联动图例
+    var DONUT = [
+      { name: 'PC 用户端', pct: 50, color: '#1570EF' },
+      { name: 'APP 端', pct: 28, color: '#3CCB7F' },
+      { name: '小程序端', pct: 22, color: '#FF9137' }
+    ];
+    function donutSector(cx, cy, r0, r1, a0, a1) {
+      var rad = function (a) { return (a - 90) * Math.PI / 180; };
+      var p = function (r, a) { return (cx + r * Math.cos(rad(a))).toFixed(3) + ',' + (cy + r * Math.sin(rad(a))).toFixed(3); };
+      var large = a1 - a0 > 180 ? 1 : 0;
+      return 'M' + p(r1, a0) + 'A' + r1 + ',' + r1 + ' 0 ' + large + ' 1 ' + p(r1, a1) +
+        'L' + p(r0, a1) + 'A' + r0 + ',' + r0 + ' 0 ' + large + ' 0 ' + p(r0, a0) + 'Z';
+    }
+    function renderDonut() {
+      var box = document.getElementById('ov-donut');
+      if (!box || box.querySelector('svg')) return;
+      var svg = svgEl('svg', { viewBox: '0 0 120 120' });
+      var a = 0;
+      DONUT.forEach(function (s, idx) {
+        var a1 = a + s.pct * 3.6;
+        var path = svgEl('path', { d: donutSector(60, 60, 36, 60, a, Math.min(a1, 359.99)), fill: s.color, 'data-idx': idx });
+        svg.appendChild(path);
+        s._path = path;
+        a = a1;
+      });
+      box.insertBefore(svg, box.firstChild);
+      var centerName = box.querySelector('.ov-donut-center span');
+      var centerVal = box.querySelector('.ov-donut-center b');
+      function highlight(idx) {
+        DONUT.forEach(function (s, j) {
+          s._path.setAttribute('opacity', idx === -1 || j === idx ? 1 : 0.3);
+        });
+        if (idx === -1) { centerName.textContent = '日均阅读'; centerVal.textContent = '655'; }
+        else { centerName.textContent = DONUT[idx].name; centerVal.textContent = DONUT[idx].pct + '%'; }
+      }
+      DONUT.forEach(function (s, idx) {
+        s._path.addEventListener('mouseenter', function () { highlight(idx); });
+        s._path.addEventListener('mouseleave', function () { highlight(-1); });
+      });
+      document.querySelectorAll('.ov-legend .names span').forEach(function (item, idx) {
+        item.addEventListener('mouseenter', function () { highlight(idx); });
+        item.addEventListener('mouseleave', function () { highlight(-1); });
+      });
+    }
+
     renderTabs();
-    syncDock();
+    renderTrend();
+    renderDonut();
     var boot = location.hash.slice(1);
     if (boot && TABS[boot]) openTab(boot);
     window.addEventListener('hashchange', function () {
       var id = location.hash.slice(1);
       if (id && TABS[id]) openTab(id);
     });
-    window.addEventListener('resize', function () { paintNotch(); fitVideo(); });
+    window.addEventListener('resize', function () { paintNotch(); fitVideo(); renderTrend(); });
   })();
 </script>
 </body>

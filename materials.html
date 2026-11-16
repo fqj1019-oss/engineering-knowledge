@@ -254,8 +254,6 @@
   .view-overview .ov-mid-row { flex: 1 1 auto; min-height: 260px; }
   .view-overview .ov-chart-card, .view-overview .ov-source-card { height: auto; }
   .view-overview .ov-yaxis, .view-overview .ov-frame { height: auto; }
-  .view-overview .ov-frame .grid { height: 100%; }
-  .view-overview .ov-frame .line { height: calc(100% - 13px); }
   .ov-wrap {
     display: flex; flex-direction: column; gap: 12px;
     padding: 12px 0;
@@ -317,8 +315,15 @@
     color: #8D8785; font-size: 12px; line-height: 20px;
   }
   .ov-frame { position: relative; flex: 1; min-width: 0; height: 188px; }
-  .ov-frame .grid { position: absolute; left: 0; top: 0; width: 100%; height: 188px; display: block; }
-  .ov-frame .line { position: absolute; left: 2px; top: 13px; width: calc(100% - 2px); height: 175px; display: block; }
+  /* 图表组件（JS/SVG 绘制，可悬停） */
+  .ov-frame svg.ov-trend-svg { position: absolute; left: 2px; top: 13px; width: calc(100% - 2px); height: calc(100% - 13px); display: block; overflow: visible; }
+  .ov-frame .ov-tip {
+    position: absolute; z-index: 3; pointer-events: none;
+    background: #FFFFFF; border: 1px solid #E5E3E0; border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(30,28,26,0.10);
+    padding: 6px 10px; font-size: 12px; line-height: 18px; color: #1E1C1A; white-space: nowrap;
+  }
+  .ov-frame .ov-tip b { font-weight: 600; }
   .ov-xaxis {
     position: absolute; left: 2px; right: 0; bottom: 0;
     display: flex; justify-content: space-between;
@@ -331,8 +336,9 @@
   }
   .ov-source-body { flex: 1; display: flex; align-items: center; gap: 16px; padding: 0 24px; min-height: 0; }
   .ov-donut { position: relative; width: 120px; height: 120px; flex: none; }
-  .ov-donut > img { position: absolute; left: 0; top: 0; width: 120px; height: 120px; display: block; }
-  .ov-donut .c1 { z-index: 1; } .ov-donut .c2 { z-index: 2; } .ov-donut .c3 { z-index: 3; }
+  .ov-donut > svg { position: absolute; left: 0; top: 0; width: 120px; height: 120px; display: block; }
+  .ov-donut svg path { transition: opacity .16s ease; cursor: pointer; }
+  .ov-legend .names span { cursor: pointer; }
   .ov-donut-center {
     position: absolute; left: 36px; top: 36px; width: 48px; height: 48px;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
