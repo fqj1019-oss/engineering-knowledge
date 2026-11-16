@@ -238,6 +238,165 @@
   /* 多页签：每个视图独立成块，仅当前页签可见 */
   .content > .view { display: none; flex-direction: column; flex: none; width: 100%; margin: 0; }
   .content > .view.active { display: flex; }
+
+  /* ============ 概览（知识库概览） ============ */
+  .view-overview {
+    flex: 1 0 auto;
+    padding-bottom: 12px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #EEF3F7 0%, #E9EAF7 100%);
+  }
+  .ov-wrap {
+    display: flex; flex-direction: column; gap: 12px;
+    padding: 12px 0;
+  }
+  .ov-title {
+    margin: 0;
+    color: #1E1C1A; font-size: 20px; line-height: 28px; font-weight: 500;
+  }
+  .ov-card {
+    background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-kpi-row, .ov-mid-row, .ov-bot-row { display: flex; gap: 12px; align-items: stretch; }
+  .ov-bot-row { height: 412px; }
+  .ov-kpi {
+    flex: 1; min-width: 0;
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-total {
+    width: 220px; flex: none;
+    display: flex; align-items: center; gap: 8px;
+    padding-right: 16px;
+    border-right: 1px solid #F1EFEC;
+  }
+  .ov-54 { width: 54px !important; height: 54px !important; flex: none; display: block; }
+  .ov-row .f-ic img { width: 40px !important; height: 40px !important; display: block; }
+  .ov-ktext { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .ov-klabel { color: #5C5450; font-size: 14px; line-height: 22px; }
+  .ov-kbig {
+    color: #1E1C1A; font-size: 32px; line-height: 36px; font-weight: 700;
+    font-family: "AlibabaPuHuiTi", "PingFang SC", sans-serif;
+  }
+  .ov-stat { flex: 1; min-width: 0; display: flex; justify-content: center; align-items: flex-start; flex-direction: column; gap: 4px; }
+  .ov-stat .lab { display: flex; align-items: center; gap: 4px; color: #5C5450; font-size: 14px; line-height: 22px; white-space: nowrap; }
+  .ov-stat .lab img { width: 16px; height: 16px; flex: none; display: block; }
+  .ov-stat b {
+    color: #1E1C1A; font-size: 20px; line-height: 28px; font-weight: 700;
+    font-family: "AlibabaPuHuiTi", "PingFang SC", sans-serif;
+  }
+  .ov-stat .bar { width: 32px; height: 2px; display: block; }
+  .ov-read {
+    width: 300px; flex: none;
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-read .ov-kinner { display: flex; align-items: center; gap: 8px; }
+  .ov-chart-card {
+    flex: 1; min-width: 0; height: 260px;
+    display: flex; flex-direction: column; gap: 16px;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-chead { display: flex; align-items: center; justify-content: space-between; }
+  .ov-chead h3 { margin: 0; color: #1E1C1A; font-size: 16px; line-height: 24px; font-weight: 500; }
+  .ov-unit { color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-chart { display: flex; gap: 8px; flex: 1; min-height: 0; }
+  .ov-yaxis {
+    width: 24px; flex: none; height: 188px;
+    display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end;
+    color: #8D8785; font-size: 12px; line-height: 20px;
+  }
+  .ov-frame { position: relative; flex: 1; min-width: 0; height: 188px; }
+  .ov-frame .grid { position: absolute; left: 0; top: 0; width: 100%; height: 188px; display: block; }
+  .ov-frame .line { position: absolute; left: 2px; top: 13px; width: calc(100% - 2px); height: 175px; display: block; }
+  .ov-xaxis {
+    position: absolute; left: 2px; right: 0; bottom: 0;
+    display: flex; justify-content: space-between;
+    color: #8D8785; font-size: 12px; line-height: 20px;
+  }
+  .ov-source-card {
+    width: 400px; flex: none; height: 260px;
+    display: flex; flex-direction: column; gap: 16px;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-source-body { flex: 1; display: flex; align-items: center; gap: 16px; padding: 0 24px; min-height: 0; }
+  .ov-donut { position: relative; width: 120px; height: 120px; flex: none; }
+  .ov-donut > img { position: absolute; left: 0; top: 0; width: 120px; height: 120px; display: block; }
+  .ov-donut .c1 { z-index: 1; } .ov-donut .c2 { z-index: 2; } .ov-donut .c3 { z-index: 3; }
+  .ov-donut-center {
+    position: absolute; left: 36px; top: 36px; width: 48px; height: 48px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 4;
+  }
+  .ov-donut-center span { color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-donut-center b {
+    color: #1E1C1A; font-size: 20px; line-height: 28px; font-weight: 700;
+    font-family: "AlibabaPuHuiTi", "PingFang SC", sans-serif;
+  }
+  .ov-legend { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; }
+  .ov-legend .names, .ov-legend .vals { display: flex; flex-direction: column; gap: 12px; }
+  .ov-legend .names span { display: flex; align-items: center; gap: 2px; color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-legend .names img { width: 12px; height: 12px; display: block; }
+  .ov-legend .vals b {
+    color: #1E1C1A; font-size: 14px; line-height: 20px; font-weight: 700;
+    font-family: "AlibabaPuHuiTi", "PingFang SC", sans-serif;
+  }
+  .ov-top5 {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column; gap: 16px;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-more { display: flex; align-items: center; gap: 0; color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-more svg { width: 16px; height: 16px; display: block; }
+  .ov-list { display: flex; flex-direction: column; gap: 12px; padding-top: 12px; }
+  .ov-row {
+    display: flex; align-items: center; gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F1EFEC;
+  }
+  .ov-row:last-child { padding-bottom: 0; border-bottom: 0; }
+  .ov-rank { width: 32px; height: 32px; flex: none; display: flex; align-items: center; justify-content: center; }
+  .ov-rank img { display: block; }
+  .ov-rank.r1 img, .ov-rank.r2 img, .ov-rank.r3 img { width: 24px; height: 28px; }
+  .ov-rank.plain {
+    border-radius: 50%; background: #F5F5F5;
+    color: #8D8785; font-size: 16px; line-height: 20px; font-weight: 700;
+  }
+  .ov-row .thumb { width: 40px; height: 40px; flex: none; border-radius: 6px; object-fit: cover; display: block; }
+  .ov-row .f-ic { width: 40px; height: 40px; flex: none; }
+  .ov-row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .ov-row-title { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .ov-row-title .t { color: #1E1C1A; font-size: 14px; line-height: 22px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ov-tag {
+    height: 20px; padding: 0 6px; flex: none;
+    display: inline-flex; align-items: center;
+    border-radius: 4px; font-size: 12px; line-height: 20px; white-space: nowrap;
+  }
+  .ov-tag.gray { background: #E5E5E5; color: #1E1C1A; }
+  .ov-tag.green { background: #EDFCF2; color: #16B364; }
+  .ov-tag.orange { background: #FEF4ED; color: #FF7300; }
+  .ov-row-desc { margin: 0; color: #8D8785; font-size: 12px; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ov-row-date { width: 100px; flex: none; text-align: right; color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-ops {
+    width: 400px; flex: none;
+    display: flex; flex-direction: column; gap: 0; overflow: hidden;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-ops .ov-chead { margin-bottom: 16px; flex: none; }
+  .ov-op { display: flex; gap: 8px; align-items: flex-start; }
+  .ov-op > img { width: 10px; flex: none; display: block; }
+  .ov-op-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding-bottom: 36px; }
+  .ov-op:last-child .ov-op-body { padding-bottom: 0; }
+  .ov-op p { margin: 0; color: #8D8785; font-size: 14px; line-height: 22px; }
+  .ov-op p b { color: #1E1C1A; font-weight: 500; }
+  .ov-op p a { color: #0073FF; text-decoration: none; }
+  .ov-op .time { color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-op .reason {
+    display: flex; align-items: center;
+    padding: 6px 8px; background: #F9F9F9; border-radius: 8px;
+    color: #8D8785; font-size: 12px; line-height: 20px;
+  }
+  .ov-op .reason b { color: #5C5450; font-weight: 400; }
   .view-home > * { width: min(1200px, calc(100% - 64px)); margin-left: auto; margin-right: auto; }
   .view-home > * + * { margin-top: 32px; }
   /* Hero 背景铺满白卡，内部文字/插画仍与 1200 栅格对齐 */
@@ -995,14 +1154,14 @@
           <span class="label">知识库管理</span>
           <svg class="arrow" viewBox="0 0 1024 1024" fill="currentColor"><path d="M831.9 340.9 512 652.7 192.1 340.9a30.6 30.6 0 0 0-42.7 0 29.1 29.1 0 0 0 0 41.6l340.3 331.7a32 32 0 0 0 44.7 0l340.3-331.7a29.1 29.1 0 0 0 0-41.7 30.6 30.6 0 0 0-42.8 0z"/></svg>
         </div>
-        <div class="mi lv2"><span class="label">概览</span></div>
+        <div class="mi lv2" data-open="overview"><span class="label">概览</span></div>
         <div class="mi lv2"><span class="label">分类管理</span></div>
         <div class="mi lv2"><span class="label">资料与视频管理</span></div>
         <div class="mi lv2"><span class="label">标签管理</span></div>
         <div class="mi lv2"><span class="label">下载审批</span></div>
         <div class="mi lv2"><span class="label">已读记录</span></div>
         <div class="mi lv2"><span class="label">操作记录</span></div>
-        <div class="mi lv2 active"><span class="label">工程知识库</span><span class="demo-dot" title="含交互演示"></span></div>
+        <div class="mi lv2 active" data-open="home"><span class="label">工程知识库</span><span class="demo-dot" title="含交互演示"></span></div>
         <div class="mi"><i class="gl">&#xe615;</i><span class="label">工作台</span></div>
         <div class="mi"><img class="mi-ic" src="./assets/sidebar/工程大盘.svg" alt="" /><span class="label">工程大盘</span>
           <svg class="arrow" viewBox="0 0 1024 1024" fill="currentColor"><path d="M831.9 340.9 512 652.7 192.1 340.9a30.6 30.6 0 0 0-42.7 0 29.1 29.1 0 0 0 0 41.6l340.3 331.7a32 32 0 0 0 44.7 0l340.3-331.7a29.1 29.1 0 0 0 0-41.7 30.6 30.6 0 0 0-42.8 0z"/></svg></div>
@@ -1041,6 +1200,206 @@
 
     <!-- 内容区 -->
     <main class="content">
+      <section class="view view-overview" id="view-overview">
+        <div class="ov-wrap">
+          <h2 class="ov-title">知识库概览</h2>
+
+          <div class="ov-kpi-row">
+            <div class="ov-kpi">
+              <div class="ov-total">
+                <img class="ov-54" src="./assets/overview/sum.png" alt="" />
+                <div class="ov-ktext">
+                  <span class="ov-klabel">内容总数</span>
+                  <span class="ov-kbig">321</span>
+                </div>
+              </div>
+              <div class="ov-stat">
+                <span class="lab"><img src="./assets/overview/stat-published.png" alt="" />已发布</span>
+                <b>100</b>
+                <img class="bar" src="./assets/overview/bar-green.svg" alt="" />
+              </div>
+              <div class="ov-stat">
+                <span class="lab"><img src="./assets/overview/stat-draft.png" alt="" />草稿 / 待审核</span>
+                <b>200</b>
+                <img class="bar" src="./assets/overview/bar-orange.svg" alt="" />
+              </div>
+              <div class="ov-stat">
+                <span class="lab"><img src="./assets/overview/stat-pending.png" alt="" />待生效</span>
+                <b>15</b>
+                <img class="bar" src="./assets/overview/bar-gray.svg" alt="" />
+              </div>
+              <div class="ov-stat">
+                <span class="lab"><img src="./assets/overview/stat-offline.png" alt="" />已下架</span>
+                <b>6</b>
+                <img class="bar" src="./assets/overview/bar-red.svg" alt="" />
+              </div>
+            </div>
+            <div class="ov-read">
+              <div class="ov-kinner">
+                <img class="ov-54" src="./assets/overview/reading.png" alt="" />
+                <div class="ov-ktext">
+                  <span class="ov-klabel">累计阅读</span>
+                  <span class="ov-kbig">14,035</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ov-mid-row">
+            <div class="ov-chart-card">
+              <div class="ov-chead">
+                <h3>近7日阅读趋势</h3>
+                <span class="ov-unit">单位：次</span>
+              </div>
+              <div class="ov-chart">
+                <div class="ov-yaxis"><span>500</span><span>400</span><span>300</span><span>200</span><span>100</span><span>0</span></div>
+                <div class="ov-frame">
+                  <img class="grid" src="./assets/overview/chart-grid.svg" alt="" />
+                  <img class="line" src="./assets/overview/chart-line.svg" alt="" />
+                  <div class="ov-xaxis">
+                    <span>10-02</span><span>10-03</span><span>10-04</span><span>10-05</span><span>10-06</span><span>10-07</span><span>10-08</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ov-source-card">
+              <div class="ov-chead"><h3>阅读来源分布</h3></div>
+              <div class="ov-source-body">
+                <div class="ov-donut">
+                  <img class="c1" src="./assets/overview/donut-green.svg" alt="" />
+                  <img class="c2" src="./assets/overview/donut-orange.svg" alt="" />
+                  <img class="c3" src="./assets/overview/donut-blue.svg" alt="" />
+                  <div class="ov-donut-center">
+                    <span>日均阅读</span>
+                    <b>655</b>
+                  </div>
+                </div>
+                <div class="ov-legend">
+                  <div class="names">
+                    <span><img src="./assets/overview/legend-blue.svg" alt="" />PC 用户端</span>
+                    <span><img src="./assets/overview/legend-green.svg" alt="" />APP 端</span>
+                    <span><img src="./assets/overview/legend-orange.svg" alt="" />小程序端</span>
+                  </div>
+                  <div class="vals">
+                    <b>50%</b><b>28%</b><b>22%</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ov-bot-row">
+            <div class="ov-top5">
+              <div class="ov-chead">
+                <h3>近一个月最新TOP5</h3>
+                <span class="ov-more">更多<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg></span>
+              </div>
+              <div class="ov-list">
+                <div class="ov-row">
+                  <div class="ov-rank r1"><img src="./assets/overview/rank-1.png" alt="" /></div>
+                  <img class="thumb" src="./assets/overview/thumb-1.png?v=2" alt="" />
+                  <div class="ov-row-main">
+                    <div class="ov-row-title">
+                      <span class="t">开业物料验收流程培训</span>
+                      <span class="ov-tag gray">V2.0</span>
+                      <span class="ov-tag green">已发布</span>
+                    </div>
+                    <p class="ov-row-desc">门店验收篇 / 物料篇 / 开业物料验收 · 视频 22:10</p>
+                  </div>
+                  <span class="ov-row-date">10-08</span>
+                </div>
+                <div class="ov-row">
+                  <div class="ov-rank r2"><img src="./assets/overview/rank-2.png" alt="" /></div>
+                  <div class="f-ic"><img src="./assets/file-pdf.png" alt="" /></div>
+                  <div class="ov-row-main">
+                    <div class="ov-row-title">
+                      <span class="t">基础装修验收篇（木）图文标准</span>
+                      <span class="ov-tag gray">V2.0</span>
+                      <span class="ov-tag green">已发布</span>
+                    </div>
+                    <p class="ov-row-desc">门店验收篇 / 监控（弱电）篇 / 设备安装验收 · PDF</p>
+                  </div>
+                  <span class="ov-row-date">10-08</span>
+                </div>
+                <div class="ov-row">
+                  <div class="ov-rank r3"><img src="./assets/overview/rank-3.png" alt="" /></div>
+                  <div class="f-ic"><img src="./assets/file-pdf.png" alt="" /></div>
+                  <div class="ov-row-main">
+                    <div class="ov-row-title">
+                      <span class="t">沿海大风区域门店施工手册</span>
+                      <span class="ov-tag gray">V2.0</span>
+                      <span class="ov-tag orange">待审核</span>
+                    </div>
+                    <p class="ov-row-desc">门店施工篇 / 水电篇 / 总项要求 · PDF</p>
+                  </div>
+                  <span class="ov-row-date">10-08</span>
+                </div>
+                <div class="ov-row">
+                  <div class="ov-rank plain">4</div>
+                  <img class="thumb" src="./assets/overview/thumb-4.png?v=2" alt="" />
+                  <div class="ov-row-main">
+                    <div class="ov-row-title">
+                      <span class="t">门店水电施工标准手册</span>
+                      <span class="ov-tag gray">V2.0</span>
+                      <span class="ov-tag orange">待审核</span>
+                    </div>
+                    <p class="ov-row-desc">门店验收篇 / 物料篇 / 开业物料验收 · 视频 22:10</p>
+                  </div>
+                  <span class="ov-row-date">10-08</span>
+                </div>
+                <div class="ov-row">
+                  <div class="ov-rank plain">5</div>
+                  <div class="f-ic"><img src="./assets/file-pdf.png" alt="" /></div>
+                  <div class="ov-row-main">
+                    <div class="ov-row-title">
+                      <span class="t">门店水电施工标准手册</span>
+                      <span class="ov-tag gray">V2.0</span>
+                      <span class="ov-tag gray">草稿</span>
+                    </div>
+                    <p class="ov-row-desc">门店施工篇/水电篇/总项要求 · PDF</p>
+                  </div>
+                  <span class="ov-row-date">10-08</span>
+                </div>
+              </div>
+            </div>
+            <div class="ov-ops">
+              <div class="ov-chead">
+                <h3>最近操作</h3>
+                <span class="ov-unit">近 24 小时</span>
+              </div>
+              <div class="ov-op">
+                <img src="./assets/overview/timeline.svg" alt="" />
+                <div class="ov-op-body">
+                  <p><b>姜维</b> 发布了 <a>《门店水电施工标准手册 V2.1》</a></p>
+                  <span class="time">10 分钟前 · 移动端即时可见</span>
+                </div>
+              </div>
+              <div class="ov-op">
+                <img src="./assets/overview/timeline.svg" alt="" />
+                <div class="ov-op-body">
+                  <p><b>陈晓</b> 上传了 <a>《华南区门店施工区域化手册 V1.0》</a></p>
+                  <span class="time">2 小时前 · 待审核</span>
+                </div>
+              </div>
+              <div class="ov-op">
+                <img src="./assets/overview/timeline.svg" alt="" />
+                <div class="ov-op-body">
+                  <p>已读记录同步 <b>213</b> 条（内部 APP 132 / 鸣忙小程序 81）</p>
+                  <span class="time">今天 09:00</span>
+                </div>
+              </div>
+              <div class="ov-op">
+                <img src="./assets/overview/timeline-last.svg" alt="" />
+                <div class="ov-op-body">
+                  <p><b>姜维</b> 下架了 <a>《旧版水电施工手册 V1.0》</a></p>
+                  <span class="reason">原因：<b>已被 V2.1 替代</b></span>
+                  <span class="time">今天 09:00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="view view-home active" id="view-home">
       <!-- 吸顶搜索（滚动后出现，搜索框由脚本克隆） -->
       <div class="dock" id="searchDock"></div>
@@ -1731,6 +2090,7 @@
     // ---------- 顶部页签 ----------
     var TABS = {
       home:      { title: '工程知识库', dot: '#00B87A', closable: true },
+      overview:  { title: '知识库概览', dot: '#00B87A', closable: true },
       materials: { title: '资料中心',   dot: '#00B87A', closable: true },
       videos:    { title: '视频学堂',   dot: '#00B87A', closable: true },
       learning:  { title: '我的学习',   dot: '#00B87A', closable: true },
@@ -1799,6 +2159,9 @@
       content.scrollTop = 0;
       syncDock();
       renderTabs();
+      document.querySelectorAll('.mi[data-open]').forEach(function (n) {
+        n.classList.toggle('active', n.getAttribute('data-open') === (id === 'overview' ? 'overview' : 'home'));
+      });
       if (id === 'video') fitVideo();
     }
 
@@ -1823,11 +2186,13 @@
       e.preventDefault();
       openTab(id);
     });
-    document.querySelectorAll('.mi').forEach(function (mi) {
-      if (mi.querySelector('.label') && mi.querySelector('.label').textContent.trim() === '工程知识库') {
-        mi.style.cursor = 'pointer';
-        mi.addEventListener('click', function () { openTab('home'); });
-      }
+    document.querySelectorAll('.mi[data-open]').forEach(function (mi) {
+      mi.style.cursor = 'pointer';
+      mi.addEventListener('click', function () {
+        document.querySelectorAll('.mi[data-open]').forEach(function (n) { n.classList.remove('active'); });
+        mi.classList.add('active');
+        openTab(mi.getAttribute('data-open'));
+      });
     });
 
     // ---------- 吸顶搜索 ----------

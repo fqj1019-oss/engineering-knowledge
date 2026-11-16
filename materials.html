@@ -238,6 +238,165 @@
   /* 多页签：每个视图独立成块，仅当前页签可见 */
   .content > .view { display: none; flex-direction: column; flex: none; width: 100%; margin: 0; }
   .content > .view.active { display: flex; }
+
+  /* ============ 概览（知识库概览） ============ */
+  .view-overview {
+    flex: 1 0 auto;
+    padding-bottom: 12px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #EEF3F7 0%, #E9EAF7 100%);
+  }
+  .ov-wrap {
+    display: flex; flex-direction: column; gap: 12px;
+    padding: 12px 0;
+  }
+  .ov-title {
+    margin: 0;
+    color: #1E1C1A; font-size: 20px; line-height: 28px; font-weight: 500;
+  }
+  .ov-card {
+    background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-kpi-row, .ov-mid-row, .ov-bot-row { display: flex; gap: 12px; align-items: stretch; }
+  .ov-bot-row { height: 412px; }
+  .ov-kpi {
+    flex: 1; min-width: 0;
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-total {
+    width: 220px; flex: none;
+    display: flex; align-items: center; gap: 8px;
+    padding-right: 16px;
+    border-right: 1px solid #F1EFEC;
+  }
+  .ov-54 { width: 54px !important; height: 54px !important; flex: none; display: block; }
+  .ov-row .f-ic img { width: 40px !important; height: 40px !important; display: block; }
+  .ov-ktext { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .ov-klabel { color: #5C5450; font-size: 14px; line-height: 22px; }
+  .ov-kbig {
+    color: #1E1C1A; font-size: 32px; line-height: 36px; font-weight: 700;
+    font-family: "AlibabaPuHuiTi", "PingFang SC", sans-serif;
+  }
+  .ov-stat { flex: 1; min-width: 0; display: flex; justify-content: center; align-items: flex-start; flex-direction: column; gap: 4px; }
+  .ov-stat .lab { display: flex; align-items: center; gap: 4px; color: #5C5450; font-size: 14px; line-height: 22px; white-space: nowrap; }
+  .ov-stat .lab img { width: 16px; height: 16px; flex: none; display: block; }
+  .ov-stat b {
+    color: #1E1C1A; font-size: 20px; line-height: 28px; font-weight: 700;
+    font-family: "AlibabaPuHuiTi", "PingFang SC", sans-serif;
+  }
+  .ov-stat .bar { width: 32px; height: 2px; display: block; }
+  .ov-read {
+    width: 300px; flex: none;
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-read .ov-kinner { display: flex; align-items: center; gap: 8px; }
+  .ov-chart-card {
+    flex: 1; min-width: 0; height: 260px;
+    display: flex; flex-direction: column; gap: 16px;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-chead { display: flex; align-items: center; justify-content: space-between; }
+  .ov-chead h3 { margin: 0; color: #1E1C1A; font-size: 16px; line-height: 24px; font-weight: 500; }
+  .ov-unit { color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-chart { display: flex; gap: 8px; flex: 1; min-height: 0; }
+  .ov-yaxis {
+    width: 24px; flex: none; height: 188px;
+    display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end;
+    color: #8D8785; font-size: 12px; line-height: 20px;
+  }
+  .ov-frame { position: relative; flex: 1; min-width: 0; height: 188px; }
+  .ov-frame .grid { position: absolute; left: 0; top: 0; width: 100%; height: 188px; display: block; }
+  .ov-frame .line { position: absolute; left: 2px; top: 13px; width: calc(100% - 2px); height: 175px; display: block; }
+  .ov-xaxis {
+    position: absolute; left: 2px; right: 0; bottom: 0;
+    display: flex; justify-content: space-between;
+    color: #8D8785; font-size: 12px; line-height: 20px;
+  }
+  .ov-source-card {
+    width: 400px; flex: none; height: 260px;
+    display: flex; flex-direction: column; gap: 16px;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-source-body { flex: 1; display: flex; align-items: center; gap: 16px; padding: 0 24px; min-height: 0; }
+  .ov-donut { position: relative; width: 120px; height: 120px; flex: none; }
+  .ov-donut > img { position: absolute; left: 0; top: 0; width: 120px; height: 120px; display: block; }
+  .ov-donut .c1 { z-index: 1; } .ov-donut .c2 { z-index: 2; } .ov-donut .c3 { z-index: 3; }
+  .ov-donut-center {
+    position: absolute; left: 36px; top: 36px; width: 48px; height: 48px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 4;
+  }
+  .ov-donut-center span { color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-donut-center b {
+    color: #1E1C1A; font-size: 20px; line-height: 28px; font-weight: 700;
+    font-family: "AlibabaPuHuiTi", "PingFang SC", sans-serif;
+  }
+  .ov-legend { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; }
+  .ov-legend .names, .ov-legend .vals { display: flex; flex-direction: column; gap: 12px; }
+  .ov-legend .names span { display: flex; align-items: center; gap: 2px; color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-legend .names img { width: 12px; height: 12px; display: block; }
+  .ov-legend .vals b {
+    color: #1E1C1A; font-size: 14px; line-height: 20px; font-weight: 700;
+    font-family: "AlibabaPuHuiTi", "PingFang SC", sans-serif;
+  }
+  .ov-top5 {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column; gap: 16px;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-more { display: flex; align-items: center; gap: 0; color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-more svg { width: 16px; height: 16px; display: block; }
+  .ov-list { display: flex; flex-direction: column; gap: 12px; padding-top: 12px; }
+  .ov-row {
+    display: flex; align-items: center; gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F1EFEC;
+  }
+  .ov-row:last-child { padding-bottom: 0; border-bottom: 0; }
+  .ov-rank { width: 32px; height: 32px; flex: none; display: flex; align-items: center; justify-content: center; }
+  .ov-rank img { display: block; }
+  .ov-rank.r1 img, .ov-rank.r2 img, .ov-rank.r3 img { width: 24px; height: 28px; }
+  .ov-rank.plain {
+    border-radius: 50%; background: #F5F5F5;
+    color: #8D8785; font-size: 16px; line-height: 20px; font-weight: 700;
+  }
+  .ov-row .thumb { width: 40px; height: 40px; flex: none; border-radius: 6px; object-fit: cover; display: block; }
+  .ov-row .f-ic { width: 40px; height: 40px; flex: none; }
+  .ov-row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .ov-row-title { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .ov-row-title .t { color: #1E1C1A; font-size: 14px; line-height: 22px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ov-tag {
+    height: 20px; padding: 0 6px; flex: none;
+    display: inline-flex; align-items: center;
+    border-radius: 4px; font-size: 12px; line-height: 20px; white-space: nowrap;
+  }
+  .ov-tag.gray { background: #E5E5E5; color: #1E1C1A; }
+  .ov-tag.green { background: #EDFCF2; color: #16B364; }
+  .ov-tag.orange { background: #FEF4ED; color: #FF7300; }
+  .ov-row-desc { margin: 0; color: #8D8785; font-size: 12px; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ov-row-date { width: 100px; flex: none; text-align: right; color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-ops {
+    width: 400px; flex: none;
+    display: flex; flex-direction: column; gap: 0; overflow: hidden;
+    padding: 16px; background: #FFFFFF; border-radius: 8px;
+  }
+  .ov-ops .ov-chead { margin-bottom: 16px; flex: none; }
+  .ov-op { display: flex; gap: 8px; align-items: flex-start; }
+  .ov-op > img { width: 10px; flex: none; display: block; }
+  .ov-op-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding-bottom: 36px; }
+  .ov-op:last-child .ov-op-body { padding-bottom: 0; }
+  .ov-op p { margin: 0; color: #8D8785; font-size: 14px; line-height: 22px; }
+  .ov-op p b { color: #1E1C1A; font-weight: 500; }
+  .ov-op p a { color: #0073FF; text-decoration: none; }
+  .ov-op .time { color: #8D8785; font-size: 12px; line-height: 20px; }
+  .ov-op .reason {
+    display: flex; align-items: center;
+    padding: 6px 8px; background: #F9F9F9; border-radius: 8px;
+    color: #8D8785; font-size: 12px; line-height: 20px;
+  }
+  .ov-op .reason b { color: #5C5450; font-weight: 400; }
   .view-home > * { width: min(1200px, calc(100% - 64px)); margin-left: auto; margin-right: auto; }
   .view-home > * + * { margin-top: 32px; }
   /* Hero 背景铺满白卡，内部文字/插画仍与 1200 栅格对齐 */
@@ -995,14 +1154,14 @@
           <span class="label">知识库管理</span>
           <svg class="arrow" viewBox="0 0 1024 1024" fill="currentColor"><path d="M831.9 340.9 512 652.7 192.1 340.9a30.6 30.6 0 0 0-42.7 0 29.1 29.1 0 0 0 0 41.6l340.3 331.7a32 32 0 0 0 44.7 0l340.3-331.7a29.1 29.1 0 0 0 0-41.7 30.6 30.6 0 0 0-42.8 0z"/></svg>
         </div>
-        <div class="mi lv2"><span class="label">概览</span></div>
+        <div class="mi lv2" data-open="overview"><span class="label">概览</span></div>
         <div class="mi lv2"><span class="label">分类管理</span></div>
         <div class="mi lv2"><span class="label">资料与视频管理</span></div>
         <div class="mi lv2"><span class="label">标签管理</span></div>
         <div class="mi lv2"><span class="label">下载审批</span></div>
         <div class="mi lv2"><span class="label">已读记录</span></div>
         <div class="mi lv2"><span class="label">操作记录</span></div>
-        <div class="mi lv2 active"><span class="label">工程知识库</span><span class="demo-dot" title="含交互演示"></span></div>
+        <div class="mi lv2 active" data-open="home"><span class="label">工程知识库</span><span class="demo-dot" title="含交互演示"></span></div>
         <div class="mi"><i class="gl">&#xe615;</i><span class="label">工作台</span></div>
         <div class="mi"><img class="mi-ic" src="./assets/sidebar/工程大盘.svg" alt="" /><span class="label">工程大盘</span>
           <svg class="arrow" viewBox="0 0 1024 1024" fill="currentColor"><path d="M831.9 340.9 512 652.7 192.1 340.9a30.6 30.6 0 0 0-42.7 0 29.1 29.1 0 0 0 0 41.6l340.3 331.7a32 32 0 0 0 44.7 0l340.3-331.7a29.1 29.1 0 0 0 0-41.7 30.6 30.6 0 0 0-42.8 0z"/></svg></div>
