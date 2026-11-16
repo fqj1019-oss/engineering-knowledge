@@ -442,10 +442,11 @@
   /* 最新资料 hover：整行底色 */
   .mat-row { transition: background .16s ease; cursor: pointer; }
   .mat-row:hover { background: #F9F9F9; }
+  .mat-row:hover .mat-title { color: #0073FF; }
   .mat-row .f-ic { width: 40px; height: 40px; flex: none; }
   .mat-main { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .mat-title-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
-  .mat-title { font-size: 14px; line-height: 22px; font-weight: 500; color: #1E1C1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mat-title { font-size: 14px; line-height: 22px; font-weight: 500; color: #1E1C1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .16s ease; }
   .mat-desc { font-size: 12px; line-height: 20px; color: #8D8785; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .mat-date { width: 100px; flex: none; text-align: right; font-size: 12px; line-height: 20px; color: #8D8785; }
   .mat-read { width: 100px; flex: none; text-align: right; font-size: 12px; line-height: 20px; color: #8D8785; }
@@ -745,6 +746,154 @@
   .tab[data-tab] { cursor: pointer; }
   .tab .close { cursor: pointer; }
   .tab .close:hover { color: #1E1C1A; }
+
+  /* ===== 详情页：文件预览（1124:001061）/ 视频预览（1124:000803） ===== */
+  .content > .view.view-dtl {
+    position: fixed; inset: 0; z-index: 90; width: auto; margin: 0;
+    overflow: hidden; background: #FFFFFF;
+  }
+  html.dtl-open, body.dtl-open { overflow: hidden; }
+  html.dtl-open .shell { z-index: 999; }
+  .view-dtl { background: #FFFFFF; }
+
+  .dtl-head {
+    flex: none; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 12px 16px; border-bottom: 1px solid #F1EFEC;
+  }
+  .dtl-id { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .dtl-title-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .dtl-title { margin: 0; font-size: 16px; line-height: 24px; font-weight: 500; color: #1E1C1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dtl-meta { margin: 0; font-size: 12px; line-height: 20px; color: #8D8785; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dtl-acts { display: flex; align-items: center; gap: 12px; flex: none; }
+  .dtl-sep { width: 2px; height: 20px; background: #F1EFEC; flex: none; }
+  .ibtn {
+    width: 32px; height: 32px; padding: 0; flex: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #FFFFFF; color: #1E1C1A;
+    border: 1px solid #DDDDDC; border-radius: 6px;
+    cursor: pointer;
+  }
+  .ibtn svg { width: 16px; height: 16px; }
+  .ibtn { transition: background .16s ease; }
+  .ibtn:hover { background: #F7F5F3; }
+  .ibtn.fav { color: #1E1C1A; }
+  .ibtn.fav .ic-on { display: none; }
+  .ibtn.fav .ic-off { width: 17px; height: 16px; display: block; }
+  .ibtn.fav .ic-on { width: 17px; height: 16px; }
+  .ibtn.fav[aria-pressed="true"] .ic-off { display: none; }
+  .ibtn.fav[aria-pressed="true"] .ic-on { display: block; }
+  .dtl-acts .btn-primary { padding: 0 16px; border-radius: 6px; transition: background .16s ease, color .16s ease; }
+  .btn-primary.is-applied { background: #EAF3FF; color: #0073FF; cursor: default; }
+
+  /* 右侧信息面板（两页共用） */
+  .dtl-panel {
+    width: 320px; flex: none; background: #FFFFFF;
+    border-left: 1px solid #F1EFEC;
+    padding: 16px; overflow-y: auto; scrollbar-width: none;
+  }
+  .dtl-panel::-webkit-scrollbar { width: 0; }
+  .pnl-stack { display: flex; flex-direction: column; gap: 32px; }
+  .pnl-sec { display: flex; flex-direction: column; gap: 16px; }
+  .pnl-head {
+    display: flex; align-items: center; gap: 8px; width: 100%;
+    padding: 0; background: none; border: 0; font-family: inherit;
+    font-size: 14px; line-height: 22px; font-weight: 500; color: #1E1C1A;
+    text-align: left; cursor: pointer;
+  }
+  .pnl-head i { width: 3px; height: 14px; border-radius: 0 2px 2px 0; background: #0073FF; flex: none; }
+  .pnl-sec.collapsed .pnl-body { display: none; }
+  .pnl-body { display: flex; flex-direction: column; gap: 16px; }
+  .kv { display: flex; gap: 16px; font-size: 14px; line-height: 22px; }
+  .kv dt { width: 56px; flex: none; margin: 0; color: #8D8785; }
+  .kv dd { flex: 1; min-width: 0; margin: 0; color: #1E1C1A; }
+  .dtags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .dtag { height: 20px; padding: 0 4px; border-radius: 4px; background: #F1EFEC; color: #8D8785; font-size: 12px; line-height: 20px; }
+  .dtag.is-ver { background: #E5E5E5; color: #1E1C1A; }
+  .learn-state { display: flex; align-items: center; gap: 4px; color: #0073FF; }
+  .learn-state svg { width: 16px; height: 16px; flex: none; }
+
+  .vref-list { display: flex; flex-direction: column; gap: 0; }
+  .vref {
+    display: flex; align-items: center; gap: 12px; width: 100%;
+    padding: 12px 0; background: none; border: 0; border-bottom: 1px solid #F1EFEC;
+    font-family: inherit; text-align: left; cursor: pointer;
+    transition: background .16s ease;
+  }
+  .vref:hover { background: #F9F9F9; }
+  .vref:last-child { border-bottom: 0; }
+  .vref-thumb { width: 40px; height: 40px; flex: none; position: relative; border-radius: 6px; overflow: hidden; background: #F1EFEC; }
+  .vref-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .vref-play { position: absolute; left: 10px; top: 10px; width: 20px; height: 20px; border-radius: 50%; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; }
+  .vref-play svg { width: 9px; height: 9px; fill: #FFFFFF; margin-left: 1px; }
+  .vref-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .vref-title-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .vref-title { font-size: 14px; line-height: 22px; font-weight: 500; color: #1E1C1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .16s ease; }
+  .vref:hover .vref-title { color: #0073FF; }
+  .vref-time { font-size: 12px; line-height: 20px; color: #8D8785; }
+
+  /* 文件预览主体 */
+  .file-body { flex: 1; min-height: 0; display: flex; align-items: stretch; background: #F9F9F9; }
+  .file-rail { width: 200px; flex: none; display: flex; flex-direction: column; background: #FFFFFF; border-right: 1px solid #F1EFEC; overflow-y: auto; scrollbar-width: none; }
+  .file-rail::-webkit-scrollbar { width: 0; }
+  .rail-count { flex: none; padding: 12px 16px; font-size: 12px; line-height: 20px; color: #8D8785; }
+  .rail-list { display: flex; flex-direction: column; gap: 4px; padding: 0 16px 16px; }
+  .thumb {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 12px; background: transparent; border: 0; border-radius: 6px;
+    font-family: inherit; cursor: pointer;
+  }
+  .thumb:hover { background: #F9F9F9; }
+  .thumb.sel { background: #EAF3FF; }
+  .thumb img { width: 100px; height: 140px; object-fit: cover; border: 1px solid #F1EFEC; border-radius: 6px; display: block; }
+  .thumb span { font-size: 12px; line-height: 20px; color: #1E1C1A; }
+  .file-canvas { position: relative; flex: 1; min-width: 0; overflow: auto; background: #F9F9F9; border-right: 1px solid #F1EFEC; }
+  .file-stage { box-sizing: border-box; height: 100%; padding: 24px 40px 56px; display: flex; align-items: center; justify-content: center; }
+  .page-img { width: auto; height: auto; max-width: 472px; max-height: 100%; display: block; box-shadow: 0 2px 5px rgba(0,0,0,.1); transition: transform .18s ease; transform-origin: center center; }
+  .zoombar {
+    position: absolute; right: 12px; bottom: 12px; z-index: 2;
+    height: 32px; display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px; background: #FFFFFF; border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+  }
+  .zoombar button { width: 16px; height: 16px; padding: 0; border: 0; background: none; color: #1E1C1A; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+  .zoombar button:hover { color: #0073FF; }
+  .zoombar button svg { width: 16px; height: 16px; }
+  .zsep { width: 1px; height: 16px; background: #F1EFEC; flex: none; }
+  .zval { width: 40px; text-align: center; font-size: 12px; line-height: 20px; color: #1E1C1A; font-variant-numeric: tabular-nums; }
+
+  /* 视频预览主体 */
+  .video-body { flex: 1; min-height: 0; display: flex; align-items: stretch; background: #F7F5F3; }
+  .video-stage { flex: 1; min-width: 0; display: flex; padding: 24px 0; overflow: auto; }
+  .vplayer { position: relative; width: 100%; max-width: none; margin: auto; flex: none; aspect-ratio: 16 / 9; background: #000000; box-shadow: 0 2px 5px rgba(0,0,0,.1); cursor: pointer; }
+  .vplayer > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .vbar {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+    height: 54px; display: flex; align-items: center; gap: 16px;
+    padding: 16px 24px;
+    background: linear-gradient(180deg, rgba(30,28,26,0) 0%, #1E1C1A 100%);
+    cursor: default;
+  }
+  .vtime { flex: none; font-size: 14px; line-height: 22px; color: #FFFFFF; font-variant-numeric: tabular-nums; }
+  .vtrack { position: relative; flex: 1; height: 6px; margin-left: 8px; margin-right: 8px; border-radius: 3px; background: rgba(255,255,255,.2); cursor: pointer; }
+  .vfill { position: absolute; left: 0; top: 0; height: 100%; width: 0; border-radius: 3px; background: #0073FF; }
+  .vknob { position: absolute; top: 50%; left: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: #FFFFFF; }
+  .vexpand { width: 16px; height: 16px; padding: 0; flex: none; border: 0; background: none; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+  .vexpand svg { width: 16px; height: 16px; }
+  .vplayer:fullscreen { max-width: none; width: 100vw; height: 100vh; aspect-ratio: auto; }
+
+  /* 详情入口可点击 */
+  .doc, .vcard2, .lrec { cursor: pointer; }
+
+  /* 轻提示 */
+  .toast {
+    position: fixed; left: 50%; bottom: 56px; z-index: 1000;
+    padding: 8px 16px; border-radius: 6px;
+    background: rgba(30, 28, 26, .9); color: #FFFFFF;
+    font-size: 14px; line-height: 22px;
+    opacity: 0; transform: translate(-50%, 8px); pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
 </style>
 <style id="site-design-tokens">
   /* 站点设计变量（Nudge）：默认值与设计稿一致，不改变现有视觉 */
@@ -1428,6 +1577,153 @@
           </div>
         </div>
       </section>
+      <!-- 文件预览详情（MasterGo 1124:001061） -->
+      <section class="view view-dtl" id="view-file" aria-label="文件预览">
+        <div class="dtl-head">
+          <div class="dtl-id">
+            <div class="dtl-title-row">
+              <h2 class="dtl-title" data-file-title>室内天花造型施工工艺演示</h2>
+              <span class="dtag is-ver">V2.0</span>
+            </div>
+            <p class="dtl-meta" data-file-meta>KB-SG-2026-018 · 更新于 2026-10-05 14:20 · 阅读 1,286 次</p>
+          </div>
+          <div class="dtl-acts">
+            <button class="ibtn fav" type="button" aria-pressed="false" aria-label="收藏" data-fav>
+              <svg class="ic-off" viewBox="0 0 17.119 16.281" fill="none"><path d="M2.0735013,5.6075749C1.0750399,5.9018764,0.68344295,7.1070213,1.318202,7.9320178L3.1025863,10.251183C3.3103745,10.521245,3.4187152,10.854682,3.4093511,11.195302L3.3289373,14.120354C3.3003314,15.160896,4.3255157,15.905701,5.3062744,15.556904L8.0631552,14.576447C8.3842478,14.462255,8.7348928,14.462255,9.0559855,14.576447L11.812866,15.556904C12.793625,15.905701,13.81881,15.160896,13.790203,14.120354L13.709789,11.195302C13.700425,10.854682,13.808765,10.521245,14.016554,10.251183L15.800939,7.9320178C16.435698,7.1070213,16.0441,5.9018764,15.045639,5.6075749L12.238984,4.7802997C11.912116,4.6839538,11.628456,4.4778681,11.435811,4.1967754L9.781601,1.7830875C9.1931467,0.92446297,7.9259939,0.92446297,7.3375397,1.7830875L5.6833301,4.1967759C5.490685,4.4778681,5.2070241,4.6839538,4.8801565,4.7802997L2.0735013,5.6075749ZM2.469322,6.9504547Q2.4281356,6.962594,2.4148662,7.0034318Q2.4015965,7.0442686,2.4277804,7.0782995L4.2121649,9.3974648Q4.8369803,10.209538,4.8088226,11.233776L4.7284088,14.158828Q4.7272286,14.20175,4.7619677,14.226988Q4.7967062,14.252226,4.8371615,14.237839L7.5940428,13.257381Q8.5595703,12.914005,9.525094,13.25738L12.281979,14.237838Q12.322434,14.252226,12.357173,14.226988Q12.391912,14.20175,12.390732,14.158829L12.310318,11.233775Q12.28216,10.209537,12.906978,9.3974628L14.69136,7.0782995Q14.717545,7.0442677,14.704275,7.0034323Q14.691006,6.9625969,14.649819,6.9504566L11.843163,6.1231799Q10.860271,5.8334665,10.28099,4.9882212L8.6267824,2.5745378Q8.6025095,2.5391192,8.5595703,2.5391192Q8.5166321,2.5391192,8.4923582,2.574538L6.8381495,4.9882259Q6.2588658,5.833468,5.2759776,6.1231794L2.469322,6.9504547Z" fill-rule="evenodd" fill="#1E1C1A"/></svg>
+              <svg class="ic-on" viewBox="0 0 17.119 16.281" fill="none"><defs><linearGradient x1="0.5" y1="0" x2="0.5" y2="1" id="favOnFill"><stop offset="0%" stop-color="#FF7300"/><stop offset="100%" stop-color="#FABA8C"/></linearGradient><linearGradient x1="0.5" y1="0" x2="0.5" y2="1" id="favOnInner"><stop offset="0%" stop-color="#FFC187"/><stop offset="100%" stop-color="#FFC89C" stop-opacity="0"/></linearGradient></defs><path d="M2.0735013,5.6075749C1.0750399,5.9018764,0.68344295,7.1070213,1.318202,7.9320178L3.1025863,10.251183C3.3103745,10.521245,3.4187152,10.854682,3.4093511,11.195302L3.3289373,14.120354C3.3003314,15.160896,4.3255157,15.905701,5.3062744,15.556904L8.0631552,14.576447C8.3842478,14.462255,8.7348928,14.462255,9.0559855,14.576447L11.812866,15.556904C12.793625,15.905701,13.81881,15.160896,13.790203,14.120354L13.709789,11.195302C13.700425,10.854682,13.808765,10.521245,14.016554,10.251183L15.800939,7.9320178C16.435698,7.1070213,16.0441,5.9018764,15.045639,5.6075749L12.238984,4.7802997C11.912116,4.6839538,11.628456,4.4778681,11.435811,4.1967754L9.781601,1.7830875C9.1931467,0.92446297,7.9259939,0.92446297,7.3375397,1.7830875L5.6833301,4.1967759C5.490685,4.4778681,5.2070241,4.6839538,4.8801565,4.7802997L2.0735013,5.6075749Z" fill="url(#favOnFill)"/><path d="M2.0735013,5.6075749C1.0750399,5.9018764,0.68344295,7.1070213,1.318202,7.9320178L3.1025863,10.251183C3.3103745,10.521245,3.4187152,10.854682,3.4093511,11.195302L3.3289373,14.120354C3.3003314,15.160896,4.3255157,15.905701,5.3062744,15.556904L8.0631552,14.576447C8.3842478,14.462255,8.7348928,14.462255,9.0559855,14.576447L11.812866,15.556904C12.793625,15.905701,13.81881,15.160896,13.790203,14.120354L13.709789,11.195302C13.700425,10.854682,13.808765,10.521245,14.016554,10.251183L15.800939,7.9320178C16.435698,7.1070213,16.0441,5.9018764,15.045639,5.6075749L12.238984,4.7802997C11.912116,4.6839538,11.628456,4.4778681,11.435811,4.1967754L9.781601,1.7830875C9.1931467,0.92446297,7.9259939,0.92446297,7.3375397,1.7830875L5.6833301,4.1967759C5.490685,4.4778681,5.2070241,4.6839538,4.8801565,4.7802997L2.0735013,5.6075749ZM2.3562303,6.5667748Q2.1128554,6.6385112,2.0344453,6.8798184Q1.9560356,7.1211262,2.1107578,7.3222189L3.8951426,9.6413841Q4.4332228,10.340727,4.4089737,11.222784L4.3285599,14.147835Q4.3215871,14.401467,4.5268612,14.550601Q4.7321339,14.699734,4.9711938,14.614714L7.728075,13.634258Q8.5595703,13.338548,9.3910627,13.634257L12.147946,14.614714Q12.387007,14.699733,12.592279,14.550601Q12.797553,14.401467,12.790581,14.147835L12.710168,11.222783Q12.685918,10.340726,13.223999,9.6413832L15.008381,7.3222189Q15.163105,7.1211271,15.084695,6.8798194Q15.006285,6.6385126,14.762911,6.5667772L11.956255,5.7394996Q11.109806,5.4900041,10.610939,4.762094L8.9567308,2.3484092Q8.8132944,2.1391189,8.5595703,2.1391189Q8.3058462,2.1391189,8.1624088,2.3484094L6.5082011,4.7620974Q6.0093327,5.490005,5.1628857,5.7394996L2.3562303,6.5667748Z" fill-rule="evenodd" fill="url(#favOnInner)"/></svg>
+            </button>
+            <button class="btn-primary" type="button" data-apply>申请下载</button>
+            <span class="dtl-sep"></span>
+            <button class="ibtn" type="button" aria-label="返回" data-back>
+              <svg viewBox="0 0 16 16" fill="none"><g transform="matrix(-1,0,0,1,27.9997,0)"><path d="M18.4998,13.7L20.9998,13.7L20.9998,13.6999Q21.0688,13.6999,21.1364,13.6864Q21.204,13.673,21.2677,13.6466Q21.3313,13.6202,21.3887,13.5819Q21.446,13.5436,21.4947,13.4949Q21.5435,13.4461,21.5817,13.3888Q21.62,13.3315,21.6464,13.2678Q21.6728,13.2041,21.6862,13.1365Q21.6997,13.0689,21.6997,13Q21.6997,12.9311,21.6862,12.8635Q21.6728,12.7959,21.6464,12.7322Q21.62,12.6685,21.5817,12.6112Q21.5435,12.5539,21.4947,12.5051Q21.446,12.4564,21.3887,12.4181Q21.3313,12.3798,21.2677,12.3534Q21.204,12.327,21.1364,12.3136Q21.0688,12.3001,20.9998,12.3001L20.9998,12.3L18.4998,12.3Q16.9258,12.3,15.8128,11.187Q14.6998,10.074,14.6998,8.5Q14.6998,6.926,15.8128,5.813Q16.9258,4.7,18.4998,4.7L25.9998,4.7L25.9998,4.6999Q26.0688,4.6999,26.1364,4.6864Q26.204,4.673,26.2677,4.6466Q26.3313,4.6202,26.3887,4.5819Q26.446,4.5436,26.4947,4.4949Q26.5435,4.4461,26.5817,4.3888Q26.62,4.3315,26.6464,4.2678Q26.6728,4.2041,26.6862,4.1365Q26.6997,4.0689,26.6997,4Q26.6997,3.9311,26.6862,3.8635Q26.6728,3.7959,26.6464,3.7322Q26.62,3.6685,26.5817,3.6112Q26.5435,3.5539,26.4947,3.5051Q26.446,3.4564,26.3887,3.4181Q26.3313,3.3798,26.2677,3.3534Q26.204,3.327,26.1364,3.3136Q26.0688,3.3001,25.9998,3.3001L25.9998,3.3L18.4998,3.3Q16.3459,3.3,14.8229,4.823Q13.2998,6.3461,13.2998,8.5Q13.2998,10.6539,14.8229,12.177Q16.3459,13.7,18.4998,13.7Z" fill-rule="evenodd" fill="#1E1C1A"/></g><g transform="matrix(-1,0,0,-1,8.9997,13)"><path d="M4.0049,6.9948Q3.9065,6.8964,3.8532,6.7678Q3.8,6.6392,3.8,6.5Q3.8,6.4311,3.8134,6.3635Q3.8269,6.2959,3.8533,6.2322Q3.8796,6.1685,3.9179,6.1112Q3.9562,6.0539,4.005,6.0051Q4.0537,5.9564,4.111,5.9181Q4.1683,5.8798,4.232,5.8534Q4.2957,5.827,4.3633,5.8136Q4.4309,5.8001,4.4998,5.8001Q4.6391,5.8001,4.7677,5.8534Q4.8963,5.9067,4.9948,6.0052L4.9949,6.0051L7.4944,8.5051Q7.5431,8.5538,7.5814,8.6111Q7.6197,8.6685,7.6461,8.7322Q7.6725,8.7958,7.6859,8.8635Q7.6993,8.9311,7.6993,9Q7.6993,9.0689,7.6859,9.1365Q7.6725,9.2042,7.6461,9.2678Q7.6197,9.3315,7.5814,9.3889Q7.5431,9.4462,7.4944,9.4949L4.9949,11.9949L4.9948,11.9948Q4.8963,12.0933,4.7677,12.1466Q4.6391,12.1999,4.4998,12.1999Q4.4309,12.1999,4.3633,12.1864Q4.2957,12.173,4.232,12.1466Q4.1683,12.1202,4.111,12.0819Q4.0537,12.0436,4.005,11.9949Q3.9562,11.9461,3.9179,11.8888Q3.8796,11.8315,3.8533,11.7678Q3.8269,11.7041,3.8134,11.6365Q3.8,11.5689,3.8,11.5Q3.8,11.3608,3.8532,11.2322Q3.9065,11.1036,4.0049,11.0052L4.0048,11.0051L6.0095,9L4.0048,6.9949L4.0049,6.9948Z" fill-rule="evenodd" fill="#1E1C1A"/></g></svg>
+            </button>
+          </div>
+        </div>
+        <div class="file-body">
+          <aside class="file-rail">
+            <div class="rail-count">共3页</div>
+            <div class="rail-list">
+              <button class="thumb sel" type="button" data-page="0" aria-label="第 1 页"><img src="./assets/detail/file-thumb-1.jpg" alt="" /><span>1</span></button>
+              <button class="thumb" type="button" data-page="1" aria-label="第 2 页"><img src="./assets/detail/file-page-2.png" alt="" /><span>2</span></button>
+              <button class="thumb" type="button" data-page="2" aria-label="第 3 页"><img src="./assets/detail/file-page-3.png" alt="" /><span>3</span></button>
+            </div>
+          </aside>
+          <div class="file-canvas">
+            <div class="file-stage"><img class="page-img" id="filePage" src="./assets/detail/file-page-1.jpg" alt="文件预览" /></div>
+            <div class="zoombar">
+              <button type="button" data-zoom="-1" aria-label="缩小"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 8h10"/></svg></button>
+              <span class="zsep"></span>
+              <span class="zval" id="zoomVal">100%</span>
+              <span class="zsep"></span>
+              <button type="button" data-zoom="1" aria-label="放大"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 8h10M8 3v10"/></svg></button>
+            </div>
+          </div>
+          <aside class="dtl-panel">
+            <div class="pnl-stack">
+              <section class="pnl-sec">
+                <button class="pnl-head" type="button" aria-expanded="true"><i></i>内容简介</button>
+                <div class="pnl-body">
+                  <dl class="kv"><dt>目录分类</dt><dd>门店设计篇 / 新店设计标准 / 初尺、复尺标准</dd></dl>
+                  <dl class="kv"><dt>资料类型</dt><dd>PDF / PPT / 图片 · 共 3 个文件 · 受控预览（含水印）</dd></dl>
+                  <dl class="kv"><dt>下载权限</dt><dd>仅申请下载</dd></dl>
+                  <dl class="kv"><dt>标签分类</dt><dd class="dtags"><span class="dtag">零食很忙6代店</span><span class="dtag">标准版</span><span class="dtag">水电节点</span></dd></dl>
+                  <dl class="kv"><dt>可见范围</dt><dd>授权施工方</dd></dl>
+                </div>
+              </section>
+              <section class="pnl-sec">
+                <button class="pnl-head" type="button" aria-expanded="true"><i></i>配套视频</button>
+                <div class="pnl-body vref-list">
+                  <button class="vref" type="button" data-open-video>
+                    <span class="vref-thumb"><img src="./assets/detail/vthumb-1.jpg" alt="" /><span class="vref-play"><svg viewBox="0 0 6.04 7.54"><path d="M5.696 3.122c.217.144.347.387.347.647s-.13.503-.347.647L1.209 7.407a.7.7 0 0 1-.798-.65V.778c0-.287.158-.55.411-.686s.56-.12.798.039z"/></svg></span></span>
+                    <span class="vref-body"><span class="vref-title-row"><span class="vref-title">开业物料验收流程培训</span><span class="dtag is-ver">V2.0</span></span><span class="vref-time">22:10</span></span>
+                  </button>
+                  <button class="vref" type="button" data-open-video>
+                    <span class="vref-thumb"><img src="./assets/detail/vthumb-2.jpg" alt="" /><span class="vref-play"><svg viewBox="0 0 6.04 7.54"><path d="M5.696 3.122c.217.144.347.387.347.647s-.13.503-.347.647L1.209 7.407a.7.7 0 0 1-.798-.65V.778c0-.287.158-.55.411-.686s.56-.12.798.039z"/></svg></span></span>
+                    <span class="vref-body"><span class="vref-title-row"><span class="vref-title">隐蔽工程验收标准解读</span><span class="dtag is-ver">V2.0</span></span><span class="vref-time">22:10</span></span>
+                  </button>
+                </div>
+              </section>
+            </div>
+          </aside>
+        </div>
+      </section>
+      <!-- 视频预览详情（MasterGo 1124:000803） -->
+      <section class="view view-dtl" id="view-video" aria-label="视频预览">
+        <div class="dtl-head">
+          <div class="dtl-id">
+            <div class="dtl-title-row">
+              <h2 class="dtl-title" data-video-title>沿海大风区域招牌加固演示</h2>
+              <span class="dtag is-ver" data-v-ver>V2.0</span>
+            </div>
+            <p class="dtl-meta" data-video-meta>时长 06:15 · 播放 615 次 · 完播率 58%</p>
+          </div>
+          <div class="dtl-acts">
+            <button class="ibtn fav" type="button" aria-pressed="false" aria-label="收藏" data-fav>
+              <svg class="ic-off" viewBox="0 0 17.119 16.281" fill="none"><path d="M2.0735013,5.6075749C1.0750399,5.9018764,0.68344295,7.1070213,1.318202,7.9320178L3.1025863,10.251183C3.3103745,10.521245,3.4187152,10.854682,3.4093511,11.195302L3.3289373,14.120354C3.3003314,15.160896,4.3255157,15.905701,5.3062744,15.556904L8.0631552,14.576447C8.3842478,14.462255,8.7348928,14.462255,9.0559855,14.576447L11.812866,15.556904C12.793625,15.905701,13.81881,15.160896,13.790203,14.120354L13.709789,11.195302C13.700425,10.854682,13.808765,10.521245,14.016554,10.251183L15.800939,7.9320178C16.435698,7.1070213,16.0441,5.9018764,15.045639,5.6075749L12.238984,4.7802997C11.912116,4.6839538,11.628456,4.4778681,11.435811,4.1967754L9.781601,1.7830875C9.1931467,0.92446297,7.9259939,0.92446297,7.3375397,1.7830875L5.6833301,4.1967759C5.490685,4.4778681,5.2070241,4.6839538,4.8801565,4.7802997L2.0735013,5.6075749ZM2.469322,6.9504547Q2.4281356,6.962594,2.4148662,7.0034318Q2.4015965,7.0442686,2.4277804,7.0782995L4.2121649,9.3974648Q4.8369803,10.209538,4.8088226,11.233776L4.7284088,14.158828Q4.7272286,14.20175,4.7619677,14.226988Q4.7967062,14.252226,4.8371615,14.237839L7.5940428,13.257381Q8.5595703,12.914005,9.525094,13.25738L12.281979,14.237838Q12.322434,14.252226,12.357173,14.226988Q12.391912,14.20175,12.390732,14.158829L12.310318,11.233775Q12.28216,10.209537,12.906978,9.3974628L14.69136,7.0782995Q14.717545,7.0442677,14.704275,7.0034323Q14.691006,6.9625969,14.649819,6.9504566L11.843163,6.1231799Q10.860271,5.8334665,10.28099,4.9882212L8.6267824,2.5745378Q8.6025095,2.5391192,8.5595703,2.5391192Q8.5166321,2.5391192,8.4923582,2.574538L6.8381495,4.9882259Q6.2588658,5.833468,5.2759776,6.1231794L2.469322,6.9504547Z" fill-rule="evenodd" fill="#1E1C1A"/></svg>
+              <svg class="ic-on" viewBox="0 0 17.119 16.281" fill="none"><defs><linearGradient x1="0.5" y1="0" x2="0.5" y2="1" id="favOnFillV"><stop offset="0%" stop-color="#FF7300"/><stop offset="100%" stop-color="#FABA8C"/></linearGradient><linearGradient x1="0.5" y1="0" x2="0.5" y2="1" id="favOnInnerV"><stop offset="0%" stop-color="#FFC187"/><stop offset="100%" stop-color="#FFC89C" stop-opacity="0"/></linearGradient></defs><path d="M2.0735013,5.6075749C1.0750399,5.9018764,0.68344295,7.1070213,1.318202,7.9320178L3.1025863,10.251183C3.3103745,10.521245,3.4187152,10.854682,3.4093511,11.195302L3.3289373,14.120354C3.3003314,15.160896,4.3255157,15.905701,5.3062744,15.556904L8.0631552,14.576447C8.3842478,14.462255,8.7348928,14.462255,9.0559855,14.576447L11.812866,15.556904C12.793625,15.905701,13.81881,15.160896,13.790203,14.120354L13.709789,11.195302C13.700425,10.854682,13.808765,10.521245,14.016554,10.251183L15.800939,7.9320178C16.435698,7.1070213,16.0441,5.9018764,15.045639,5.6075749L12.238984,4.7802997C11.912116,4.6839538,11.628456,4.4778681,11.435811,4.1967754L9.781601,1.7830875C9.1931467,0.92446297,7.9259939,0.92446297,7.3375397,1.7830875L5.6833301,4.1967759C5.490685,4.4778681,5.2070241,4.6839538,4.8801565,4.7802997L2.0735013,5.6075749Z" fill="url(#favOnFillV)"/><path d="M2.0735013,5.6075749C1.0750399,5.9018764,0.68344295,7.1070213,1.318202,7.9320178L3.1025863,10.251183C3.3103745,10.521245,3.4187152,10.854682,3.4093511,11.195302L3.3289373,14.120354C3.3003314,15.160896,4.3255157,15.905701,5.3062744,15.556904L8.0631552,14.576447C8.3842478,14.462255,8.7348928,14.462255,9.0559855,14.576447L11.812866,15.556904C12.793625,15.905701,13.81881,15.160896,13.790203,14.120354L13.709789,11.195302C13.700425,10.854682,13.808765,10.521245,14.016554,10.251183L15.800939,7.9320178C16.435698,7.1070213,16.0441,5.9018764,15.045639,5.6075749L12.238984,4.7802997C11.912116,4.6839538,11.628456,4.4778681,11.435811,4.1967754L9.781601,1.7830875C9.1931467,0.92446297,7.9259939,0.92446297,7.3375397,1.7830875L5.6833301,4.1967759C5.490685,4.4778681,5.2070241,4.6839538,4.8801565,4.7802997L2.0735013,5.6075749ZM2.3562303,6.5667748Q2.1128554,6.6385112,2.0344453,6.8798184Q1.9560356,7.1211262,2.1107578,7.3222189L3.8951426,9.6413841Q4.4332228,10.340727,4.4089737,11.222784L4.3285599,14.147835Q4.3215871,14.401467,4.5268612,14.550601Q4.7321339,14.699734,4.9711938,14.614714L7.728075,13.634258Q8.5595703,13.338548,9.3910627,13.634257L12.147946,14.614714Q12.387007,14.699733,12.592279,14.550601Q12.797553,14.401467,12.790581,14.147835L12.710168,11.222783Q12.685918,10.340726,13.223999,9.6413832L15.008381,7.3222189Q15.163105,7.1211271,15.084695,6.8798194Q15.006285,6.6385126,14.762911,6.5667772L11.956255,5.7394996Q11.109806,5.4900041,10.610939,4.762094L8.9567308,2.3484092Q8.8132944,2.1391189,8.5595703,2.1391189Q8.3058462,2.1391189,8.1624088,2.3484094L6.5082011,4.7620974Q6.0093327,5.490005,5.1628857,5.7394996L2.3562303,6.5667748Z" fill-rule="evenodd" fill="url(#favOnInnerV)"/></svg>
+            </button>
+            <button class="btn-primary" type="button" data-apply>申请下载</button>
+            <span class="dtl-sep"></span>
+            <button class="ibtn" type="button" aria-label="返回" data-back>
+              <svg viewBox="0 0 16 16" fill="none"><g transform="matrix(-1,0,0,1,27.9997,0)"><path d="M18.4998,13.7L20.9998,13.7L20.9998,13.6999Q21.0688,13.6999,21.1364,13.6864Q21.204,13.673,21.2677,13.6466Q21.3313,13.6202,21.3887,13.5819Q21.446,13.5436,21.4947,13.4949Q21.5435,13.4461,21.5817,13.3888Q21.62,13.3315,21.6464,13.2678Q21.6728,13.2041,21.6862,13.1365Q21.6997,13.0689,21.6997,13Q21.6997,12.9311,21.6862,12.8635Q21.6728,12.7959,21.6464,12.7322Q21.62,12.6685,21.5817,12.6112Q21.5435,12.5539,21.4947,12.5051Q21.446,12.4564,21.3887,12.4181Q21.3313,12.3798,21.2677,12.3534Q21.204,12.327,21.1364,12.3136Q21.0688,12.3001,20.9998,12.3001L20.9998,12.3L18.4998,12.3Q16.9258,12.3,15.8128,11.187Q14.6998,10.074,14.6998,8.5Q14.6998,6.926,15.8128,5.813Q16.9258,4.7,18.4998,4.7L25.9998,4.7L25.9998,4.6999Q26.0688,4.6999,26.1364,4.6864Q26.204,4.673,26.2677,4.6466Q26.3313,4.6202,26.3887,4.5819Q26.446,4.5436,26.4947,4.4949Q26.5435,4.4461,26.5817,4.3888Q26.62,4.3315,26.6464,4.2678Q26.6728,4.2041,26.6862,4.1365Q26.6997,4.0689,26.6997,4Q26.6997,3.9311,26.6862,3.8635Q26.6728,3.7959,26.6464,3.7322Q26.62,3.6685,26.5817,3.6112Q26.5435,3.5539,26.4947,3.5051Q26.446,3.4564,26.3887,3.4181Q26.3313,3.3798,26.2677,3.3534Q26.204,3.327,26.1364,3.3136Q26.0688,3.3001,25.9998,3.3001L25.9998,3.3L18.4998,3.3Q16.3459,3.3,14.8229,4.823Q13.2998,6.3461,13.2998,8.5Q13.2998,10.6539,14.8229,12.177Q16.3459,13.7,18.4998,13.7Z" fill-rule="evenodd" fill="#1E1C1A"/></g><g transform="matrix(-1,0,0,-1,8.9997,13)"><path d="M4.0049,6.9948Q3.9065,6.8964,3.8532,6.7678Q3.8,6.6392,3.8,6.5Q3.8,6.4311,3.8134,6.3635Q3.8269,6.2959,3.8533,6.2322Q3.8796,6.1685,3.9179,6.1112Q3.9562,6.0539,4.005,6.0051Q4.0537,5.9564,4.111,5.9181Q4.1683,5.8798,4.232,5.8534Q4.2957,5.827,4.3633,5.8136Q4.4309,5.8001,4.4998,5.8001Q4.6391,5.8001,4.7677,5.8534Q4.8963,5.9067,4.9948,6.0052L4.9949,6.0051L7.4944,8.5051Q7.5431,8.5538,7.5814,8.6111Q7.6197,8.6685,7.6461,8.7322Q7.6725,8.7958,7.6859,8.8635Q7.6993,8.9311,7.6993,9Q7.6993,9.0689,7.6859,9.1365Q7.6725,9.2042,7.6461,9.2678Q7.6197,9.3315,7.5814,9.3889Q7.5431,9.4462,7.4944,9.4949L4.9949,11.9949L4.9948,11.9948Q4.8963,12.0933,4.7677,12.1466Q4.6391,12.1999,4.4998,12.1999Q4.4309,12.1999,4.3633,12.1864Q4.2957,12.173,4.232,12.1466Q4.1683,12.1202,4.111,12.0819Q4.0537,12.0436,4.005,11.9949Q3.9562,11.9461,3.9179,11.8888Q3.8796,11.8315,3.8533,11.7678Q3.8269,11.7041,3.8134,11.6365Q3.8,11.5689,3.8,11.5Q3.8,11.3608,3.8532,11.2322Q3.9065,11.1036,4.0049,11.0052L4.0048,11.0051L6.0095,9L4.0048,6.9949L4.0049,6.9948Z" fill-rule="evenodd" fill="#1E1C1A"/></g></svg>
+            </button>
+          </div>
+        </div>
+        <div class="video-body">
+          <div class="video-stage">
+            <div class="vplayer" id="vplayer">
+              <img id="videoCover" src="./assets/detail/video-cover-hi.jpg" alt="视频封面" />
+              <div class="vbar">
+                <span class="vtime" id="vTimeCur">00:05</span>
+                <div class="vtrack" id="vTrack"><span class="vfill" id="vFill"></span><span class="vknob" id="vKnob"></span></div>
+                <span class="vtime" id="vTimeDur">00:12</span>
+                <button class="vexpand" type="button" aria-label="全屏"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9.8 2h4.2v4.2M13.7 2.3 9.5 6.5M6.2 14H2V9.8M2.3 13.7 6.5 9.5"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <aside class="dtl-panel">
+            <div class="pnl-stack">
+              <section class="pnl-sec">
+                <button class="pnl-head" type="button" aria-expanded="true"><i></i>内容简介</button>
+                <div class="pnl-body">
+                  <dl class="kv"><dt>目录分类</dt><dd data-v-kv="cat">门店设计篇 / 新店设计标准 / 初尺、复尺标准</dd></dl>
+                  <dl class="kv"><dt>学习状态</dt><dd data-v-kv="state"><span class="learn-state"><svg viewBox="0 0 16 16" fill="none" stroke="#0073FF" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="5.6" stroke="#CFE5FF"/><path d="M8 2.4a5.6 5.6 0 0 1 5.6 5.6"/></svg>学习中 30%</span></dd></dl>
+                  <dl class="kv"><dt>完成记录</dt><dd>完播后自动写入播放记录回传工程中心</dd></dl>
+                  <dl class="kv"><dt>下载权限</dt><dd>仅申请下载</dd></dl>
+                  <dl class="kv"><dt>可见范围</dt><dd>授权施工方</dd></dl>
+                  <dl class="kv"><dt>标签分类</dt><dd class="dtags" data-v-kv="tags"><span class="dtag">赵一鸣3.0版本</span><span class="dtag">标准版</span><span class="dtag">广告安装节点</span></dd></dl>
+                </div>
+              </section>
+              <section class="pnl-sec">
+                <button class="pnl-head" type="button" aria-expanded="true"><i></i>配套视频</button>
+                <div class="pnl-body vref-list" data-v-list="pei">
+                  <button class="vref" type="button" data-open-video>
+                    <span class="vref-thumb"><img src="./assets/detail/vthumb-1.jpg" alt="" /><span class="vref-play"><svg viewBox="0 0 6.04 7.54"><path d="M5.696 3.122c.217.144.347.387.347.647s-.13.503-.347.647L1.209 7.407a.7.7 0 0 1-.798-.65V.778c0-.287.158-.55.411-.686s.56-.12.798.039z"/></svg></span></span>
+                    <span class="vref-body"><span class="vref-title-row"><span class="vref-title">开业物料验收流程培训</span><span class="dtag is-ver">V2.0</span></span><span class="vref-time">22:10</span></span>
+                  </button>
+                  <button class="vref" type="button" data-open-video>
+                    <span class="vref-thumb"><img src="./assets/detail/vthumb-2.jpg" alt="" /><span class="vref-play"><svg viewBox="0 0 6.04 7.54"><path d="M5.696 3.122c.217.144.347.387.347.647s-.13.503-.347.647L1.209 7.407a.7.7 0 0 1-.798-.65V.778c0-.287.158-.55.411-.686s.56-.12.798.039z"/></svg></span></span>
+                    <span class="vref-body"><span class="vref-title-row"><span class="vref-title">隐蔽工程验收标准解读</span><span class="dtag is-ver">V2.0</span></span><span class="vref-time">22:10</span></span>
+                  </button>
+                </div>
+              </section>
+              <section class="pnl-sec">
+                <button class="pnl-head" type="button" aria-expanded="true"><i></i>相关视频</button>
+                <div class="pnl-body vref-list" data-v-list="rel">
+                  <button class="vref" type="button" data-open-video>
+                    <span class="vref-thumb"><img src="./assets/detail/vthumb-1.jpg" alt="" /><span class="vref-play"><svg viewBox="0 0 6.04 7.54"><path d="M5.696 3.122c.217.144.347.387.347.647s-.13.503-.347.647L1.209 7.407a.7.7 0 0 1-.798-.65V.778c0-.287.158-.55.411-.686s.56-.12.798.039z"/></svg></span></span>
+                    <span class="vref-body"><span class="vref-title-row"><span class="vref-title">室内天花造型施工标准图集</span><span class="dtag is-ver">V2.0</span></span><span class="vref-time">22:10</span></span>
+                  </button>
+                  <button class="vref" type="button" data-open-video>
+                    <span class="vref-thumb"><img src="./assets/detail/vthumb-2.jpg" alt="" /><span class="vref-play"><svg viewBox="0 0 6.04 7.54"><path d="M5.696 3.122c.217.144.347.387.347.647s-.13.503-.347.647L1.209 7.407a.7.7 0 0 1-.798-.65V.778c0-.287.158-.55.411-.686s.56-.12.798.039z"/></svg></span></span>
+                    <span class="vref-body"><span class="vref-title-row"><span class="vref-title">隐蔽工程验收标准解读</span><span class="dtag is-ver">V2.0</span></span><span class="vref-time">22:10</span></span>
+                  </button>
+                </div>
+              </section>
+            </div>
+          </aside>
+        </div>
+      </section>
     </main>
   </div>
 </div>
@@ -1448,10 +1744,13 @@
       home:      { title: '工程知识库', dot: '#00B87A', closable: true },
       materials: { title: '资料中心',   dot: '#00B87A', closable: true },
       videos:    { title: '视频学堂',   dot: '#00B87A', closable: true },
-      learning:  { title: '我的学习',   dot: '#00B87A', closable: true }
+      learning:  { title: '我的学习',   dot: '#00B87A', closable: true },
+      file:      { title: '文件预览',   dot: '#00B87A', closable: true },
+      video:     { title: '视频预览',   dot: '#00B87A', closable: true }
     };
     var order = ['home'];
     var active = 'home';
+    var lastList = 'home';
 
     function notchPath(w) {
       var r = Math.max(8, Math.min(40, w / 2 - 4));
@@ -1505,6 +1804,9 @@
       document.querySelectorAll('.content > .view').forEach(function (v) {
         v.classList.toggle('active', v.id === 'view-' + id);
       });
+      if (id !== 'video') stopVideo();
+      document.documentElement.classList.toggle('dtl-open', isDetail(id));
+      document.body.classList.toggle('dtl-open', isDetail(id));
       content.scrollTop = 0;
       syncDock();
       renderTabs();
@@ -1643,6 +1945,350 @@
         if (!t) return;
         nav.querySelectorAll('.ltab.sel').forEach(function (n) { n.classList.remove('sel'); });
         t.classList.add('sel');
+      });
+    });
+
+    // ---------- 详情页：文件预览 / 视频预览 ----------
+    var fileTitleEl = document.querySelector('[data-file-title]');
+    var videoTitleEl = document.querySelector('[data-video-title]');
+    var videoMetaEl = document.querySelector('[data-video-meta]');
+    var filePage = document.getElementById('filePage');
+    var zoomVal = document.getElementById('zoomVal');
+    var pages = ['./assets/detail/file-page-1.jpg', './assets/detail/file-page-2.png', './assets/detail/file-page-3.png'];
+    var zoom = 100;
+
+    function isDetail(id) { return id === 'file' || id === 'video'; }
+
+    function openDetail(kind, data) {
+      data = data || {};
+      if (!isDetail(active)) lastList = active;
+      if (kind === 'file') {
+        if (data.title) fileTitleEl.textContent = data.title;
+        TABS.file.title = data.title || '文件预览';
+      } else {
+        if (data.title) videoTitleEl.textContent = data.title;
+        if (data.meta) videoMetaEl.textContent = data.meta;
+        if (data.cover) vCover.src = data.cover;
+        var verEl = document.querySelector('#view-video [data-v-ver]');
+        if (verEl) verEl.textContent = data.ver || 'V2.0';
+        renderVideoPanel(videoTitleEl.textContent.trim());
+        TABS.video.title = data.title || '视频预览';
+        resetVideo();
+      }
+      openTab(kind);
+      var pnl = document.querySelector('#view-' + kind + ' .dtl-panel');
+      if (pnl) pnl.scrollTop = 0;
+    }
+
+    function leaveDetail() {
+      var target = (lastList && TABS[lastList] && !isDetail(lastList)) ? lastList : 'home';
+      var cur = active;
+      var i = order.indexOf(cur);
+      if (i > -1) order.splice(i, 1);
+      if (target === cur) target = 'home';
+      openTab(target);
+    }
+
+    // 收藏 / 申请下载（两页共用状态）
+    var toastEl = document.createElement('div');
+    toastEl.className = 'toast';
+    toastEl.setAttribute('role', 'status');
+    toastEl.setAttribute('aria-live', 'polite');
+    document.body.appendChild(toastEl);
+    var toastTimer = null;
+    function toast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 1600);
+    }
+    var favOn = false;
+    document.querySelectorAll('[data-fav]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        favOn = !favOn;
+        document.querySelectorAll('[data-fav]').forEach(function (b) {
+          b.setAttribute('aria-pressed', favOn ? 'true' : 'false');
+        });
+        toast(favOn ? '已收藏' : '已取消收藏');
+      });
+    });
+    document.querySelectorAll('[data-apply]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (btn.classList.contains('is-applied')) return;
+        btn.classList.add('is-applied');
+        btn.textContent = '已申请下载';
+      });
+    });
+    document.querySelectorAll('[data-back]').forEach(function (btn) {
+      btn.addEventListener('click', leaveDetail);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && isDetail(active)) leaveDetail();
+    });
+
+    // 文件预览：缩略图翻页 + 缩放
+    function setZoom(z) {
+      zoom = Math.max(50, Math.min(200, z));
+      zoomVal.textContent = zoom + '%';
+      filePage.style.transform = 'scale(' + (zoom / 100) + ')';
+    }
+    document.querySelectorAll('.thumb').forEach(function (t) {
+      t.addEventListener('click', function () {
+        document.querySelectorAll('.thumb.sel').forEach(function (n) { n.classList.remove('sel'); });
+        t.classList.add('sel');
+        filePage.src = pages[Number(t.dataset.page)] || pages[0];
+        setZoom(100);
+      });
+    });
+    document.querySelectorAll('[data-zoom]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        setZoom(zoom + 10 * Number(btn.dataset.zoom));
+      });
+    });
+
+    // 右侧分区折叠
+    document.querySelectorAll('.pnl-head').forEach(function (head) {
+      head.addEventListener('click', function () {
+        var sec = head.closest('.pnl-sec');
+        var collapsed = sec.classList.toggle('collapsed');
+        head.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      });
+    });
+
+    // 视频预览：播放 / 暂停 / 进度 / 全屏
+    var vplayer = document.getElementById('vplayer');
+    var vCover = document.getElementById('videoCover');
+    var vFill = document.getElementById('vFill');
+    var vKnob = document.getElementById('vKnob');
+    var vTrack = document.getElementById('vTrack');
+    var vTimeCur = document.getElementById('vTimeCur');
+    var vTimeDur = document.getElementById('vTimeDur');
+    var vCur = 5, vDur = 12, vPlaying = false, vTimer = null;
+
+    function fmtTime(t) {
+      var s = Math.floor(t);
+      return ('0' + Math.floor(s / 60)).slice(-2) + ':' + ('0' + (s % 60)).slice(-2);
+    }
+    function paintVideo() {
+      var pct = vDur ? Math.min(100, (vCur / vDur) * 100) : 0;
+      vFill.style.width = pct + '%';
+      vKnob.style.left = pct + '%';
+      vTimeCur.textContent = fmtTime(vCur);
+    }
+    function stopVideo() {
+      if (!vPlaying) return;
+      vPlaying = false;
+      if (vTimer) { clearInterval(vTimer); vTimer = null; }
+      vplayer && vplayer.classList.remove('is-playing');
+    }
+    function resetVideo() {
+      stopVideo();
+      vCur = 5; vDur = 12;
+      vTimeDur.textContent = fmtTime(vDur);
+      paintVideo();
+    }
+    function playVideo() {
+      if (vPlaying) return;
+      if (vCur >= vDur) vCur = 0;
+      vPlaying = true;
+      if (vTimer) clearInterval(vTimer);
+      vTimer = setInterval(function () {
+        vCur = Math.min(vDur, vCur + 0.1);
+        paintVideo();
+        if (vCur >= vDur) stopVideo();
+      }, 100);
+    }
+    function toggleVideo() {
+      if (vPlaying) stopVideo(); else playVideo();
+    }
+    vplayer.addEventListener('click', function (e) {
+      if (e.target.closest('.vbar')) return;
+      toggleVideo();
+    });
+    vTrack.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var r = vTrack.getBoundingClientRect();
+      vCur = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * vDur;
+      paintVideo();
+    });
+    document.querySelector('.vexpand').addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (document.fullscreenElement) { document.exitFullscreen(); return; }
+      if (vplayer.requestFullscreen) vplayer.requestFullscreen();
+    });
+    resetVideo();
+
+    // ---------- 详情页入口 ----------
+    document.querySelectorAll('.doc').forEach(function (row) {
+      row.addEventListener('click', function () {
+        var title = row.querySelector('.doc-title');
+        openDetail('file', { title: title ? title.textContent.trim() : '' });
+      });
+    });
+    // 视频标题 → 干净封面（不带播放按钮/角标/时长的底图）
+    var videoCovers = {
+      '室内天花造型施工工艺演示': './assets/detail/cover-ceiling-hi.jpg',
+      '初尺、复尺标准操作演示': './assets/detail/cover-stairs-hi.jpg',
+      '隐蔽工程验收标准解读': './assets/detail/cover-blue-hi.jpg',
+      '沿海大风区域招牌加固演示': './assets/detail/cover-fins-hi.jpg',
+      '开业物料验收流程培训': './assets/detail/cover-fins-hi.jpg',
+      '室内天花造型施工标准图集': './assets/detail/cover-ceiling-hi.jpg'
+    };
+    function coverFor(title) {
+      if (videoCovers[title]) return videoCovers[title];
+      var k;
+      for (k in videoCovers) {
+        if (title && (title.indexOf(k) > -1 || k.indexOf(title) > -1)) return videoCovers[k];
+      }
+      return './assets/detail/video-cover-hi.jpg';
+    }
+    // 视频 → 右侧信息面板数据（示例口径，按目录归属拆分）
+    var videoInfo = {
+      '室内天花造型施工工艺演示': {
+        cat: '门店施工篇 / 装修工艺 / 天花造型', pct: 65,
+        tags: ['赵一鸣3.0版本', '标准版', '天花饰面'], dur: '06:15',
+        pei: ['室内天花造型施工标准图集', '初尺、复尺标准操作演示'],
+        rel: ['隐蔽工程验收标准解读', '沿海大风区域招牌加固演示']
+      },
+      '初尺、复尺标准操作演示': {
+        cat: '门店设计篇 / 新店设计标准 / 初尺、复尺标准', pct: 0,
+        tags: ['赵一鸣3.0版本', '标准版', '量尺复核'], dur: '06:15',
+        pei: ['室内天花造型施工工艺演示', '室内天花造型施工标准图集'],
+        rel: ['隐蔽工程验收标准解读', '开业物料验收流程培训']
+      },
+      '隐蔽工程验收标准解读': {
+        cat: '门店施工篇 / 隐蔽工程 / 水电节点', pct: 30,
+        tags: ['赵一鸣3.0版本', '标准版', '水电节点'], dur: '22:10',
+        pei: ['沿海大风区域招牌加固演示', '初尺、复尺标准操作演示'],
+        rel: ['室内天花造型施工工艺演示', '室内天花造型施工标准图集']
+      },
+      '沿海大风区域招牌加固演示': {
+        cat: '门店设计篇 / 新店设计标准 / 初尺、复尺标准', pct: 30,
+        tags: ['赵一鸣3.0版本', '标准版', '广告安装节点'], dur: '06:15',
+        pei: ['开业物料验收流程培训', '隐蔽工程验收标准解读'],
+        rel: ['室内天花造型施工标准图集', '隐蔽工程验收标准解读']
+      },
+      '开业物料验收流程培训': {
+        cat: '门店运营篇 / 开业准备 / 物料验收', pct: 0,
+        tags: ['赵一鸣3.0版本', '标准版', '开业验收'], dur: '22:10',
+        pei: ['隐蔽工程验收标准解读', '沿海大风区域招牌加固演示'],
+        rel: ['室内天花造型施工工艺演示', '初尺、复尺标准操作演示']
+      },
+      '室内天花造型施工标准图集': {
+        cat: '门店施工篇 / 装修工艺 / 天花造型', pct: 0,
+        tags: ['赵一鸣3.0版本', '标准版', '天花饰面'], dur: '22:10',
+        pei: ['室内天花造型施工工艺演示', '初尺、复尺标准操作演示'],
+        rel: ['隐蔽工程验收标准解读', '沿海大风区域招牌加固演示']
+      }
+    };
+    var vrefThumbs = {
+      '开业物料验收流程培训': './assets/detail/vthumb-1.jpg',
+      '隐蔽工程验收标准解读': './assets/detail/vthumb-2.jpg',
+      '室内天花造型施工标准图集': './assets/detail/vthumb-1.jpg'
+    };
+    var vrefPlaySVG = '<span class="vref-play"><svg viewBox="0 0 6.04 7.54"><path d="M5.696 3.122c.217.144.347.387.347.647s-.13.503-.347.647L1.209 7.407a.7.7 0 0 1-.798-.65V.778c0-.287.158-.55.411-.686s.56-.12.798.039z"/></svg></span>';
+    var learnSVG = '<svg viewBox="0 0 16 16" fill="none" stroke="#0073FF" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="5.6" stroke="#CFE5FF"/><path d="M8 2.4a5.6 5.6 0 0 1 5.6 5.6"/></svg>';
+    function vrefRowHTML(title) {
+      var info = videoInfo[title];
+      var thumb = vrefThumbs[title] || coverFor(title);
+      return '<button class="vref" type="button" data-open-video>' +
+        '<span class="vref-thumb"><img src="' + thumb + '" alt="" />' + vrefPlaySVG + '</span>' +
+        '<span class="vref-body"><span class="vref-title-row"><span class="vref-title">' + title +
+        '</span><span class="dtag is-ver">V2.0</span></span><span class="vref-time">' +
+        (info ? info.dur : '22:10') + '</span></span></button>';
+    }
+    function renderVideoPanel(title) {
+      var info = videoInfo[title];
+      var panel = document.querySelector('#view-video .dtl-panel');
+      if (!info || !panel) return;
+      var cat = panel.querySelector('[data-v-kv="cat"]');
+      var state = panel.querySelector('[data-v-kv="state"]');
+      var tags = panel.querySelector('[data-v-kv="tags"]');
+      if (cat) cat.textContent = info.cat;
+      if (state) {
+        state.innerHTML = info.pct > 0
+          ? '<span class="learn-state">' + learnSVG + '学习中 ' + info.pct + '%</span>'
+          : '未开始';
+      }
+      if (tags) {
+        tags.innerHTML = info.tags.map(function (t) {
+          return '<span class="dtag">' + t + '</span>';
+        }).join('');
+      }
+      [['pei', info.pei], ['rel', info.rel]].forEach(function (pair) {
+        var box = panel.querySelector('[data-v-list="' + pair[0] + '"]');
+        if (!box) return;
+        box.innerHTML = pair[1].filter(function (t) {
+          return t !== title;
+        }).map(vrefRowHTML).join('');
+      });
+    }
+    function videoDataFrom(card) {
+      var titleEl = card.querySelector('.vtitle2, .l-title');
+      var img = card.querySelector('.vthumb img, .lcover img');
+      var dur = card.querySelector('.vdur, .l-dur');
+      var title = titleEl ? titleEl.textContent.trim() : '';
+      var data = { title: title, cover: coverFor(title) };
+      if (img && !videoCovers[title]) data.cover = img.getAttribute('src');
+      if (dur) data.meta = '时长 ' + dur.textContent.trim() + ' · 播放 1,283 次 · 完播率 58%';
+      return data;
+    }
+    document.querySelectorAll('.vcard2, .lrec').forEach(function (card) {
+      card.addEventListener('click', function () { openDetail('video', videoDataFrom(card)); });
+    });
+    // 首页「继续学习」卡片：直达视频详情
+    var contCard = document.querySelector('.continue-card');
+    if (contCard) {
+      contCard.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var t = contCard.querySelector('.c-title');
+        var v = contCard.querySelector('.c-title-row .tag');
+        var title = t ? t.textContent.trim() : '沿海大风区域招牌加固演示';
+        openDetail('video', {
+          title: title,
+          ver: v ? v.textContent.trim() : '',
+          cover: './assets/cover-continue-clean.jpg',
+          meta: '时长 06:15 · 播放 1,283 次 · 完播率 58%'
+        });
+      });
+    }
+    // 首页热门视频 / 最新资料：直达详情
+    var cleanCovers = videoCovers;
+    document.querySelectorAll('.video-grid .vcard').forEach(function (card) {
+      card.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var t = card.querySelector('.v-title');
+        var title = t ? t.textContent.trim() : '';
+        openDetail('video', {
+          title: title,
+          cover: cleanCovers[title] || '',
+          meta: '时长 06:15 · 播放 1,283 次 · 完播率 58%'
+        });
+      });
+    });
+    document.querySelectorAll('.mat-row').forEach(function (row) {
+      row.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var t = row.querySelector('.mat-title');
+        openDetail('file', { title: t ? t.textContent.trim() : '' });
+      });
+    });
+    // 配套视频 / 相关视频：列表会被动态重绘，用事件委托
+    document.addEventListener('click', function (e) {
+      var row = e.target.closest ? e.target.closest('[data-open-video]') : null;
+      if (!row) return;
+      e.preventDefault();
+      e.stopPropagation();
+      var t = row.querySelector('.vref-title');
+      var time = row.querySelector('.vref-time');
+      var title = t ? t.textContent.trim() : '';
+      openDetail('video', {
+        title: title,
+        cover: coverFor(title),
+        meta: '时长 ' + (time ? time.textContent.trim() : '22:10') + ' · 播放 615 次 · 完播率 58%'
       });
     });
 
