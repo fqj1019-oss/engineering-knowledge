@@ -863,8 +863,8 @@
 
   /* 视频预览主体 */
   .video-body { flex: 1; min-height: 0; display: flex; align-items: stretch; background: #F7F5F3; }
-  .video-stage { flex: 1; min-width: 0; display: flex; padding: 24px 0; overflow: auto; }
-  .vplayer { position: relative; width: 100%; max-width: none; margin: auto; flex: none; aspect-ratio: 16 / 9; background: #000000; box-shadow: 0 2px 5px rgba(0,0,0,.1); cursor: pointer; }
+  .video-stage { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; padding: 0; overflow: hidden; }
+  .vplayer { position: relative; width: 100%; max-width: none; margin: 0; flex: none; aspect-ratio: 16 / 9; background: #000000; box-shadow: 0 2px 5px rgba(0,0,0,.1); cursor: pointer; }
   .vplayer > img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .vbar {
     position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
@@ -884,15 +884,17 @@
   /* 详情入口可点击 */
   .doc, .vcard2, .lrec { cursor: pointer; }
 
-  /* 轻提示 */
+  /* 轻提示（全局提示 321:059799） */
   .toast {
-    position: fixed; left: 50%; bottom: 56px; z-index: 1000;
-    padding: 8px 16px; border-radius: 6px;
-    background: rgba(30, 28, 26, .9); color: #FFFFFF;
-    font-size: 14px; line-height: 22px;
-    opacity: 0; transform: translate(-50%, 8px); pointer-events: none;
+    position: fixed; left: 50%; top: 80px; z-index: 1000;
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 16px; border-radius: 6px;
+    background: #FFFFFF; box-shadow: 0 8px 20px rgba(0, 0, 0, .1);
+    color: #1E1C1A; font-size: 14px; line-height: 22px;
+    opacity: 0; transform: translate(-50%, -8px); pointer-events: none;
     transition: opacity .2s ease, transform .2s ease;
   }
+  .toast svg { width: 16px; height: 16px; flex: none; display: block; }
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
 </style>
 <style id="site-design-tokens">
@@ -1810,6 +1812,7 @@
       content.scrollTop = 0;
       syncDock();
       renderTabs();
+      if (id === 'video') fitVideo();
     }
 
     function closeTab(id) {
@@ -1994,10 +1997,12 @@
     toastEl.className = 'toast';
     toastEl.setAttribute('role', 'status');
     toastEl.setAttribute('aria-live', 'polite');
+    toastEl.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="#16B364"/><path d="M4.7 8.35l2.15 2.15 4.45-4.5" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span></span>';
     document.body.appendChild(toastEl);
+    var toastText = toastEl.querySelector('span');
     var toastTimer = null;
     function toast(msg) {
-      toastEl.textContent = msg;
+      toastText.textContent = msg;
       toastEl.classList.add('show');
       clearTimeout(toastTimer);
       toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 1600);
@@ -2087,6 +2092,17 @@
       vTimeDur.textContent = fmtTime(vDur);
       paintVideo();
     }
+    // 视频按可用区域等比缩放：不出现滚动条，进度条始终贴播放器底部
+    function fitVideo() {
+      var stage = document.querySelector('#view-video .video-stage');
+      if (!stage || !vplayer) return;
+      var w = stage.clientWidth;
+      var h = stage.clientHeight;
+      if (w <= 0 || h <= 0) return;
+      var pw = Math.floor(Math.min(w, h * 16 / 9));
+      vplayer.style.width = pw + 'px';
+      vplayer.style.height = Math.floor(pw * 9 / 16) + 'px';
+    }
     function playVideo() {
       if (vPlaying) return;
       if (vCur >= vDur) vCur = 0;
@@ -2105,6 +2121,10 @@
       if (e.target.closest('.vbar')) return;
       toggleVideo();
     });
+    if (window.ResizeObserver) {
+      var vStage = document.querySelector('#view-video .video-stage');
+      if (vStage) new ResizeObserver(function () { fitVideo(); }).observe(vStage);
+    }
     vTrack.addEventListener('click', function (e) {
       e.stopPropagation();
       var r = vTrack.getBoundingClientRect();
@@ -2300,7 +2320,7 @@
       var id = location.hash.slice(1);
       if (id && TABS[id]) openTab(id);
     });
-    window.addEventListener('resize', paintNotch);
+    window.addEventListener('resize', function () { paintNotch(); fitVideo(); });
   })();
 </script>
 </body>
