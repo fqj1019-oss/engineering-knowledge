@@ -963,7 +963,7 @@
   .content:has(> .view-admin.active) { background: #FFFFFF; padding-bottom: 0; }
   .view-admin { padding: 20px 0 24px; }
   .admin-wrap { width: 100%; padding: 0 24px; box-sizing: border-box; margin: 0; display: flex; flex-direction: column; gap: 16px; }
-  .admin-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0 0; }
+  .admin-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0; }
   .admin-title { font-size: 16px; line-height: 24px; font-weight: 600; color: #1E1C1A; }
   .admin-hint { font-size: 13px; line-height: 20px; color: #8D8785; }
   .a-card { background: #FFFFFF; border: 0; border-radius: 0; box-shadow: none; }
@@ -1178,7 +1178,9 @@
   .cat-icon-tools .tip { font-size: 12px; line-height: 18px; color: #A8ABB2; max-width: 720px; }
   .a-field-row { display: flex; gap: 24px; }
   .a-field-row[hidden] { display: none; }
-  .a-field { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 7px; }
+  .a-field-row > .a-field { flex: 1; }
+  /* 字段不纵向拉伸：独立字段（如内容类型）按内容收高，保存按钮紧跟表单内容 */
+  .a-field { min-width: 0; display: flex; flex-direction: column; gap: 7px; }
   .a-label { font-size: 13px; line-height: 19px; font-weight: 500; color: #5C5450; }
   .a-input-wrap { position: relative; }
   .a-input-wrap .counter { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); font-size: 13px; color: #A8ABB2; }
@@ -1191,7 +1193,7 @@
   .type-t { font-size: 14px; line-height: 20px; font-weight: 500; color: #1E1C1A; }
   .type-d { font-size: 12px; line-height: 18px; color: #8D8785; margin-top: 2px; }
   .a-note { font-size: 12px; line-height: 18px; color: #8D8785; }
-  .a-recent { display: flex; flex-direction: column; padding-top: 0; border-top: 1px solid #F0F0F0; }
+  .a-recent { display: flex; flex-direction: column; padding-top: 0; border-top: 1px solid #F0F0F0; margin-top: auto; }
   .a-recent-title { font-size: 14px; line-height: 20px; font-weight: 600; color: #1E1C1A; padding: 20px 0 6px; }
   .a-recent-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F0F0F0; font-size: 14px; }
   .a-recent-item:last-child { border-bottom: 0; }
@@ -1200,7 +1202,6 @@
   .a-recent-item .a-tag { background: #EEF4FF; color: #2F80ED; }
   .a-recent-item .ver { display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 4px; background: #F0EFEC; color: #5C5450; }
   .a-recent-item .ver, .a-recent-item .d { font-size: 12px; flex: none; }
-  .a-field > .admin-hint { font-size: 14px; line-height: 20px; color: #1E1C1A; }
 
   /* 标签管理 */
   .tag-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
