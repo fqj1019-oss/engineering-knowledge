@@ -936,6 +936,307 @@
   .lrec .btn-primary, .lrec .btn-line { padding: 0 16px; border-radius: 6px; }
   .lrec .btn-line { border-color: #DDDDDC; padding: 0 15px; }
 
+  /* 我的学习：Tab 面板 */
+  .lpanel { display: flex; flex-direction: column; gap: 0; }
+  .lpanel[hidden] { display: none; }
+  .lpanel > .doc:first-child { padding-top: 0; }
+  .lpanel > .doc:last-child { padding-bottom: 0; }
+  .lpanel .doc-date { width: auto; min-width: 96px; }
+  .doc[hidden], .vcard2[hidden], .lrec[hidden], .req-row[hidden] { display: none; }
+
+  /* 行/卡片 hover 与概览、最新资料保持一致 */
+  .lrec { transition: background .16s ease; }
+  .lrec:hover { background: #F9F9F9; }
+  .lrec:hover .l-title { color: #0073FF; }
+  .l-title { transition: color .16s ease; }
+  .vtitle2 { transition: color .16s ease; }
+  .vcard2:hover { border-color: #CFE5FF; }
+  .vcard2:hover .vtitle2 { color: #0073FF; }
+  .vplay { opacity: 0; transition: opacity .16s ease; }
+  .vcard2:hover .vplay, .vcard2:focus-visible .vplay { opacity: 1; }
+  .req-row { border-radius: 8px; padding: 12px 8px; margin: 0 -8px; transition: background .16s ease; }
+  .req-row:hover { background: #F9F9F9; }
+  .req-row .btn-ghost { margin-left: 4px; }
+
+  /* ===== 管理页：分类 / 资料与视频 / 标签 / 下载审批 / 已读记录 / 操作记录 ===== */
+  /* 系统页：白底铺满，无投影无圆角；分栏用 1px 分割线 */
+  .content:has(> .view-admin.active) { background: #FFFFFF; padding-bottom: 0; }
+  .view-admin { padding: 20px 0 24px; }
+  .admin-wrap { width: 100%; padding: 0 24px; box-sizing: border-box; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+  .admin-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0 0; }
+  .admin-title { font-size: 16px; line-height: 24px; font-weight: 600; color: #1E1C1A; }
+  .admin-hint { font-size: 13px; line-height: 20px; color: #8D8785; }
+  .a-card { background: #FFFFFF; border: 0; border-radius: 0; box-shadow: none; }
+  .a-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 16px 20px; }
+  .a-input {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 32px; padding: 0 11px; border: 1px solid #E5E6EB; border-radius: 6px;
+    background: #FFFFFF; font-size: 14px; color: #1E1C1A;
+  }
+  .a-input input { border: 0; outline: 0; background: transparent; font: inherit; color: #303133; width: 100%; }
+  .a-input input::placeholder { color: #A8ABB2; }
+  .a-input svg { width: 14px; height: 14px; color: #A8ABB2; flex: none; }
+  .a-input.grow { flex: 1; min-width: 200px; max-width: 320px; }
+  .a-input.disabled { background: #F5F7FA; border-color: #E5E6EB; color: #A8ABB2; }
+  .a-select {
+    position: relative; display: inline-flex; align-items: center; gap: 6px;
+    height: 32px; padding: 0 28px 0 11px; border: 1px solid #E5E6EB; border-radius: 6px;
+    background: #FFFFFF; font-size: 14px; color: #1E1C1A; cursor: pointer; white-space: nowrap;
+  }
+  .a-select::after {
+    content: ""; position: absolute; right: 11px; top: 50%; width: 6px; height: 6px;
+    margin-top: -4px; border-right: 1.4px solid #8D8785; border-bottom: 1.4px solid #8D8785;
+    transform: rotate(45deg);
+  }
+  .a-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 32px; padding: 0 15px; border: 1px solid #E5E6EB; border-radius: 6px;
+    background: #FFFFFF; font-family: inherit; font-size: 14px; color: #1E1C1A;
+    cursor: pointer; white-space: nowrap;
+    transition: background .16s ease, border-color .16s ease, color .16s ease;
+  }
+  .a-btn:hover { border-color: #CAE1FF; color: #0073FF; }
+  .a-btn.primary { background: #0073FF; border-color: #0073FF; color: #FFFFFF; }
+  .a-btn.primary:hover { background: #0A63D6; border-color: #0A63D6; color: #FFFFFF; }
+  /* 描边按钮：对标设计源 btn 容器（1px 描边 / 圆角 6 / 上下 5 左右 16 / gap 4 / 图标 16 / 文字 14-22），主题蓝版本 */
+  .a-btn.outline { height: auto; gap: 4px; padding: 5px 16px; border: 1px solid #0073FF; border-radius: 6px; background: #FFFFFF; color: #0073FF; line-height: 22px; }
+  .a-btn.outline svg { width: 16px; height: 16px; }
+  .a-btn.outline:hover { border-color: #0A63D6; color: #0A63D6; background: #F5F9FF; }
+  .a-btn.link { height: auto; padding: 0; border: 0; background: none; color: #0073FF; }
+  .a-btn.link:hover { color: #0A63D6; }
+  .a-btn.link.danger { color: #E5484D; }
+  .a-btn svg { width: 14px; height: 14px; flex: none; }
+  .a-ops { display: flex; align-items: center; gap: 12px; padding: 0 20px 12px; }
+  .a-ops .spacer { flex: 1; }
+  .a-seg { display: inline-flex; align-items: center; gap: 4px; padding: 3px; background: #F7F5F3; border-radius: 8px; }
+  .a-seg span { height: 28px; padding: 0 12px; display: inline-flex; align-items: center; border-radius: 6px; font-size: 13px; color: #5F6673; cursor: pointer; white-space: nowrap; }
+  .a-seg span.on { background: #FFFFFF; color: #0073FF; box-shadow: 0 1px 2px rgba(30,28,26,.06); }
+
+  .a-table-wrap { overflow-x: auto; border-radius: 0; }
+  #manageTable { min-width: 1240px; }
+  #manageTable td { white-space: nowrap; }
+  #manageTable td:nth-child(2) { min-width: 240px; white-space: normal; }
+  #manageTable td:nth-child(3) { white-space: normal; min-width: 160px; }
+  #approveTable { min-width: 1180px; }
+  #oplogTable { min-width: 1080px; }
+  .a-main-col .a-table-wrap { min-height: 0; }
+  .a-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .a-table th {
+    text-align: left; font-weight: 400; font-size: 13px; line-height: 20px; color: #8D8785;
+    padding: 11px 10px; background: #FAFAFA; border-bottom: 1px solid #EBEEF5; white-space: nowrap;
+  }
+  .a-table td { padding: 13px 10px; border-bottom: 1px solid #EBEEF5; color: #1E1C1A; vertical-align: middle; line-height: 20px; }
+  .a-table tbody tr { transition: background .16s ease; }
+  .a-table tbody tr:hover { background: #F7F9FC; }
+  .a-table tbody tr:last-child td { border-bottom: 0; }
+  .a-table th:last-child, .a-table td:last-child {
+    position: sticky; right: 0; background: #FFFFFF;
+    box-shadow: -8px 0 8px -8px rgba(0,0,0,.12);
+  }
+  .a-table thead th:last-child { background: #FAFAFA; }
+  .a-table tbody tr:hover td:last-child { background: #F7F9FC; }
+  .a-table td .a-bar + .a-cell-sub { white-space: nowrap; }
+  .a-cell-main { font-size: 14px; line-height: 20px; font-weight: 500; color: #1E1C1A; }
+  .a-cell-sub { font-size: 12px; line-height: 18px; color: #8D8785; }
+  .a-link { color: #0073FF; cursor: pointer; }
+  .a-muted { color: #BDBBB9; }
+  .a-tag { display: inline-flex; align-items: center; height: 20px; padding: 0 6px; border-radius: 4px; font-size: 12px; background: #F7F5F3; color: #5F6673; white-space: nowrap; }
+  .a-tag.pdf { background: #FFF2E8; color: #FF7300; }
+  .a-tag.video { background: rgba(0,115,255,.08); color: #0073FF; }
+  .a-tag.img { background: #EAF8F0; color: #16B364; }
+  .a-bar { display: inline-block; width: 60px; height: 4px; border-radius: 2px; background: #EAF3FF; margin-right: 8px; vertical-align: middle; overflow: hidden; }
+  .a-bar i { display: block; height: 100%; border-radius: 2px; background: #0073FF; }
+  .a-status { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: #5F6673; white-space: nowrap; }
+  .a-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #BDBBB9; flex: none; }
+  .a-status.ok::before { background: #16B364; }
+  .a-status.warn::before { background: #FF7300; }
+  .a-pager { display: flex; align-items: center; justify-content: flex-end; gap: 12px; padding: 14px 20px; font-size: 12px; color: #8D8785; }
+  .a-pager .pg { display: flex; gap: 4px; }
+  .a-pager .pg span { min-width: 24px; height: 24px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; cursor: pointer; }
+  .a-pager .pg span:hover { color: #0073FF; }
+  .a-pager .pg span.on { background: rgba(0,115,255,.1); color: #0073FF; }
+
+  .a-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .a-stat { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; background: #FFFFFF; border: 1px solid #F1EFEC; border-radius: 8px; box-shadow: none; padding: 16px 20px; }
+  .a-stat .k { font-size: 14px; line-height: 20px; color: #5C5450; }
+  .a-stat .v { font-size: 24px; line-height: 32px; font-weight: 600; color: #1E1C1A; margin-top: 4px; }
+  .a-stat .sub { font-size: 12px; line-height: 18px; color: #8D8785; margin-top: 2px; }
+  .a-stat .ic { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; }
+  .a-stat .ic svg { width: 18px; height: 18px; }
+  .a-stat .ic.orange { background: #FFF4E8; color: #FF7300; }
+  .a-stat .ic.purple { background: #F3EEFF; color: #7B61FF; }
+  .a-stat .ic.green { background: #EAF8F0; color: #16B364; }
+  .a-stat .ic.red { background: #FFEDEC; color: #E5484D; }
+  .a-stat .ic.blue { background: #EAF3FF; color: #0073FF; }
+
+  /* 分类管理 */
+  .a-main-col { flex: 1; min-width: 0; padding-left: 24px; display: flex; flex-direction: column; }
+  .a-main-col > .a-card { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .a-main-col > .a-card .a-table-wrap { flex: 1; }
+  /* 资料与视频管理：筛选行 / 操作行去左右内边距，与表格区左右齐平 */
+  #view-manage .a-toolbar, #view-manage .a-ops { padding-left: 0; padding-right: 0; }
+  /* 分类页：左树 320 + 1px 分割线 + 右侧详情，同一白底；分栏竖线通栏到底 */
+  .content > .view-admin.active:has(.a-split) { flex: 1 1 auto; min-height: 0; }
+  .view-admin.active:has(.a-split) { display: flex; flex-direction: column; padding: 0; }
+  .view-admin.active:has(.a-split) > .admin-wrap { flex: 1; min-height: 0; }
+  /* 分栏页：去掉页面级上下留白，改为面板内留白，竖分割线才能顶到内容区上下边缘 */
+  .view-admin.active:has(.a-split) .a-tree-panel { padding-top: 16px; padding-bottom: 24px; }
+  .view-admin.active:has(.a-split) .a-detail { padding-top: 16px; }
+  .view-admin.active:has(.a-split) .a-main-col { padding-top: 16px; padding-bottom: 24px; }
+  .a-split { display: flex; align-items: stretch; gap: 0; flex: 1; min-height: 640px; }
+  .a-tree-panel { width: 320px; flex: none; background: #FFFFFF; border-radius: 0; box-shadow: none; border-right: 1px solid #F1EFEC; display: flex; flex-direction: column; padding: 16px 20px 16px 0; }
+  .a-tree-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 0 12px; }
+  .a-tree-title { font-size: 16px; line-height: 24px; font-weight: 500; color: #1E1C1A; }
+  .a-tree-search { padding: 0 0 12px; }
+  .a-tree-body { flex: 1; overflow-y: auto; padding: 0; max-height: none; margin: 0 -8px; }
+  /* 分栏滚动条：细条、透明轨道、浅灰 thumb，hover 稍深，替代系统默认深色滚动条 */
+  .a-tree-body, .a-table-wrap { scrollbar-width: thin; scrollbar-color: #E5E6EB transparent; }
+  .a-tree-body::-webkit-scrollbar, .a-table-wrap::-webkit-scrollbar { width: 6px; height: 6px; }
+  .a-tree-body::-webkit-scrollbar-track, .a-table-wrap::-webkit-scrollbar-track { background: transparent; }
+  .a-tree-body::-webkit-scrollbar-thumb, .a-table-wrap::-webkit-scrollbar-thumb { background: #E5E6EB; border-radius: 3px; }
+  .a-tree-body::-webkit-scrollbar-thumb:hover, .a-table-wrap::-webkit-scrollbar-thumb:hover { background: #C9CDD4; }
+  .cat-node { display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 8px; border-radius: 6px; font-size: 14px; color: #1E1C1A; cursor: pointer; transition: background .16s ease, color .16s ease; }
+  .cat-node:hover:not(.sel) { background: #F7F5F3; }
+  .cat-node.sel { background: #EFF6FF; color: #0073FF; }
+  .cat-node .ti-caret { width: 16px; height: 16px; flex: none; color: #5F6673; transition: transform .16s ease; }
+  .cat-node .ti-caret.closed { transform: rotate(-90deg); }
+  .cat-node.sel .ti-caret { color: #0073FF; }
+  /* 目录树：仅一级分类展示分类图标，二三级只有折叠箭头 */
+  .cat-node .cat-ic { width: 20px; height: 20px; flex: none; object-fit: contain; display: block; border-radius: 50%; background: #F7F9FC; }
+  .cat-node .nm { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cat-node .badge { height: 18px; padding: 0 5px; display: inline-flex; align-items: center; border-radius: 3px; font-size: 11px; line-height: 1; background: #FFF2E8; color: #FF7300; flex: none; }
+  .cat-node .badge.blue { background: #EAF3FF; color: #0073FF; }
+  .cat-node .cnt { margin-left: auto; padding-left: 8px; font-size: 12px; font-weight: 400; line-height: 20px; color: #BDBBB9; flex: none; }
+  .cat-node.sel .cnt { color: #0073FF; }
+  .cat-node.lv2 { padding-left: 44px; }
+  .cat-node.lv3 { padding-left: 60px; }
+  .cat-node[hidden] { display: none; }
+  /* 目录树行间距 4px（含各级之间） */
+  #catTree { display: flex; flex-direction: column; gap: 4px; }
+  #catTree > * { flex: none; }
+  /* 管理页分类树：与分类管理同源镜像，筛选 + 折叠，无行操作 */
+  #manageTree { display: flex; flex-direction: column; gap: 4px; }
+  #manageTree > * { flex: none; }
+  #manageTree .more { display: none; }
+  #manageTree .cat-node:hover .cnt, #manageTree .cat-node.menu-open .cnt { opacity: 1; }
+  /* 「全部内容」根节点：复用资料中心同款 #ic-layers 符号与 16px 尺寸；默认灰 #8D8785，选中随主色 */
+  .cat-node .root-ic { width: 16px; height: 16px; flex: none; display: block; color: #8D8785; }
+  .cat-node.sel .root-ic { color: #0073FF; }
+  /* 筛选树不显示分类行计数：筛选场景名称优先、行更紧凑；分类管理树保留计数供管理查看 */
+  #manageTree .cat-node:not(.root) .cnt { display: none; }
+  /* 分类树 hover 操作：⋯ 按钮 + 下拉菜单（新建子分类 / 上移 / 下移 / 删除分类） */
+  .cat-node { position: relative; }
+  .cat-node .more { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 4px; background: transparent; color: #5F6673; cursor: pointer; opacity: 0; transition: opacity .12s ease, background .12s ease, color .12s ease; }
+  .cat-node .more svg { width: 16px; height: 16px; display: block; }
+  .cat-node .more:hover { background: rgba(0,0,0,0.05); color: #1E1C1A; }
+  .cat-node:hover .more, .cat-node.menu-open .more { opacity: 1; }
+  .cat-node .cnt { transition: opacity .12s ease; }
+  .cat-node:hover .cnt, .cat-node.menu-open .cnt { opacity: 0; }
+  /* 无下一层级（三级或叶子节点）不展示折叠箭头 */
+  .cat-node.leaf .ti-caret { visibility: hidden; }
+  .cat-menu { position: fixed; z-index: 140; min-width: 136px; padding: 4px; background: #FFFFFF; border: 1px solid #F1EFEC; border-radius: 8px; box-shadow: 0 8px 24px rgba(30, 28, 26, .12); }
+  .cat-menu[hidden] { display: none; }
+  .cat-menu button { display: flex; width: 100%; align-items: center; padding: 8px 12px; border: 0; border-radius: 6px; background: none; font-family: inherit; font-size: 14px; line-height: 22px; color: #1E1C1A; text-align: left; cursor: pointer; }
+  .cat-menu button:hover { background: #F5F7FA; }
+  .cat-menu button[disabled] { color: #C9CDD4; cursor: not-allowed; }
+  .cat-menu button[disabled]:hover { background: none; }
+  .cat-menu .sep { height: 1px; margin: 4px 8px; background: #F1EFEC; }
+  /* 删除分类二次确认 */
+  .kb-mask { position: fixed; inset: 0; z-index: 150; display: flex; align-items: center; justify-content: center; background: rgba(30, 28, 26, .45); }
+  .kb-mask[hidden] { display: none; }
+  .kb-dialog { width: 360px; max-width: calc(100vw - 48px); box-sizing: border-box; padding: 20px 24px; background: #FFFFFF; border-radius: 8px; box-shadow: 0 12px 32px rgba(30, 28, 26, .16); }
+  .kb-dialog h3 { margin: 0 0 8px; font-size: 16px; line-height: 24px; font-weight: 600; color: #1E1C1A; }
+  .kb-dialog p { margin: 0 0 20px; font-size: 14px; line-height: 22px; color: #5C5450; }
+  .kb-dialog .ops { display: flex; justify-content: flex-end; gap: 8px; }
+  .a-btn.danger-solid { background: #E5484D; border-color: #E5484D; color: #FFFFFF; }
+  .a-btn.danger-solid:hover { background: #E5484D; border-color: #E5484D; color: #FFFFFF; filter: brightness(.92); }
+
+  .a-detail { flex: 1; min-width: 0; width: 100%; background: #FFFFFF; border-radius: 0; box-shadow: none; padding: 20px 0 24px 24px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; max-height: none; }
+  .a-detail-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .a-detail-title { font-size: 16px; line-height: 24px; font-weight: 600; color: #1E1C1A; }
+  /* 分类图标（仅一级分类）：预置 + 自定义直接平铺在详情里，不再弹窗 */
+  .cat-icon-picker { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; }
+  .cat-icon-group { display: flex; flex-wrap: wrap; gap: 10px; }
+  .cat-icon-item { width: 76px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px 7px; border: 1px solid #E5E6EB; border-radius: 8px; background: #FFFFFF; font-family: inherit; cursor: pointer; transition: border-color .16s ease, background .16s ease, transform .16s ease; }
+  .cat-icon-item img { width: 44px; height: 44px; display: block; object-fit: contain; border-radius: 50%; background: #F7F9FC; }
+  .cat-icon-item.on img { background: #EAF3FF; }
+  .cat-icon-item span { font-size: 12px; line-height: 18px; color: #5C5450; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cat-icon-item:hover { border-color: #CAE1FF; transform: translateY(-1px); }
+  .cat-icon-item.on { border-color: #0073FF; background: #F5F9FF; }
+  .cat-icon-item.on span { color: #0073FF; }
+  .cat-icon-upload[hidden] { display: none; }
+  .cat-icon-upload { width: 76px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 8px 4px 7px; border: 1px dashed #D4D6DB; border-radius: 8px; background: #FAFAFA; color: #5C5450; font-family: inherit; cursor: pointer; transition: border-color .16s ease, color .16s ease; }
+  .cat-icon-upload svg { width: 18px; height: 18px; }
+  .cat-icon-upload span { font-size: 12px; line-height: 18px; }
+  .cat-icon-upload:hover { border-color: #0073FF; color: #0073FF; }
+  .cat-icon-custom { position: relative; }
+  .cat-icon-custom .del { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; padding: 0; border: 1px solid #E5E6EB; border-radius: 50%; background: #FFFFFF; color: #8D8785; display: none; align-items: center; justify-content: center; cursor: pointer; }
+  .cat-icon-custom .del svg { width: 10px; height: 10px; }
+  .cat-icon-custom:hover .del { display: inline-flex; }
+  .cat-icon-custom .del:hover { border-color: #F53F3F; color: #F53F3F; }
+  .cat-icon-tools { display: flex; align-items: center; gap: 12px; }
+  .cat-icon-tools .tip { font-size: 12px; line-height: 18px; color: #A8ABB2; max-width: 720px; }
+  .a-field-row { display: flex; gap: 24px; }
+  .a-field-row[hidden] { display: none; }
+  .a-field { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 7px; }
+  .a-label { font-size: 13px; line-height: 19px; font-weight: 500; color: #5C5450; }
+  .a-input-wrap { position: relative; }
+  .a-input-wrap .counter { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); font-size: 13px; color: #A8ABB2; }
+  .type-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .type-card { display: flex; gap: 8px; padding: 12px 14px; border: 1px solid #E5E6EB; border-radius: 8px; background: #FFFFFF; cursor: pointer; transition: border-color .16s ease, background .16s ease; }
+  .type-card:hover { border-color: #CAE1FF; }
+  .type-card.on { border-color: #0073FF; background: #F5F9FF; }
+  .type-radio { width: 14px; height: 14px; border-radius: 50%; border: 1px solid #C9CDD4; margin-top: 3px; flex: none; }
+  .type-card.on .type-radio { border-color: #0073FF; background: #0073FF; box-shadow: inset 0 0 0 3px #F5F9FF; }
+  .type-t { font-size: 14px; line-height: 20px; font-weight: 500; color: #1E1C1A; }
+  .type-d { font-size: 12px; line-height: 18px; color: #8D8785; margin-top: 2px; }
+  .a-note { font-size: 12px; line-height: 18px; color: #8D8785; }
+  .a-recent { display: flex; flex-direction: column; padding-top: 0; border-top: 1px solid #F0F0F0; }
+  .a-recent-title { font-size: 14px; line-height: 20px; font-weight: 600; color: #1E1C1A; padding: 20px 0 6px; }
+  .a-recent-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F0F0F0; font-size: 14px; }
+  .a-recent-item:last-child { border-bottom: 0; }
+  .a-recent-item .t { color: #1E1C1A; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+  .a-recent-item .t:hover { color: #0073FF; }
+  .a-recent-item .a-tag { background: #EEF4FF; color: #2F80ED; }
+  .a-recent-item .ver { display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 4px; background: #F0EFEC; color: #5C5450; }
+  .a-recent-item .ver, .a-recent-item .d { font-size: 12px; flex: none; }
+  .a-field > .admin-hint { font-size: 14px; line-height: 20px; color: #1E1C1A; }
+
+  /* 标签管理 */
+  .tag-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .tag-card { display: flex; flex-direction: column; gap: 12px; min-height: 172px; padding: 16px 20px; background: #FFFFFF; border: 1px solid #F1EFEC; border-radius: 8px; box-shadow: none; }
+  .tag-card-head { display: flex; align-items: center; gap: 8px; }
+  .tag-card-title { font-size: 14px; line-height: 20px; font-weight: 500; color: #1E1C1A; }
+  .tag-card-cnt { font-size: 12px; color: #8D8785; }
+  .tag-card-ops { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .tag-chips { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; }
+  .tag-chip { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: 4px; background: #EAF3FF; color: #0073FF; font-size: 12px; }
+  .tag-chip i { font-style: normal; color: #4A96FF; }
+  .tag-add { height: 32px; border: 1px solid #E5E6EB; border-radius: 6px; display: flex; align-items: center; padding: 0 11px; margin-top: auto; }
+  .tag-add input { border: 0; outline: 0; font: inherit; font-size: 13px; color: #1E1C1A; width: 100%; background: transparent; }
+  .tag-add input::placeholder { color: #A8ABB2; }
+  .tag-card.new { align-items: center; justify-content: center; border: 1px dashed #D9DCE3; box-shadow: none; color: #8D8785; font-size: 13px; cursor: pointer; }
+  .tag-card.new:hover { border-color: #A8C8F8; color: #0073FF; }
+
+  /* 已读记录 Tab */
+  .a-tabs { display: flex; gap: 24px; border-bottom: 1px solid #EBEEF5; padding: 0 4px; }
+  .a-tabs .a-tab { height: 44px; display: inline-flex; align-items: center; font-size: 15px; color: #5C5450; cursor: pointer; position: relative; }
+  .a-tabs .a-tab:hover { color: #1E1C1A; }
+  .a-tabs .a-tab.on { color: #0073FF; font-weight: 500; }
+  .a-tabs .a-tab.on::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: #0073FF; }
+
+  /* 操作记录摘要 */
+  .a-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: 12px; line-height: 20px; color: #8D8785; }
+  .a-summary b { font-weight: 500; color: #1E1C1A; }
+  .a-summary i { font-style: normal; color: #E4E1DE; }
+
+  /* 审批日志展开 */
+  .a-log-row td { background: #FAFAF9; position: static; box-shadow: none; }
+  .a-log { display: flex; flex-direction: column; gap: 8px; padding: 4px 0; }
+  .a-log-item { display: flex; align-items: center; gap: 12px; font-size: 12px; color: #5F6673; }
+  .a-log-item .t { color: #8D8785; width: 130px; flex: none; }
+  .a-log-item .who { width: 90px; flex: none; color: #1E1C1A; }
+
   /* 页签可点击 */
   .tab[data-tab] { cursor: pointer; }
   .tab .close { cursor: pointer; }
@@ -1004,6 +1305,7 @@
   .dtag { height: 20px; padding: 0 4px; border-radius: 4px; background: #F1EFEC; color: #8D8785; font-size: 12px; line-height: 20px; }
   .dtag.is-ver { background: #E5E5E5; color: #1E1C1A; }
   .learn-state { display: flex; align-items: center; gap: 4px; color: #0073FF; }
+  .learn-state.done { color: #16B364; }
   .learn-state svg { width: 16px; height: 16px; flex: none; }
 
   .vref-list { display: flex; flex-direction: column; gap: 0; }
@@ -1189,12 +1491,12 @@
           <svg class="arrow" viewBox="0 0 1024 1024" fill="currentColor"><path d="M831.9 340.9 512 652.7 192.1 340.9a30.6 30.6 0 0 0-42.7 0 29.1 29.1 0 0 0 0 41.6l340.3 331.7a32 32 0 0 0 44.7 0l340.3-331.7a29.1 29.1 0 0 0 0-41.7 30.6 30.6 0 0 0-42.8 0z"/></svg>
         </div>
         <div class="mi lv2" data-open="overview"><span class="label">概览</span><span class="demo-dot" title="含交互演示"></span></div>
-        <div class="mi lv2"><span class="label">分类管理</span></div>
-        <div class="mi lv2"><span class="label">资料与视频管理</span></div>
-        <div class="mi lv2"><span class="label">标签管理</span></div>
-        <div class="mi lv2"><span class="label">下载审批</span></div>
-        <div class="mi lv2"><span class="label">已读记录</span></div>
-        <div class="mi lv2"><span class="label">操作记录</span></div>
+        <div class="mi lv2" data-open="category"><span class="label">分类管理</span><span class="demo-dot" title="含交互演示"></span></div>
+        <div class="mi lv2" data-open="manage"><span class="label">资料与视频管理</span></div>
+        <div class="mi lv2" data-open="tags"><span class="label">标签管理</span></div>
+        <div class="mi lv2" data-open="approvals"><span class="label">下载审批</span></div>
+        <div class="mi lv2" data-open="reads"><span class="label">已读记录</span></div>
+        <div class="mi lv2" data-open="oplog"><span class="label">操作记录</span></div>
         <div class="mi lv2 active" data-open="home"><span class="label">工程知识库</span><span class="demo-dot" title="含交互演示"></span></div>
         <div class="mi"><i class="gl">&#xe615;</i><span class="label">工作台</span></div>
         <div class="mi"><img class="mi-ic" src="./assets/sidebar/工程大盘.svg" alt="" /><span class="label">工程大盘</span>
@@ -1749,6 +2051,7 @@
   <p class="doc-date">10-05 更新</p>
   <p class="doc-read">阅读1,286</p>
 </div></div>
+            <p class="empty-hint" id="matEmpty" hidden>该目录下暂无资料</p>
           </div>
         </div>
       </section>
@@ -1900,6 +2203,7 @@
   </div>
 </article>
             </div>
+            <p class="empty-hint" id="vidEmpty" hidden>没有匹配的视频</p>
           </div>
         </div>
       </section>
@@ -1922,13 +2226,14 @@
             </div>
           </div>
           <div class="sub-body" style="width:100%">
-            <nav class="ltabs">
-              <div class="ltab sel"><span>视频学习记录</span><span class="n">(2)</span></div>
-              <div class="ltab"><span>资料阅读记录</span><span class="n">(3)</span></div>
-              <div class="ltab"><span>我的收藏</span><span class="n">(1)</span></div>
-              <div class="ltab"><span>下载申请</span><span class="n">(3)</span></div>
+            <nav class="ltabs" id="learnTabs">
+              <div class="ltab sel" data-tab="records"><span>视频学习记录</span><span class="n">(2)</span></div>
+              <div class="ltab" data-tab="reading"><span>资料阅读记录</span><span class="n">(3)</span></div>
+              <div class="ltab" data-tab="fav"><span>我的收藏</span><span class="n">(1)</span></div>
+              <div class="ltab" data-tab="reqs"><span>下载申请</span><span class="n">(3)</span></div>
             </nav>
-            <div class="pane">
+            <div class="pane" id="learnPane">
+              <div class="lpanel" data-panel="records">
               <div class="lrec">
                 <div class="lcover"><img src="./assets/cover-continue.png" alt="" /><span class="l-play"><svg viewBox="0 0 24 24" fill="#FFFFFF"><path d="M8.9 7.1 17.1 11.4c.6.36.6.84 0 1.2L8.9 16.9c-.6.37-1.4 0-1.4-.75V7.85c0-.75.8-1.12 1.4-.75Z"/></svg></span><span class="l-dur">06:15</span></div>
                 <div class="linfo">
@@ -1951,11 +2256,930 @@
                 </div>
                 <button class="btn-line" type="button">重新观看</button>
               </div>
+              </div>
+              <div class="lpanel" data-panel="reading" hidden>
+                <div class="doc">
+                  <span class="doc-ic"><img src="./assets/file-pdf.png" alt="" /></span>
+                  <div class="doc-main">
+                    <div class="doc-title-row"><span class="doc-title">门店水电施工标准手册.pdf</span><span class="tag gray">V2.0</span></div>
+                    <p class="doc-meta">门店施工篇/水电篇/总项要求 · PDF · 零食很忙6代店 · 标准版 · 水电节点</p>
+                  </div>
+                  <p class="doc-date">10-08 阅读</p>
+                </div>
+                <div class="doc">
+                  <span class="doc-ic"><img src="./assets/file-ppt.png" alt="" /></span>
+                  <div class="doc-main">
+                    <div class="doc-title-row"><span class="doc-title">沿海大风区域门店施工手册.pptx</span><span class="tag gray">V2.0</span></div>
+                    <p class="doc-meta">门店施工篇/水电篇/总项要求 · PPT · 零食很忙6代店 · 标准版 · 水电节点</p>
+                  </div>
+                  <p class="doc-date">10-06 阅读</p>
+                </div>
+                <div class="doc">
+                  <span class="doc-ic"><img src="./assets/file-pdf.png" alt="" /></span>
+                  <div class="doc-main">
+                    <div class="doc-title-row"><span class="doc-title">基础建店费用申报标准.pdf</span><span class="tag gray">V2.0</span></div>
+                    <p class="doc-meta">门店设计篇/新店设计标准/基础建店费用申报标准 · PDF · 零食很忙6代店 · 标准版</p>
+                  </div>
+                  <p class="doc-date">10-03 阅读</p>
+                </div>
+              </div>
+              <div class="lpanel" data-panel="fav" hidden>
+                <div class="lrec">
+                  <div class="lcover"><img src="./assets/cover-fins.jpg" alt="" /><span class="l-play"><svg viewBox="0 0 24 24" fill="#FFFFFF"><path d="M8.9 7.1 17.1 11.4c.6.36.6.84 0 1.2L8.9 16.9c-.6.37-1.4 0-1.4-.75V7.85c0-.75.8-1.12 1.4-.75Z"/></svg></span><span class="l-dur">06:15</span></div>
+                  <div class="linfo">
+                    <div>
+                      <div class="l-title-row"><span class="l-title">沿海大风区域招牌加固演示</span><span class="ph-tag">V1.0</span></div>
+                      <p class="l-meta">收藏于 11-12 · 门店施工篇 / 差异化篇 / 沿海大风区域施工项目</p>
+                    </div>
+                  </div>
+                  <button class="btn-line" type="button" data-unfav>取消收藏</button>
+                </div>
+                <div class="empty-hint" data-empty hidden>暂无收藏内容</div>
+              </div>
+              <div class="lpanel" data-panel="reqs" hidden>
+                <div class="req-row">
+                  <span class="doc-ic"><img src="./assets/file-pdf.png" alt="" /></span>
+                  <div class="req-main">
+                    <div class="req-title">门店水电施工标准手册</div>
+                    <div class="req-sub">V2.0 · 申请下载 PDF 原件</div>
+                  </div>
+                  <span class="req-state wait">待审批</span>
+                  <span class="req-time">今天 09:20</span>
+                  <button class="btn-ghost" type="button">撤销</button>
+                </div>
+                <div class="req-row">
+                  <span class="doc-ic"><img src="./assets/file-excel.png" alt="" /></span>
+                  <div class="req-main">
+                    <div class="req-title">基础装修验收篇（木）图文标准</div>
+                    <div class="req-sub">V2.0 · 申请下载 Excel 原件</div>
+                  </div>
+                  <span class="req-state wait">待审批</span>
+                  <span class="req-time">11-02 16:08</span>
+                  <button class="btn-ghost" type="button">撤销</button>
+                </div>
+                <div class="req-row">
+                  <span class="doc-ic"><img src="./assets/file-ppt.png" alt="" /></span>
+                  <div class="req-main">
+                    <div class="req-title">沿海大风区域门店施工手册</div>
+                    <div class="req-sub">V2.0 · 申请下载 PPT 原件</div>
+                  </div>
+                  <span class="req-state pass">已通过</span>
+                  <span class="req-time">10-03 11:42</span>
+                  <button class="btn-ghost" type="button">下载</button>
+                </div>
+              </div>
+              <p class="empty-hint" id="learnEmpty" hidden>没有匹配的内容</p>
             </div>
           </div>
         </div>
       </section>
       <!-- 文件预览详情（MasterGo 1124:001061） -->
+      <!-- ===== 分类管理 ===== -->
+      <section class="view view-admin" id="view-category">
+        <div class="admin-wrap">
+          <div class="a-split">
+            <aside class="a-tree-panel">
+              <div class="a-tree-head">
+                <span class="a-tree-title">资料分类目录</span>
+                <button class="a-btn outline" type="button" data-cat-new><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 3.4v9.2M3.4 8h9.2"/></svg>一级分类</button>
+              </div>
+              <div class="a-tree-search">
+                <label class="a-input" style="width:100%">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6 14 14"/></svg>
+                  <input type="text" placeholder="搜索分类名称" data-cat-search />
+                </label>
+              </div>
+              <div class="a-tree-body" id="catTree">
+                <div class="cat-node lv1" data-name="门店工程" data-parent="—" data-type="资料+视频" data-docs="244" data-videos="44" data-icon="engineering">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <img class="cat-ic" src="./assets/kb-cat/cat-engineering.png" alt="" />
+                  <span class="nm">门店工程</span><span class="cnt">244 / 44</span>
+                </div>
+                <div class="cat-node lv2 sel" data-name="品牌培训库" data-parent="门店工程" data-type="仅资料" data-docs="236" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">品牌培训库</span><span class="badge">仅资料</span><span class="cnt">236</span>
+                </div>
+                <div class="cat-node lv3" data-name="标准门店课件" data-parent="品牌培训库" data-type="仅资料" data-docs="234" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">标准门店课件</span><span class="badge">仅资料</span><span class="cnt">234</span>
+                </div>
+                <div class="cat-node lv3" data-name="简优门店课件" data-parent="品牌培训库" data-type="仅资料" data-docs="1" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">简优门店课件</span><span class="badge">仅资料</span><span class="cnt">1</span>
+                </div>
+                <div class="cat-node lv3" data-name="品牌视觉物料SOP" data-parent="品牌培训库" data-type="仅资料" data-docs="0" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">品牌视觉物料SOP</span><span class="badge">仅资料</span><span class="cnt">0</span>
+                </div>
+                <div class="cat-node lv3" data-name="月度汇总课件" data-parent="品牌培训库" data-type="仅资料" data-docs="0" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">月度汇总课件</span><span class="badge">仅资料</span><span class="cnt">0</span>
+                </div>
+                <div class="cat-node lv3" data-name="工程仓下单指南" data-parent="品牌培训库" data-type="仅资料" data-docs="0" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">工程仓下单指南</span><span class="badge">仅资料</span><span class="cnt">0</span>
+                </div>
+                <div class="cat-node lv3" data-name="工程系统操作指南" data-parent="品牌培训库" data-type="仅资料" data-docs="0" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">工程系统操作指南</span><span class="badge">仅资料</span><span class="cnt">0</span>
+                </div>
+                <div class="cat-node lv3" data-name="智慧工地管理制度" data-parent="品牌培训库" data-type="仅资料" data-docs="0" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">智慧工地管理制度</span><span class="badge">仅资料</span><span class="cnt">0</span>
+                </div>
+                <div class="cat-node lv2" data-name="施工验收篇" data-parent="门店工程" data-type="资料+视频" data-docs="7" data-videos="43">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">施工验收篇</span><span class="cnt">7 / 43</span>
+                </div>
+                <div class="cat-node lv3" data-name="很忙历代门店实景图" data-parent="施工验收篇" data-type="资料+视频" data-docs="4" data-videos="43">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">很忙历代门店实景图</span><span class="cnt">4 / 43</span>
+                </div>
+                <div class="cat-node lv3" data-name="一鸣历代门店实景图" data-parent="施工验收篇" data-type="资料+视频" data-docs="3" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">一鸣历代门店实景图</span><span class="cnt">3</span>
+                </div>
+                <div class="cat-node lv3" data-name="施工篇" data-parent="施工验收篇" data-type="资料+视频" data-docs="0" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">施工篇</span><span class="cnt">0</span>
+                </div>
+                <div class="cat-node lv2" data-name="成本设计篇" data-parent="门店工程" data-type="仅视频" data-docs="0" data-videos="1">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">成本设计篇</span><span class="badge blue">仅视频</span><span class="cnt">0 / 1</span>
+                </div>
+                <div class="cat-node lv2" data-name="门店设计篇" data-parent="门店工程" data-type="资料+视频" data-docs="305" data-videos="63">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">门店设计篇</span><span class="cnt">305 / 63</span>
+                </div>
+                <div class="cat-node lv3" data-name="新店设计标准" data-parent="门店设计篇" data-type="资料+视频" data-docs="304" data-videos="62">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">新店设计标准</span><span class="cnt">304 / 62</span>
+                </div>
+                <div class="cat-node lv1" data-name="门店设计" data-parent="—" data-type="资料+视频" data-docs="274" data-videos="15" data-icon="design">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <img class="cat-ic" src="./assets/kb-cat/cat-design.png" alt="" />
+                  <span class="nm">门店设计</span><span class="cnt">274 / 15</span>
+                </div>
+                <div class="cat-node lv2" data-name="设计规范与标准" data-parent="门店设计" data-type="仅资料" data-docs="135" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">设计规范与标准</span><span class="badge">仅资料</span><span class="cnt">135</span>
+                </div>
+                <div class="cat-node lv3" data-name="门店空间设计规范" data-parent="设计规范与标准" data-type="仅资料" data-docs="68" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">门店空间设计规范</span><span class="badge">仅资料</span><span class="cnt">68</span>
+                </div>
+                <div class="cat-node lv3" data-name="门头与招牌设计标准" data-parent="设计规范与标准" data-type="仅资料" data-docs="42" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">门头与招牌设计标准</span><span class="badge">仅资料</span><span class="cnt">42</span>
+                </div>
+                <div class="cat-node lv3" data-name="灯光与软装配置指引" data-parent="设计规范与标准" data-type="仅资料" data-docs="25" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">灯光与软装配置指引</span><span class="badge">仅资料</span><span class="cnt">25</span>
+                </div>
+                <div class="cat-node lv2" data-name="效果图与图纸" data-parent="门店设计" data-type="仅资料" data-docs="127" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">效果图与图纸</span><span class="badge">仅资料</span><span class="cnt">127</span>
+                </div>
+                <div class="cat-node lv3" data-name="标准店型效果图集" data-parent="效果图与图纸" data-type="仅资料" data-docs="96" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">标准店型效果图集</span><span class="badge">仅资料</span><span class="cnt">96</span>
+                </div>
+                <div class="cat-node lv3" data-name="施工图纸深度要求" data-parent="效果图与图纸" data-type="仅资料" data-docs="31" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">施工图纸深度要求</span><span class="badge">仅资料</span><span class="cnt">31</span>
+                </div>
+                <div class="cat-node lv2" data-name="设计案例复盘" data-parent="门店设计" data-type="资料+视频" data-docs="12" data-videos="15">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">设计案例复盘</span><span class="cnt">12 / 15</span>
+                </div>
+                <div class="cat-node lv3" data-name="旗舰店设计复盘" data-parent="设计案例复盘" data-type="资料+视频" data-docs="12" data-videos="6">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">旗舰店设计复盘</span><span class="cnt">12 / 6</span>
+                </div>
+                <div class="cat-node lv3" data-name="社区店设计复盘" data-parent="设计案例复盘" data-type="仅视频" data-docs="0" data-videos="9">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">社区店设计复盘</span><span class="badge blue">仅视频</span><span class="cnt">0 / 9</span>
+                </div>
+                <div class="cat-node lv1" data-name="门店验收" data-parent="—" data-type="资料+视频" data-docs="119" data-videos="25" data-icon="accept">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <img class="cat-ic" src="./assets/kb-cat/cat-accept.png" alt="" />
+                  <span class="nm">门店验收</span><span class="cnt">119 / 25</span>
+                </div>
+                <div class="cat-node lv2" data-name="验收标准与清单" data-parent="门店验收" data-type="仅资料" data-docs="92" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">验收标准与清单</span><span class="badge">仅资料</span><span class="cnt">92</span>
+                </div>
+                <div class="cat-node lv3" data-name="隐蔽工程验收清单" data-parent="验收标准与清单" data-type="仅资料" data-docs="54" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">隐蔽工程验收清单</span><span class="badge">仅资料</span><span class="cnt">54</span>
+                </div>
+                <div class="cat-node lv3" data-name="竣工交付验收标准" data-parent="验收标准与清单" data-type="仅资料" data-docs="38" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">竣工交付验收标准</span><span class="badge">仅资料</span><span class="cnt">38</span>
+                </div>
+                <div class="cat-node lv2" data-name="验收实操视频" data-parent="门店验收" data-type="仅视频" data-docs="0" data-videos="25">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">验收实操视频</span><span class="badge blue">仅视频</span><span class="cnt">0 / 25</span>
+                </div>
+                <div class="cat-node lv3" data-name="水电验收实操" data-parent="验收实操视频" data-type="仅视频" data-docs="0" data-videos="14">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">水电验收实操</span><span class="badge blue">仅视频</span><span class="cnt">0 / 14</span>
+                </div>
+                <div class="cat-node lv3" data-name="泥木油漆验收实操" data-parent="验收实操视频" data-type="仅视频" data-docs="0" data-videos="11">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">泥木油漆验收实操</span><span class="badge blue">仅视频</span><span class="cnt">0 / 11</span>
+                </div>
+                <div class="cat-node lv2" data-name="整改与复验" data-parent="门店验收" data-type="仅资料" data-docs="27" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">整改与复验</span><span class="badge">仅资料</span><span class="cnt">27</span>
+                </div>
+                <div class="cat-node lv3" data-name="常见整改项图册" data-parent="整改与复验" data-type="仅资料" data-docs="27" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">常见整改项图册</span><span class="badge">仅资料</span><span class="cnt">27</span>
+                </div>
+                <div class="cat-node lv1" data-name="门店造价" data-parent="—" data-type="资料+视频" data-docs="217" data-videos="8" data-icon="cost">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <img class="cat-ic" src="./assets/kb-cat/cat-cost.png" alt="" />
+                  <span class="nm">门店造价</span><span class="cnt">217 / 8</span>
+                </div>
+                <div class="cat-node lv2" data-name="造价指标与预算" data-parent="门店造价" data-type="仅资料" data-docs="64" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">造价指标与预算</span><span class="badge">仅资料</span><span class="cnt">64</span>
+                </div>
+                <div class="cat-node lv3" data-name="单店造价指标手册" data-parent="造价指标与预算" data-type="仅资料" data-docs="46" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">单店造价指标手册</span><span class="badge">仅资料</span><span class="cnt">46</span>
+                </div>
+                <div class="cat-node lv3" data-name="预算编制模板" data-parent="造价指标与预算" data-type="仅资料" data-docs="18" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">预算编制模板</span><span class="badge">仅资料</span><span class="cnt">18</span>
+                </div>
+                <div class="cat-node lv2" data-name="成本管控" data-parent="门店造价" data-type="仅资料" data-docs="153" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">成本管控</span><span class="badge">仅资料</span><span class="cnt">153</span>
+                </div>
+                <div class="cat-node lv3" data-name="主材价格库" data-parent="成本管控" data-type="仅资料" data-docs="132" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">主材价格库</span><span class="badge">仅资料</span><span class="cnt">132</span>
+                </div>
+                <div class="cat-node lv3" data-name="变更签证管控指引" data-parent="成本管控" data-type="仅资料" data-docs="21" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">变更签证管控指引</span><span class="badge">仅资料</span><span class="cnt">21</span>
+                </div>
+                <div class="cat-node lv2" data-name="结算与审计" data-parent="门店造价" data-type="资料+视频" data-docs="0" data-videos="8">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">结算与审计</span><span class="cnt">0 / 8</span>
+                </div>
+                <div class="cat-node lv3" data-name="结算审核要点" data-parent="结算与审计" data-type="仅视频" data-docs="0" data-videos="8">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">结算审核要点</span><span class="badge blue">仅视频</span><span class="cnt">0 / 8</span>
+                </div>
+                <div class="cat-node lv1" data-name="门店维保" data-parent="—" data-type="资料+视频" data-docs="116" data-videos="12" data-icon="maintenance">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <img class="cat-ic" src="./assets/kb-cat/cat-maintenance.png" alt="" />
+                  <span class="nm">门店维保</span><span class="cnt">116 / 12</span>
+                </div>
+                <div class="cat-node lv2" data-name="维保手册" data-parent="门店维保" data-type="仅资料" data-docs="73" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">维保手册</span><span class="badge">仅资料</span><span class="cnt">73</span>
+                </div>
+                <div class="cat-node lv3" data-name="设备设施维保手册" data-parent="维保手册" data-type="仅资料" data-docs="57" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">设备设施维保手册</span><span class="badge">仅资料</span><span class="cnt">57</span>
+                </div>
+                <div class="cat-node lv3" data-name="应急维修处置预案" data-parent="维保手册" data-type="仅资料" data-docs="16" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">应急维修处置预案</span><span class="badge">仅资料</span><span class="cnt">16</span>
+                </div>
+                <div class="cat-node lv2" data-name="巡检与保养" data-parent="门店维保" data-type="资料+视频" data-docs="34" data-videos="12">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">巡检与保养</span><span class="cnt">34 / 12</span>
+                </div>
+                <div class="cat-node lv3" data-name="季度巡检标准" data-parent="巡检与保养" data-type="仅资料" data-docs="34" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">季度巡检标准</span><span class="badge">仅资料</span><span class="cnt">34</span>
+                </div>
+                <div class="cat-node lv3" data-name="空调与冷链保养实操" data-parent="巡检与保养" data-type="仅视频" data-docs="0" data-videos="12">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">空调与冷链保养实操</span><span class="badge blue">仅视频</span><span class="cnt">0 / 12</span>
+                </div>
+                <div class="cat-node lv2" data-name="报修与工单" data-parent="门店维保" data-type="仅资料" data-docs="9" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">报修与工单</span><span class="badge">仅资料</span><span class="cnt">9</span>
+                </div>
+                <div class="cat-node lv3" data-name="报修流程与时效" data-parent="报修与工单" data-type="仅资料" data-docs="9" data-videos="0">
+                  <svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg>
+                  <span class="nm">报修流程与时效</span><span class="badge">仅资料</span><span class="cnt">9</span>
+                </div>
+                <p class="a-note" id="catEmpty" hidden style="padding:12px 8px">没有匹配的分类</p>
+              </div>
+            </aside>
+            <div class="a-detail" id="catDetail">
+              <div class="a-detail-head">
+                <span class="a-detail-title">分类详情</span>
+              </div>
+              <div class="a-field-row">
+                <div class="a-field">
+                  <span class="a-label">分类名称</span>
+                  <div class="a-input-wrap">
+                    <label class="a-input" style="width:100%"><input type="text" maxlength="20" value="品牌培训库" data-cat-name /></label>
+                    <span class="counter" data-cat-count>5 / 20</span>
+                  </div>
+                </div>
+                <div class="a-field">
+                  <span class="a-label">上级分类</span>
+                  <label class="a-input disabled" style="width:100%"><input type="text" value="门店工程" disabled data-cat-parent /></label>
+                </div>
+              </div>
+              <div class="a-field-row" id="catIconRow" hidden>
+                <div class="a-field">
+                  <span class="a-label">分类图标</span>
+                  <div class="cat-icon-picker">
+                    <div class="cat-icon-group" id="catIconGrid">
+                      <button class="cat-icon-item" type="button" data-icon="design"><img src="./assets/kb-cat/cat-design.png" alt="" /><span>门店设计</span></button>
+                      <button class="cat-icon-item" type="button" data-icon="accept"><img src="./assets/kb-cat/cat-accept.png" alt="" /><span>门店验收</span></button>
+                      <button class="cat-icon-item" type="button" data-icon="cost"><img src="./assets/kb-cat/cat-cost.png" alt="" /><span>门店造价</span></button>
+                      <button class="cat-icon-item" type="button" data-icon="engineering"><img src="./assets/kb-cat/cat-engineering.png" alt="" /><span>门店工程</span></button>
+                      <button class="cat-icon-item" type="button" data-icon="maintenance"><img src="./assets/kb-cat/cat-maintenance.png" alt="" /><span>门店维保</span></button>
+                    </div>
+                    <div class="cat-icon-group" id="catIconCustomGrid">
+                      <button class="cat-icon-upload" type="button" data-cat-icon-upload>
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 3.4v9.2M3.4 8h9.2"/></svg>
+                        <span>上传图标</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="cat-icon-tools">
+                    <span class="tip">支持 PNG / JPG / SVG，≤2MB，建议 96×96 以上正方形；用户端分类图标条圆形展示，即时生效。</span>
+                  </div>
+                  <input type="file" id="catIconFile" accept="image/png,image/jpeg,image/svg+xml" hidden />
+                </div>
+              </div>
+              <div class="a-field">
+                <span class="a-label">内容类型</span>
+                <div class="type-cards">
+                  <div class="type-card" data-type-val="资料+视频"><span class="type-radio"></span><div><div class="type-t">资料+视频</div><div class="type-d">资料中心与视频学堂均展示，可挂载资料和视频</div></div></div>
+                  <div class="type-card on" data-type-val="仅资料"><span class="type-radio"></span><div><div class="type-t">仅资料</div><div class="type-d">只在资料中心展示，视频学堂与视频上传不展示该分类</div></div></div>
+                  <div class="type-card" data-type-val="仅视频"><span class="type-radio"></span><div><div class="type-t">仅视频</div><div class="type-d">只在视频学堂展示，资料中心与资料上传不展示该分类</div></div></div>
+                </div>
+                <p class="a-note">内容类型对全部子分类生效；切换为专属类型时，分类下不符合的内容将自动移入「未分类」。</p>
+              </div>
+              <div class="a-field">
+                <span class="a-label">内容数量</span>
+                <span class="admin-hint" data-cat-num>资料 236 份 · 视频 0 个（含子分类）</span>
+              </div>
+              <div class="a-detail-head">
+                <button class="a-btn primary" type="button" data-cat-save>保存修改</button>
+              </div>
+              <div class="a-recent">
+                <span class="a-recent-title">该分类下最近更新</span>
+                <div id="catRecent">
+                  <div class="a-recent-item"><span class="a-tag">资料</span><span class="t">门店水电施工标准手册.pdf</span><span class="ver">V1.0</span><span class="d">11-24</span></div>
+                  <div class="a-recent-item"><span class="a-tag">资料</span><span class="t">基础装修验收篇（木）图文标准.xlsx</span><span class="ver">V1.0</span><span class="d">11-23</span></div>
+                  <div class="a-recent-item"><span class="a-tag">资料</span><span class="t">沿海大风区域门店施工手册.pptx</span><span class="d">11-23</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 资料与视频管理 ===== -->
+      <section class="view view-admin" id="view-manage">
+        <div class="admin-wrap">
+          <div class="a-split" style="min-height:640px">
+            <aside class="a-tree-panel">
+              <div class="a-tree-head">
+                <span class="a-tree-title">资料 / 视频分类</span>
+                <span class="admin-hint" id="manageHint">共 1222 项</span>
+              </div>
+              <div class="a-tree-search">
+                <label class="a-input" style="width:100%">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6 14 14"/></svg>
+                  <input type="text" placeholder="搜索分类" data-manage-cat-search />
+                </label>
+              </div>
+              <div class="a-tree-body" id="manageTree">
+                <!-- 节点由分类管理目录树镜像生成，见 syncManageTree() -->
+                <p class="a-note" id="manageCatEmpty" hidden style="padding:12px 8px">没有匹配的分类</p>
+              </div>
+            </aside>
+            <div class="a-main-col">
+          <div class="a-card">
+            <div class="a-toolbar">
+              <label class="a-input grow">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6 14 14"/></svg>
+                <input type="text" placeholder="搜索资料 / 视频名称或编号" data-manage-search />
+              </label>
+              <span class="a-select" data-manage-type>全部类型</span>
+              <span class="a-select" data-manage-status>全部状态</span>
+              <button class="a-btn primary" type="button">搜索</button>
+              <button class="a-btn" type="button">重置</button>
+              <button class="a-btn link" type="button">更多筛选</button>
+            </div>
+            <div class="a-ops">
+              <button class="a-btn" type="button">导出</button>
+              <button class="a-btn" type="button">上传视频</button>
+              <button class="a-btn primary" type="button">+ 上传资料</button>
+              <span class="spacer"></span>
+              <span class="a-seg"><span class="on" data-show="all">全部显示</span><span data-show="cat">分类显示</span></span>
+            </div>
+            <div class="a-table-wrap">
+              <table class="a-table" id="manageTable">
+                <thead><tr><th>内容编号</th><th>内容名称</th><th>目录分类</th><th>类型</th><th>标签</th><th>可见范围</th><th>状态</th><th>版本统计</th><th>阅读/播放</th><th>更新时间</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr data-title="门店水电施工标准手册" data-kind="file" data-type="PDF" data-status="已发布" data-cat="门店验收">
+                    <td class="a-muted">KB2026112401349</td>
+                    <td><div class="a-cell-main">门店水电施工标准手册.pdf</div><div class="a-cell-sub">V1.0 · 共 1 个文件 · 关联 1 视频</div></td>
+                    <td><div class="a-cell-sub">门店验收/验收标准与清单/隐蔽工程验收清单</div></td>
+                    <td><span class="a-tag pdf">PDF</span></td>
+                    <td><span class="a-tag">零食很忙5代店</span></td>
+                    <td class="a-cell-sub">角色 · 1个</td>
+                    <td><span class="a-status ok">已发布</span></td>
+                    <td class="a-cell-sub">1 个版本 · 当前 V1.0</td>
+                    <td class="a-cell-sub">1,286</td>
+                    <td class="a-cell-sub">2026-11-24 16:18</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-manage-preview>预览</button><button class="a-btn link" data-manage-off>下架</button><button class="a-btn link" data-manage-more>更多</button></div></td>
+                  </tr>
+                  <tr data-title="基础装修验收篇（木）图文标准" data-kind="file" data-type="Excel" data-status="已发布" data-cat="门店验收">
+                    <td class="a-muted">KB2026112401348</td>
+                    <td><div class="a-cell-main">基础装修验收篇（木）图文标准.xlsx</div><div class="a-cell-sub">V1.0 · 共 1 个文件 · 关联 1 资料</div></td>
+                    <td><div class="a-cell-sub">门店验收/验收标准与清单/竣工交付验收标准</div></td>
+                    <td><span class="a-tag img">Excel</span></td>
+                    <td><span class="a-muted">—</span></td>
+                    <td class="a-cell-sub">角色 · 1个</td>
+                    <td><span class="a-status ok">已发布</span></td>
+                    <td class="a-cell-sub">2 个版本 · 当前 V1.0</td>
+                    <td class="a-cell-sub">964</td>
+                    <td class="a-cell-sub">2026-11-24 16:08</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-manage-preview>预览</button><button class="a-btn link" data-manage-off>下架</button><button class="a-btn link" data-manage-more>更多</button></div></td>
+                  </tr>
+                  <tr data-title="沿海大风区域门店施工手册" data-kind="file" data-type="PPT" data-status="已发布" data-cat="门店工程">
+                    <td class="a-muted">KB2026112401347</td>
+                    <td><div class="a-cell-main">沿海大风区域门店施工手册.pptx</div><div class="a-cell-sub">V1.0 · 共 1 个文件 · 关联 1 资料</div></td>
+                    <td><div class="a-cell-sub">门店工程/施工验收篇/施工篇</div></td>
+                    <td><span class="a-tag pdf">PPT</span></td>
+                    <td><span class="a-tag">零食很忙5代店</span></td>
+                    <td class="a-cell-sub">角色 · 1个</td>
+                    <td><span class="a-status ok">已发布</span></td>
+                    <td class="a-cell-sub">1 个版本 · 当前 V1.0</td>
+                    <td class="a-cell-sub">731</td>
+                    <td class="a-cell-sub">2026-11-24 15:46</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-manage-preview>预览</button><button class="a-btn link" data-manage-off>下架</button><button class="a-btn link" data-manage-more>更多</button></div></td>
+                  </tr>
+                  <tr data-title="室内天花造型施工工艺演示" data-kind="video" data-type="视频" data-status="已下架" data-cat="门店验收">
+                    <td class="a-muted">KB2026111900469</td>
+                    <td><div class="a-cell-main">室内天花造型施工工艺演示</div><div class="a-cell-sub">标准视频 · 时长 02:00 · 关联 2 资料</div></td>
+                    <td><div class="a-cell-sub">门店验收/验收实操视频/泥木油漆验收实操</div></td>
+                    <td><span class="a-tag video">视频</span></td>
+                    <td><span class="a-muted">—</span></td>
+                    <td class="a-cell-sub">角色 · 1个</td>
+                    <td><span class="a-status">已下架</span></td>
+                    <td class="a-cell-sub">1 个版本 · 当前 V1.0</td>
+                    <td class="a-cell-sub">1,283</td>
+                    <td class="a-cell-sub">2026-11-24 15:46</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-manage-preview>预览</button><button class="a-btn link" data-manage-more>编辑</button><button class="a-btn link" data-manage-more>更多</button></div></td>
+                  </tr>
+                  <tr data-title="隐蔽工程验收标准解读" data-kind="video" data-type="视频" data-status="已发布" data-cat="门店验收">
+                    <td class="a-muted">KB2026111900468</td>
+                    <td><div class="a-cell-main">隐蔽工程验收标准解读</div><div class="a-cell-sub">标准视频 · 时长 06:15 · 关联 1 资料</div></td>
+                    <td><div class="a-cell-sub">门店验收/验收实操视频/水电验收实操</div></td>
+                    <td><span class="a-tag video">视频</span></td>
+                    <td><span class="a-muted">—</span></td>
+                    <td class="a-cell-sub">角色 · 1个</td>
+                    <td><span class="a-status ok">已发布</span></td>
+                    <td class="a-cell-sub">1 个版本 · 当前 V1.0</td>
+                    <td class="a-cell-sub">1,283</td>
+                    <td class="a-cell-sub">2026-11-24 15:30</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-manage-preview>预览</button><button class="a-btn link" data-manage-more>编辑</button><button class="a-btn link" data-manage-more>更多</button></div></td>
+                  </tr>
+                  <tr data-title="门店设计参考图集" data-kind="file" data-type="图片" data-status="已发布" data-cat="门店设计">
+                    <td class="a-muted">KB2026111800321</td>
+                    <td><div class="a-cell-main">门店设计参考图集.png</div><div class="a-cell-sub">V1.0 · 共 1 个文件</div></td>
+                    <td><div class="a-cell-sub">门店设计/效果图与图纸/标准店型效果图集</div></td>
+                    <td><span class="a-tag img">图片</span></td>
+                    <td><span class="a-tag">零食很忙5代店</span></td>
+                    <td class="a-cell-sub">角色 · 1个</td>
+                    <td><span class="a-status ok">已发布</span></td>
+                    <td class="a-cell-sub">1 个版本 · 当前 V1.0</td>
+                    <td class="a-cell-sub">412</td>
+                    <td class="a-cell-sub">2026-11-18 10:02</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-manage-preview>预览</button><button class="a-btn link" data-manage-off>下架</button><button class="a-btn link" data-manage-more>更多</button></div></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="empty-hint" id="manageEmpty" hidden style="padding:40px 0">没有匹配的内容</p>
+            </div>
+            <div class="a-pager"><span id="managePagerTotal">共 1222 条</span><span class="a-select" style="height:24px;font-size:12px">10条/页</span><div class="pg"><span class="on">1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>…</span><span id="managePagerLast">123</span></div></div>
+          </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 标签管理 ===== -->
+      <section class="view view-admin" id="view-tags">
+        <div class="admin-wrap">
+          <div class="admin-head">
+            <div></div>
+            <button class="a-btn primary" type="button" data-tag-new>+ 新建标签维度</button>
+          </div>
+          <div class="tag-grid" id="tagGrid">
+            <div class="tag-card">
+              <div class="tag-card-head">
+                <span class="tag-card-title">门店类型</span><span class="tag-card-cnt">共 8 个</span>
+                <div class="tag-card-ops"><button class="a-btn link" data-tag-rename>改名</button><button class="a-btn link danger" data-tag-del>删除维度</button></div>
+              </div>
+              <div class="tag-chips">
+                <span class="tag-chip">零食很忙5代店 <i>162</i></span>
+                <span class="tag-chip">零食很忙旗舰店 <i>49</i></span>
+                <span class="tag-chip">零食很忙6代店 <i>34</i></span>
+                <span class="tag-chip">零食很忙6.5代店 <i>5</i></span>
+                <span class="tag-chip">赵一鸣2.0版本 <i>1</i></span>
+                <span class="tag-chip">赵一鸣3.0版本 <i>8</i></span>
+                <span class="tag-chip">均适用 <i>10</i></span>
+              </div>
+              <div class="tag-add"><input type="text" placeholder="输入标签名，回车添加" data-tag-input /></div>
+            </div>
+            <div class="tag-card">
+              <div class="tag-card-head">
+                <span class="tag-card-title">门店版本</span><span class="tag-card-cnt">共 2 个</span>
+                <div class="tag-card-ops"><button class="a-btn link" data-tag-rename>改名</button><button class="a-btn link danger" data-tag-del>删除维度</button></div>
+              </div>
+              <div class="tag-chips">
+                <span class="tag-chip">标准版 <i>43</i></span>
+                <span class="tag-chip">简优版 <i>11</i></span>
+              </div>
+              <div class="tag-add"><input type="text" placeholder="输入标签名，回车添加" data-tag-input /></div>
+            </div>
+            <div class="tag-card">
+              <div class="tag-card-head">
+                <span class="tag-card-title">施工节点</span><span class="tag-card-cnt">共 14 个</span>
+                <div class="tag-card-ops"><button class="a-btn link" data-tag-rename>改名</button><button class="a-btn link danger" data-tag-del>删除维度</button></div>
+              </div>
+              <div class="tag-chips">
+                <span class="tag-chip">拆除进场前 <i>7</i></span>
+                <span class="tag-chip">初尺复尺 <i>32</i></span>
+                <span class="tag-chip">木工 <i>33</i></span>
+                <span class="tag-chip">水电 <i>6</i></span>
+                <span class="tag-chip">泥工 <i>5</i></span>
+                <span class="tag-chip">油漆 <i>1</i></span>
+                <span class="tag-chip">广告安装 <i>1</i></span>
+                <span class="tag-chip">设备安装 <i>3</i></span>
+                <span class="tag-chip">货架安装 <i>0</i></span>
+                <span class="tag-chip">监控安装 <i>2</i></span>
+                <span class="tag-chip">竣工验收 <i>2</i></span>
+                <span class="tag-chip">门店设计布局 <i>17</i></span>
+                <span class="tag-chip">门店预算结算 <i>6</i></span>
+                <span class="tag-chip">门店稽核节点 <i>1</i></span>
+              </div>
+              <div class="tag-add"><input type="text" placeholder="输入标签名，回车添加" data-tag-input /></div>
+            </div>
+            <div class="tag-card new" data-tag-new-inline>+ 新建标签维度（如：品牌线）</div>
+          </div>
+          <p class="empty-hint" id="tagEmpty" hidden>暂无标签维度</p>
+        </div>
+      </section>
+
+      <!-- ===== 下载审批 ===== -->
+      <section class="view view-admin" id="view-approvals">
+        <div class="admin-wrap">
+          <div class="a-stats">
+            <div class="a-stat"><div><div class="k">待审批</div><div class="v" data-approve-pending>65</div><div class="sub">需工程中心处理</div></div><div class="ic orange"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4.4l2.8 1.7"/></svg></div></div>
+            <div class="a-stat"><div><div class="k">今日申请</div><div class="v">2</div><div class="sub">PC / APP 提交合计</div></div><div class="ic purple"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 3.5v9M6.5 9.5 10 13l3.5-3.5"/><path d="M3.8 14.2v1.3a1.2 1.2 0 0 0 1.2 1.2h10a1.2 1.2 0 0 0 1.2-1.2v-1.3"/></svg></div></div>
+            <div class="a-stat"><div><div class="k">已通过</div><div class="v" data-approve-passed>66</div><div class="sub">今日 +1</div></div><div class="ic green"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><path d="M6.4 10.3l2.4 2.4 4.8-4.9"/></svg></div></div>
+            <div class="a-stat"><div><div class="k">已驳回</div><div class="v" data-approve-rejected>42</div><div class="sub">今日 +0</div></div><div class="ic red"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><path d="M7.2 7.2l5.6 5.6M12.8 7.2l-5.6 5.6"/></svg></div></div>
+          </div>
+          <div class="a-card">
+            <div class="a-toolbar">
+              <label class="a-input grow">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6 14 14"/></svg>
+                <input type="text" placeholder="搜索申请编号 / 内容 / 申请人" data-approve-search />
+              </label>
+              <span class="a-select">全部来源端</span>
+              <span class="a-select">全部状态</span>
+              <button class="a-btn primary" type="button">搜索</button>
+              <button class="a-btn" type="button">重置</button>
+            </div>
+            <div class="a-ops">
+              <button class="a-btn" type="button">导出</button>
+              <span class="spacer"></span>
+              <span class="a-seg"><span class="on">全部显示</span><span>分类显示</span></span>
+            </div>
+            <div class="a-table-wrap">
+              <table class="a-table" id="approveTable">
+                <thead><tr><th>申请编号</th><th>申请内容</th><th>申请人</th><th>来源端</th><th>申请原因</th><th>申请时间</th><th>审批人</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr data-state="pending">
+                    <td class="a-muted">DL20261124-00340</td>
+                    <td><div class="a-cell-main">大区排行导出-J01000675</div><div class="a-cell-sub">V1.0 · 资料</div></td>
+                    <td><div class="a-cell-main">周云鹏</div><div class="a-cell-sub">招商同步中台测试门店</div></td>
+                    <td class="a-cell-sub">PC 用户端</td>
+                    <td class="a-cell-sub">测试</td>
+                    <td class="a-cell-sub">2026-11-24 15:18:12</td>
+                    <td class="a-cell-sub">周北辰（自动测试门店）· 15:18:46</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-approve-pass>通过</button><button class="a-btn link danger" data-approve-reject>驳回</button><button class="a-btn link" data-approve-log>日志</button></div></td>
+                  </tr>
+                  <tr data-state="pending">
+                    <td class="a-muted">DL20261124-00330</td>
+                    <td><div class="a-cell-main">门店水电施工标准手册</div><div class="a-cell-sub">V1.0 · 资料</div></td>
+                    <td><div class="a-cell-main">周北辰</div><div class="a-cell-sub">安徽宣城高林林业集团</div></td>
+                    <td class="a-cell-sub">内部 APP</td>
+                    <td class="a-cell-sub">pentest-uoi</td>
+                    <td class="a-cell-sub">2026-11-24 11:01:42</td>
+                    <td class="a-muted">—</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-approve-pass>通过</button><button class="a-btn link danger" data-approve-reject>驳回</button><button class="a-btn link" data-approve-log>日志</button></div></td>
+                  </tr>
+                  <tr data-state="pending">
+                    <td class="a-muted">DL20261124-00320</td>
+                    <td><div class="a-cell-main">肖蔺晋升述职123123</div><div class="a-cell-sub">V1.0 · 资料</div></td>
+                    <td><div class="a-cell-main">游强</div><div class="a-cell-sub">长沙六都万江洲</div></td>
+                    <td class="a-cell-sub">PC 用户端</td>
+                    <td class="a-cell-sub">个人审批回归验证</td>
+                    <td class="a-cell-sub">2026-11-23 17:28:08</td>
+                    <td class="a-muted">—</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-approve-pass>通过</button><button class="a-btn link danger" data-approve-reject>驳回</button><button class="a-btn link" data-approve-log>日志</button></div></td>
+                  </tr>
+                  <tr data-state="pending">
+                    <td class="a-muted">DL20261123-00310</td>
+                    <td><div class="a-cell-main">基础装修验收篇（木）图文标准</div><div class="a-cell-sub">V1.0 · 资料</div></td>
+                    <td><div class="a-cell-main">周北辰</div><div class="a-cell-sub">安徽宣城高林林业集团</div></td>
+                    <td class="a-cell-sub">内部 APP</td>
+                    <td class="a-cell-sub">pentest-probe</td>
+                    <td class="a-cell-sub">2026-11-23 16:15:02</td>
+                    <td class="a-cell-sub">周北辰 · 16:16:07</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-approve-pass>通过</button><button class="a-btn link danger" data-approve-reject>驳回</button><button class="a-btn link" data-approve-log>日志</button></div></td>
+                  </tr>
+                  <tr data-state="pending">
+                    <td class="a-muted">DL20261123-00299</td>
+                    <td><div class="a-cell-main">沿海大风区域门店施工手册</div><div class="a-cell-sub">V1.0 · 资料</div></td>
+                    <td><div class="a-cell-main">周云鹏</div><div class="a-cell-sub">招商同步中台测试门店</div></td>
+                    <td class="a-cell-sub">PC 用户端</td>
+                    <td class="a-cell-sub">测试</td>
+                    <td class="a-cell-sub">2026-11-23 09:15:30</td>
+                    <td class="a-cell-sub">周北辰 · 09:17:15</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-approve-pass>通过</button><button class="a-btn link danger" data-approve-reject>驳回</button><button class="a-btn link" data-approve-log>日志</button></div></td>
+                  </tr>
+                  <tr data-state="pending">
+                    <td class="a-muted">DL20261123-00298</td>
+                    <td><div class="a-cell-main">门店设计参考图集</div><div class="a-cell-sub">V1.0 · 图片</div></td>
+                    <td><div class="a-cell-main">周北辰</div><div class="a-cell-sub">很忙 · 11131818</div></td>
+                    <td class="a-cell-sub">PC 用户端</td>
+                    <td class="a-cell-sub">AUTO 自动化：验证下载申请链路</td>
+                    <td class="a-cell-sub">2026-11-23 09:14:38</td>
+                    <td class="a-cell-sub">周云鹏 · 09:16:20</td>
+                    <td><div style="display:flex;gap:12px"><button class="a-btn link" data-approve-pass>通过</button><button class="a-btn link danger" data-approve-reject>驳回</button><button class="a-btn link" data-approve-log>日志</button></div></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="empty-hint" id="approveEmpty" hidden style="padding:40px 0">没有匹配的申请</p>
+            </div>
+            <div class="a-pager"><span>共 175 条</span><span class="a-select" style="height:24px;font-size:12px">10条/页</span><div class="pg"><span class="on">1</span><span>2</span><span>3</span><span>…</span><span>18</span></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 已读记录 ===== -->
+      <section class="view view-admin" id="view-reads">
+        <div class="admin-wrap">
+          <div class="a-tabs">
+            <span class="a-tab on" data-reads-tab="read">原文阅读</span>
+            <span class="a-tab" data-reads-tab="video">视频播放</span>
+          </div>
+
+          <div data-reads-panel="read">
+            <div class="a-stats" style="margin-bottom:16px">
+              <div class="a-stat"><div><div class="k">今日阅读</div><div class="v">55</div><div class="sub">较昨日 ↓14</div></div><div class="ic orange"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3.5 4.5h5A1.5 1.5 0 0 1 10 6v10a2.5 2.5 0 0 0-2.5-2.5h-4zM16.5 4.5h-5A1.5 1.5 0 0 0 10 6v10a2.5 2.5 0 0 1 2.5-2.5h4z"/></svg></div></div>
+              <div class="a-stat"><div><div class="k">本周阅读</div><div class="v">124</div><div class="sub">APP 26 · 小程序 60 · PC 38</div></div><div class="ic blue"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3.2" y="4.2" width="13.6" height="11.6" rx="1.4"/><path d="M3.2 7.6h13.6M6.6 3v2.8M13.4 3v2.8"/></svg></div></div>
+              <div class="a-stat"><div><div class="k">覆盖用户</div><div class="v">11</div><div class="sub">内部 10 · 施工方 1</div></div><div class="ic purple"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="7" r="3"/><path d="M2.8 16c.6-2.7 2.7-4.3 5.2-4.3s4.6 1.6 5.2 4.3M14 5.4a2.8 2.8 0 0 1 0 5.2M15.4 12.2c1 .7 1.6 1.9 1.8 3.4"/></svg></div></div>
+              <div class="a-stat"><div><div class="k">平均已读率</div><div class="v">0.06%</div><div class="sub">较上周 —</div></div><div class="ic green"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3.5 16.5v-5M8 16.5v-9M12.5 16.5v-6.5M17 16.5v-12"/></svg></div></div>
+            </div>
+
+            <div class="a-card">
+              <div class="a-toolbar">
+                <span class="a-seg" data-reads-seg="read"><span class="on" data-seg="detail">明细记录</span><span data-seg="byDoc">按资料统计</span><span data-seg="byUser">按用户统计</span></span>
+                <label class="a-input grow" style="margin-left:8px">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6 14 14"/></svg>
+                  <input type="text" placeholder="请输入搜索" data-reads-search />
+                </label>
+                <span class="a-select">全部来源端</span>
+                <span class="a-select">近 7 日</span>
+                <span class="a-select">全部完成状态</span>
+                <button class="a-btn primary" type="button">搜索</button>
+                <button class="a-btn" type="button">重置</button>
+              </div>
+              <div class="a-ops">
+                <button class="a-btn" type="button">导出</button>
+                <span class="spacer"></span>
+                <span class="a-seg"><span class="on">全部显示</span><span>分类显示</span></span>
+              </div>
+              <div class="a-table-wrap">
+                <table class="a-table" data-reads-table="detail">
+                  <thead><tr><th>用户</th><th>所属角色</th><th>资料</th><th>完成状态</th><th>来源端</th><th>查看时间</th><th>停留时长</th></tr></thead>
+                  <tbody>
+                    <tr><td>林定</td><td class="a-cell-sub">招商同步中台测试门店 · 工程工作台角色</td><td>基础装修验收篇（木）图文标准</td><td><span class="a-status ok">已读完</span></td><td class="a-cell-sub">内部 APP</td><td class="a-cell-sub">2026-11-24 16:19:11</td><td class="a-cell-sub">00:00</td></tr>
+                    <tr><td>林定</td><td class="a-cell-sub">招商同步中台测试门店 · 工程工作台角色</td><td>门店水电施工标准手册</td><td><span class="a-status ok">已读完</span></td><td class="a-cell-sub">内部 APP</td><td class="a-cell-sub">2026-11-24 16:18:22</td><td class="a-cell-sub">00:00</td></tr>
+                    <tr><td>林定</td><td class="a-cell-sub">招商同步中台测试门店 · 工程工作台角色</td><td>沿海大风区域门店施工手册</td><td><span class="a-status ok">已读完</span></td><td class="a-cell-sub">内部 APP</td><td class="a-cell-sub">2026-11-24 16:18:02</td><td class="a-cell-sub">00:02</td></tr>
+                    <tr><td>符琪婧</td><td class="a-cell-sub">零食很忙/长沙人民路店 · 工程工作台角色</td><td>标准门店课件合集</td><td><span class="a-status ok">已读完</span></td><td class="a-cell-sub">PC 用户端</td><td class="a-cell-sub">2026-11-24 16:08:27</td><td class="a-cell-sub">02:37</td></tr>
+                    <tr><td>刘思墨</td><td class="a-cell-sub">数字化中心 · 超级管理员</td><td>基础建店费用申报标准</td><td><span class="a-status ok">已读完</span></td><td class="a-cell-sub">内部 APP</td><td class="a-cell-sub">2026-11-24 15:42:20</td><td class="a-cell-sub">00:01</td></tr>
+                    <tr><td>刘思墨</td><td class="a-cell-sub">数字化中心 · 超级管理员</td><td>设计费用标准</td><td><span class="a-status ok">已读完</span></td><td class="a-cell-sub">鸣忙营造小程序</td><td class="a-cell-sub">2026-11-24 15:42:02</td><td class="a-cell-sub">00:08</td></tr>
+                    <tr><td>郑晴雯</td><td class="a-cell-sub">工程培训 · 中心培训组</td><td>南方沿海地区招牌优化方案</td><td><span class="a-status ok">已读完</span></td><td class="a-cell-sub">鸣忙营造小程序</td><td class="a-cell-sub">2026-11-24 15:33:14</td><td class="a-cell-sub">01:56</td></tr>
+                  </tbody>
+                </table>
+                <table class="a-table" data-reads-table="byDoc" hidden>
+                  <thead><tr><th>资料名称</th><th>分类</th><th>本期阅读人数</th><th>累计不重阅读人数</th><th>本期阅读次数</th><th>本期完读率</th><th>本期平均阅读</th><th>平均阅读进度</th><th>累计最近阅读</th></tr></thead>
+                  <tbody>
+                    <tr><td class="a-cell-main">门店水电施工标准手册.pdf</td><td class="a-cell-sub">门店施工篇/基础施工标准</td><td class="a-link">19</td><td>117</td><td>1</td><td><div class="a-bar"><i style="width:62%"></i></div><span class="a-cell-sub">62.00%</span></td><td class="a-cell-sub">00:31</td><td class="a-cell-sub">100.00%</td><td class="a-cell-sub">2026-11-24 16:11:23</td></tr>
+                    <tr><td class="a-cell-main">基础装修验收篇（木）图文标准.xlsx</td><td class="a-cell-sub">门店设计/新店设计标准</td><td class="a-link">16</td><td>108</td><td>2</td><td><div class="a-bar"><i style="width:50%"></i></div><span class="a-cell-sub">50.00%</span></td><td class="a-cell-sub">00:05</td><td class="a-cell-sub">70.00%</td><td class="a-cell-sub">2026-11-24 15:57:41</td></tr>
+                    <tr><td class="a-cell-main">沿海大风区域门店施工手册.pptx</td><td class="a-cell-sub">门店施工篇/差异化篇</td><td class="a-link">11</td><td>96</td><td>1</td><td><div class="a-bar"><i style="width:0%"></i></div><span class="a-cell-sub">0.00%</span></td><td class="a-cell-sub">00:24</td><td class="a-cell-sub">21.00%</td><td class="a-cell-sub">2026-11-24 15:56:02</td></tr>
+                    <tr><td class="a-cell-main">基础建店费用申报标准.pdf</td><td class="a-cell-sub">门店设计/新店设计标准</td><td class="a-link">9</td><td>87</td><td>1</td><td><div class="a-bar"><i style="width:100%"></i></div><span class="a-cell-sub">100.00%</span></td><td class="a-cell-sub">00:08</td><td class="a-cell-sub">100.00%</td><td class="a-cell-sub">2026-11-24 15:54:33</td></tr>
+                    <tr><td class="a-cell-main">设计费用标准.xlsx</td><td class="a-cell-sub">门店设计/新店设计标准</td><td class="a-link">8</td><td>71</td><td>2</td><td><div class="a-bar"><i style="width:0%"></i></div><span class="a-cell-sub">0.00%</span></td><td class="a-cell-sub">00:32</td><td class="a-cell-sub">34.00%</td><td class="a-cell-sub">2026-11-24 15:51:09</td></tr>
+                  </tbody>
+                </table>
+                <table class="a-table" data-reads-table="byUser" hidden>
+                  <thead><tr><th>用户</th><th>所属角色</th><th>本期阅读资料数</th><th>本期完读数</th><th>本期阅读总时长</th><th>累计最近阅读</th></tr></thead>
+                  <tbody>
+                    <tr><td>刘思墨</td><td class="a-cell-sub">数字化中心 · 超级管理员</td><td class="a-link">18</td><td>8</td><td class="a-cell-sub">24:03</td><td class="a-cell-sub">2026-11-24 15:44:04</td></tr>
+                    <tr><td>周云鹏</td><td class="a-cell-sub">招商同步中台测试门店</td><td class="a-link">15</td><td>8</td><td class="a-cell-sub">09:19</td><td class="a-cell-sub">2026-11-24 15:57:50</td></tr>
+                    <tr><td>林定</td><td class="a-cell-sub">招商同步中台测试门店</td><td class="a-link">7</td><td>5</td><td class="a-cell-sub">05:42</td><td class="a-cell-sub">2026-11-24 11:36:50</td></tr>
+                    <tr><td>符琪婧</td><td class="a-cell-sub">零食很忙/长沙人民路店</td><td class="a-link">7</td><td>4</td><td class="a-cell-sub">03:45</td><td class="a-cell-sub">2026-11-21 19:11:19</td></tr>
+                    <tr><td>郑晴雯</td><td class="a-cell-sub">工程培训 · 中心培训组</td><td class="a-link">4</td><td>1</td><td class="a-cell-sub">00:21</td><td class="a-cell-sub">2026-11-21 17:43:03</td></tr>
+                    <tr><td>王鹏</td><td class="a-cell-sub">长沙六都国际店 · 集团开发中心</td><td class="a-link">4</td><td>0</td><td class="a-cell-sub">02:50</td><td class="a-cell-sub">2026-11-24 15:25:44</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="empty-hint" data-reads-empty hidden style="padding:40px 0">没有匹配的记录</p>
+              <div class="a-pager"><span>共 124 条</span><span class="a-select" style="height:24px;font-size:12px">10条/页</span><div class="pg"><span class="on">1</span><span>2</span><span>3</span><span>…</span><span>13</span></div></div>
+            </div>
+          </div>
+
+          <div data-reads-panel="video" hidden>
+            <div class="a-stats" style="margin-bottom:16px">
+              <div class="a-stat"><div><div class="k">今日播放</div><div class="v">27</div><div class="sub">较昨日 ↓1</div></div><div class="ic orange"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="4.5" width="14" height="11" rx="1.6"/><path d="M8.6 8.2l3.6 1.8-3.6 1.8z"/></svg></div></div>
+              <div class="a-stat"><div><div class="k">本周播放</div><div class="v">55</div><div class="sub">APP 13 · 小程序 22 · PC 20</div></div><div class="ic blue"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3.2" y="4.2" width="13.6" height="11.6" rx="1.4"/><path d="M3.2 7.6h13.6M6.6 3v2.8M13.4 3v2.8"/></svg></div></div>
+              <div class="a-stat"><div><div class="k">平均观看时长</div><div class="v">00:33</div><div class="sub">完播 7 人</div></div><div class="ic purple"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4.4l2.8 1.7"/></svg></div></div>
+              <div class="a-stat"><div><div class="k">完播率</div><div class="v">63.64%</div><div class="sub">较上周 —</div></div><div class="ic green"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><path d="M6.4 10.3l2.4 2.4 4.8-4.9"/></svg></div></div>
+            </div>
+
+            <div class="a-card">
+              <div class="a-toolbar">
+                <span class="a-seg" data-reads-seg="video"><span class="on" data-seg="detail">明细记录</span><span data-seg="byDoc">按视频统计</span><span data-seg="byUser">按用户统计</span></span>
+                <label class="a-input grow" style="margin-left:8px">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6 14 14"/></svg>
+                  <input type="text" placeholder="请输入搜索" data-reads-search />
+                </label>
+                <span class="a-select">全部来源端</span>
+                <span class="a-select">近 7 日</span>
+                <span class="a-select">全部完成状态</span>
+                <button class="a-btn primary" type="button">搜索</button>
+                <button class="a-btn" type="button">重置</button>
+              </div>
+              <div class="a-ops">
+                <button class="a-btn" type="button">导出</button>
+                <span class="spacer"></span>
+                <span class="a-seg"><span class="on">全部显示</span><span>分类显示</span></span>
+              </div>
+              <div class="a-table-wrap">
+                <table class="a-table" data-reads-table="detail">
+                  <thead><tr><th>用户</th><th>所属角色</th><th>视频</th><th>观看进度</th><th>完成状态</th><th>来源端</th><th>播放时间</th></tr></thead>
+                  <tbody>
+                    <tr><td>符琪婧</td><td class="a-cell-sub">零食很忙/长沙人民路店 · 工程工作台</td><td>关联视频111</td><td><div class="a-bar"><i style="width:100%"></i></div><span class="a-cell-sub">100% · 已看 00:36</span></td><td><span class="a-status ok">已完播</span></td><td class="a-cell-sub">PC 用户端</td><td class="a-cell-sub">2026-11-24 16:09:03</td></tr>
+                    <tr><td>周云鹏</td><td class="a-cell-sub">招商同步中台测试门店</td><td>室内天花造型施工工艺演示</td><td><div class="a-bar"><i style="width:40%"></i></div><span class="a-cell-sub">40% · 已看 00:06</span></td><td><span class="a-status">未完看</span></td><td class="a-cell-sub">PC 用户端</td><td class="a-cell-sub">2026-11-24 15:57:22</td></tr>
+                    <tr><td>周云鹏</td><td class="a-cell-sub">招商同步中台测试门店</td><td>初尺、复尺标准操作演示</td><td><div class="a-bar"><i style="width:39%"></i></div><span class="a-cell-sub">39% · 已看 00:05</span></td><td><span class="a-status">未完看</span></td><td class="a-cell-sub">PC 用户端</td><td class="a-cell-sub">2026-11-24 15:57:02</td></tr>
+                    <tr><td>周云鹏</td><td class="a-cell-sub">招商同步中台测试门店</td><td>隐蔽工程验收标准解读</td><td><div class="a-bar"><i style="width:21%"></i></div><span class="a-cell-sub">21% · 已看 00:24</span></td><td><span class="a-status">未完看</span></td><td class="a-cell-sub">PC 用户端</td><td class="a-cell-sub">2026-11-24 15:55:10</td></tr>
+                    <tr><td>周云鹏</td><td class="a-cell-sub">招商同步中台测试门店</td><td>沿海大风区域招牌加固演示</td><td><div class="a-bar"><i style="width:100%"></i></div><span class="a-cell-sub">100% · 已看 00:15</span></td><td><span class="a-status ok">已完播</span></td><td class="a-cell-sub">PC 用户端</td><td class="a-cell-sub">2026-11-24 15:54:41</td></tr>
+                    <tr><td>郑晴雯</td><td class="a-cell-sub">工程培训 · 中心培训组</td><td>天花吊顶施工视频</td><td><div class="a-bar"><i style="width:100%"></i></div><span class="a-cell-sub">100% · 已看 02:01</span></td><td><span class="a-status ok">已完播</span></td><td class="a-cell-sub">鸣忙营造小程序</td><td class="a-cell-sub">2026-11-24 15:29:10</td></tr>
+                    <tr><td>王鹏</td><td class="a-cell-sub">长沙六都国际店 · 集团开发中心</td><td>门店水电施工标准演示</td><td><div class="a-bar"><i style="width:22%"></i></div><span class="a-cell-sub">22% · 已看 00:31</span></td><td><span class="a-status">未完看</span></td><td class="a-cell-sub">鸣忙营造小程序</td><td class="a-cell-sub">2026-11-24 15:24:36</td></tr>
+                  </tbody>
+                </table>
+                <table class="a-table" data-reads-table="byDoc" hidden>
+                  <thead><tr><th>视频名称</th><th>分类</th><th>本期播放人数</th><th>累计不重播放人数</th><th>本期播放次数</th><th>本期完播率</th><th>本期平均观看</th><th>平均观看进度</th><th>累计最近播放</th></tr></thead>
+                  <tbody>
+                    <tr><td class="a-cell-main">室内天花造型施工工艺演示</td><td class="a-cell-sub">门店施工篇/装修篇</td><td class="a-link">19</td><td>117</td><td>1</td><td><div class="a-bar"><i style="width:100%"></i></div><span class="a-cell-sub">100.00%</span></td><td class="a-cell-sub">00:31</td><td class="a-cell-sub">100.00%</td><td class="a-cell-sub">2026-11-24 16:11:23</td></tr>
+                    <tr><td class="a-cell-main">初尺、复尺标准操作演示</td><td class="a-cell-sub">门店施工篇/基础施工标准</td><td class="a-link">16</td><td>116</td><td>2</td><td><div class="a-bar"><i style="width:50%"></i></div><span class="a-cell-sub">50.00%</span></td><td class="a-cell-sub">00:05</td><td class="a-cell-sub">70.00%</td><td class="a-cell-sub">2026-11-24 15:57:41</td></tr>
+                    <tr><td class="a-cell-main">隐蔽工程验收标准解读</td><td class="a-cell-sub">门店施工篇/土木篇</td><td class="a-link">11</td><td>117</td><td>1</td><td><div class="a-bar"><i style="width:0%"></i></div><span class="a-cell-sub">0.00%</span></td><td class="a-cell-sub">00:24</td><td class="a-cell-sub">21.00%</td><td class="a-cell-sub">2026-11-24 15:56:02</td></tr>
+                    <tr><td class="a-cell-main">沿海大风区域招牌加固演示</td><td class="a-cell-sub">门店施工篇/差异化篇</td><td class="a-link">9</td><td>123</td><td>1</td><td><div class="a-bar"><i style="width:100%"></i></div><span class="a-cell-sub">100.00%</span></td><td class="a-cell-sub">00:08</td><td class="a-cell-sub">100.00%</td><td class="a-cell-sub">2026-11-24 15:54:33</td></tr>
+                    <tr><td class="a-cell-main">泥工室内施工工艺演示</td><td class="a-cell-sub">门店施工篇/差异化篇</td><td class="a-link">8</td><td>115</td><td>4</td><td><div class="a-bar"><i style="width:100%"></i></div><span class="a-cell-sub">100.00%</span></td><td class="a-cell-sub">01:21</td><td class="a-cell-sub">100.00%</td><td class="a-cell-sub">2026-11-24 15:49:18</td></tr>
+                  </tbody>
+                </table>
+                <table class="a-table" data-reads-table="byUser" hidden>
+                  <thead><tr><th>用户</th><th>所属角色</th><th>本期观看视频数</th><th>本期完播数</th><th>本期观看总时长</th><th>累计最近播放</th></tr></thead>
+                  <tbody>
+                    <tr><td>刘思墨</td><td class="a-cell-sub">数字化中心 · 超级管理员</td><td class="a-link">18</td><td>8</td><td class="a-cell-sub">24:03</td><td class="a-cell-sub">2026-11-24 15:44:04</td></tr>
+                    <tr><td>周云鹏</td><td class="a-cell-sub">招商同步中台测试门店</td><td class="a-link">15</td><td>8</td><td class="a-cell-sub">09:19</td><td class="a-cell-sub">2026-11-24 15:57:50</td></tr>
+                    <tr><td>林定</td><td class="a-cell-sub">招商同步中台测试门店</td><td class="a-link">7</td><td>5</td><td class="a-cell-sub">05:42</td><td class="a-cell-sub">2026-11-24 11:36:50</td></tr>
+                    <tr><td>周北辰</td><td class="a-cell-sub">很忙 · 11131818</td><td class="a-link">7</td><td>4</td><td class="a-cell-sub">03:45</td><td class="a-cell-sub">2026-11-21 19:11:19</td></tr>
+                    <tr><td>周黄艳</td><td class="a-cell-sub">很忙 · 11131818</td><td class="a-link">4</td><td>1</td><td class="a-cell-sub">00:21</td><td class="a-cell-sub">2026-11-21 17:43:03</td></tr>
+                    <tr><td>王鹏</td><td class="a-cell-sub">长沙六都国际店 · 集团开发中心</td><td class="a-link">4</td><td>0</td><td class="a-cell-sub">02:50</td><td class="a-cell-sub">2026-11-24 15:25:44</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="empty-hint" data-reads-empty hidden style="padding:40px 0">没有匹配的记录</p>
+              <div class="a-pager"><span>共 55 条</span><span class="a-select" style="height:24px;font-size:12px">10条/页</span><div class="pg"><span class="on">1</span><span>2</span><span>3</span><span>…</span><span>6</span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 操作记录 ===== -->
+      <section class="view view-admin" id="view-oplog">
+        <div class="admin-wrap">
+          <div class="admin-head">
+            <span class="admin-title">操作日志</span>
+            <span class="admin-hint">默认按操作时间倒序 · 保留 ≥ 1 年</span>
+          </div>
+          <div class="a-summary">
+            <b>5745</b> 条事件 <i>·</i> 上传 <b>1713</b> <i>·</i> 编辑 <b>124</b> <i>·</i> 版本 <b>1435</b> <i>·</i> 状态流转 <b>2078</b> <i>·</i> 可见范围 <b>20</b> <i>·</i> 关联 <b>14</b> <i>·</i> 分享 <b>130</b> <i>·</i> 管理员直下 <b>184</b> <i>·</i> 导出 <b>46</b>
+          </div>
+          <div class="a-card">
+            <div class="a-toolbar">
+              <span class="a-select">近 7 日</span>
+              <span class="a-select">全部事件类型</span>
+              <label class="a-input" style="width:220px">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6 14 14"/></svg>
+                <input type="text" placeholder="操作人姓名（含“系统”）" data-oplog-search />
+              </label>
+              <label class="a-input grow">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6 14 14"/></svg>
+                <input type="text" placeholder="内容名称 / 编号" />
+              </label>
+              <button class="a-btn primary" type="button">搜索</button>
+              <button class="a-btn" type="button">重置</button>
+            </div>
+            <div class="a-ops">
+              <button class="a-btn" type="button">导出</button>
+              <span class="spacer"></span>
+              <span class="a-seg"><span class="on">全部显示</span><span>分类显示</span></span>
+            </div>
+            <div class="a-table-wrap">
+              <table class="a-table" id="oplogTable">
+                <thead><tr><th>操作时间</th><th>操作人</th><th>事件类型</th><th>内容名称 / 版本</th><th>操作摘要</th><th>结果</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td class="a-cell-sub">2026-11-24 16:18:01</td>
+                    <td>系统</td>
+                    <td><span class="a-tag video">状态流转</span><div class="a-cell-sub">待审核 → 已发布</div></td>
+                    <td><div class="a-cell-main">门店水电施工标准手册.pdf</div><div class="a-cell-sub">V1.0 · KB2026112401349</div></td>
+                    <td class="a-cell-sub">待审核 → 已发布 · 三端即时可见</td>
+                    <td><span class="a-status ok">成功</span></td>
+                  </tr>
+                  <tr>
+                    <td class="a-cell-sub">2026-11-24 16:07:11</td>
+                    <td>刘思墨</td>
+                    <td><span class="a-tag">版本</span><div class="a-cell-sub">版本生成</div></td>
+                    <td><div class="a-cell-main">门店水电施工标准手册.pdf</div><div class="a-cell-sub">V1.0 · KB2026112401349</div></td>
+                    <td class="a-cell-sub">V1.0 · minor · 审核通过时写入</td>
+                    <td><span class="a-status ok">成功</span></td>
+                  </tr>
+                  <tr>
+                    <td class="a-cell-sub">2026-11-24 16:07:09</td>
+                    <td>刘思墨</td>
+                    <td><span class="a-tag video">状态流转</span><div class="a-cell-sub">审核通过</div></td>
+                    <td><div class="a-cell-main">门店水电施工标准手册.pdf</div><div class="a-cell-sub">V1.0 · KB2026112401349</div></td>
+                    <td class="a-cell-sub">待审核 → 待生效 · 将于 2026-11-24 16:17 自动上架</td>
+                    <td><span class="a-status ok">成功</span></td>
+                  </tr>
+                  <tr>
+                    <td class="a-cell-sub">2026-11-24 16:07:00</td>
+                    <td>刘思墨</td>
+                    <td><span class="a-tag pdf">上传</span><div class="a-cell-sub">提交审核（资料）</div></td>
+                    <td><div class="a-cell-main">门店水电施工标准手册.pdf</div><div class="a-cell-sub">V1.0 · KB2026112401349</div></td>
+                    <td class="a-cell-sub">草稿 → 待审核 · PDF ×1 · 提交人：刘思墨</td>
+                    <td><span class="a-status ok">成功</span></td>
+                  </tr>
+                  <tr>
+                    <td class="a-cell-sub">2026-11-24 15:46:22</td>
+                    <td>周云鹏</td>
+                    <td><span class="a-tag video">状态流转</span><div class="a-cell-sub">下架</div></td>
+                    <td><div class="a-cell-main">室内天花造型施工工艺演示</div><div class="a-cell-sub">V1.0 · KB2026111900469</div></td>
+                    <td class="a-cell-sub">已发布 → 已下架 · 原因：测试</td>
+                    <td><span class="a-status ok">成功</span></td>
+                  </tr>
+                  <tr>
+                    <td class="a-cell-sub">2026-11-24 15:45:12</td>
+                    <td>周云鹏</td>
+                    <td><span class="a-tag pdf">上传</span><div class="a-cell-sub">提交审核（资料）</div></td>
+                    <td><div class="a-cell-main">基础装修验收篇（木）图文标准.xlsx</div><div class="a-cell-sub">V1.0 · KB2026112401348</div></td>
+                    <td class="a-cell-sub">草稿 → 待审核 · Excel ×1 · 提交人：周云鹏</td>
+                    <td><span class="a-status ok">成功</span></td>
+                  </tr>
+                  <tr>
+                    <td class="a-cell-sub">2026-11-24 15:42:38</td>
+                    <td>符琪婧</td>
+                    <td><span class="a-tag">可见范围</span><div class="a-cell-sub">调整权限</div></td>
+                    <td><div class="a-cell-main">沿海大风区域门店施工手册.pptx</div><div class="a-cell-sub">V1.0 · KB2026112401347</div></td>
+                    <td class="a-cell-sub">可见范围：全体 → 角色 · 1个</td>
+                    <td><span class="a-status ok">成功</span></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="empty-hint" id="oplogEmpty" hidden style="padding:40px 0">没有匹配的日志</p>
+            </div>
+            <div class="a-pager"><span>共 5745 条</span><span class="a-select" style="height:24px;font-size:12px">10条/页</span><div class="pg"><span class="on">1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>…</span><span>575</span></div></div>
+          </div>
+        </div>
+      </section>
+
       <section class="view view-dtl" id="view-file" aria-label="文件预览">
         <div class="dtl-head">
           <div class="dtl-id">
@@ -2124,6 +3348,12 @@
       materials: { title: '资料中心',   dot: '#00B87A', closable: true },
       videos:    { title: '视频学堂',   dot: '#00B87A', closable: true },
       learning:  { title: '我的学习',   dot: '#00B87A', closable: true },
+      category:  { title: '分类管理',   dot: '#00B87A', closable: true },
+      manage:    { title: '资料与视频管理', dot: '#00B87A', closable: true },
+      tags:      { title: '标签管理',   dot: '#00B87A', closable: true },
+      approvals: { title: '下载审批',   dot: '#00B87A', closable: true },
+      reads:     { title: '已读记录',   dot: '#00B87A', closable: true },
+      oplog:     { title: '操作记录',   dot: '#00B87A', closable: true },
       file:      { title: '文件预览',   dot: '#00B87A', closable: true },
       video:     { title: '视频预览',   dot: '#00B87A', closable: true }
     };
@@ -2191,7 +3421,7 @@
       syncDock();
       renderTabs();
       document.querySelectorAll('.mi[data-open]').forEach(function (n) {
-        n.classList.toggle('active', n.getAttribute('data-open') === (id === 'overview' ? 'overview' : 'home'));
+        n.classList.toggle('active', n.getAttribute('data-open') === id);
       });
       if (id === 'video') fitVideo();
     }
@@ -2366,6 +3596,9 @@
       if (pnl) pnl.scrollTop = 0;
     }
 
+    window.__kbOpen = openDetail;
+    window.__kbTab = openTab;
+
     function leaveDetail() {
       var target = (lastList && TABS[lastList] && !isDetail(lastList)) ? lastList : 'home';
       var cur = active;
@@ -2390,6 +3623,7 @@
       clearTimeout(toastTimer);
       toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 1600);
     }
+    window.__kbToast = toast;
     var favOn = false;
     document.querySelectorAll('[data-fav]').forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -2548,19 +3782,19 @@
     // 视频 → 右侧信息面板数据（示例口径，按目录归属拆分）
     var videoInfo = {
       '室内天花造型施工工艺演示': {
-        cat: '门店施工篇 / 装修工艺 / 天花造型', pct: 65,
+        cat: '门店施工篇 / 装修工艺 / 天花造型', pct: 30,
         tags: ['赵一鸣3.0版本', '标准版', '天花饰面'], dur: '06:15',
         pei: ['室内天花造型施工标准图集', '初尺、复尺标准操作演示'],
         rel: ['隐蔽工程验收标准解读', '沿海大风区域招牌加固演示']
       },
       '初尺、复尺标准操作演示': {
-        cat: '门店设计篇 / 新店设计标准 / 初尺、复尺标准', pct: 0,
+        cat: '门店设计篇 / 新店设计标准 / 初尺、复尺标准', pct: 30,
         tags: ['赵一鸣3.0版本', '标准版', '量尺复核'], dur: '06:15',
         pei: ['室内天花造型施工工艺演示', '室内天花造型施工标准图集'],
         rel: ['隐蔽工程验收标准解读', '开业物料验收流程培训']
       },
       '隐蔽工程验收标准解读': {
-        cat: '门店施工篇 / 隐蔽工程 / 水电节点', pct: 30,
+        cat: '门店施工篇 / 隐蔽工程 / 水电节点', pct: 100,
         tags: ['赵一鸣3.0版本', '标准版', '水电节点'], dur: '22:10',
         pei: ['沿海大风区域招牌加固演示', '初尺、复尺标准操作演示'],
         rel: ['室内天花造型施工工艺演示', '室内天花造型施工标准图集']
@@ -2570,6 +3804,12 @@
         tags: ['赵一鸣3.0版本', '标准版', '广告安装节点'], dur: '06:15',
         pei: ['开业物料验收流程培训', '隐蔽工程验收标准解读'],
         rel: ['室内天花造型施工标准图集', '隐蔽工程验收标准解读']
+      },
+      '泥工室内施工工艺演示': {
+        cat: '门店施工篇 / 差异化篇 / 沿海大风区域施工项目', pct: 100,
+        tags: ['赵一鸣3.0版本', '标准版', '泥工工艺'], dur: '06:15',
+        pei: ['沿海大风区域招牌加固演示', '室内天花造型施工工艺演示'],
+        rel: ['隐蔽工程验收标准解读', '初尺、复尺标准操作演示']
       },
       '开业物料验收流程培训': {
         cat: '门店运营篇 / 开业准备 / 物料验收', pct: 0,
@@ -2609,9 +3849,13 @@
       var tags = panel.querySelector('[data-v-kv="tags"]');
       if (cat) cat.textContent = info.cat;
       if (state) {
-        state.innerHTML = info.pct > 0
-          ? '<span class="learn-state">' + learnSVG + '学习中 ' + info.pct + '%</span>'
-          : '未开始';
+        if (info.pct >= 100) {
+          state.innerHTML = '<span class="learn-state done"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="7.2"/><path d="M5.2 8.1 7.2 10.1 10.9 6.2"/></svg>已学完</span>';
+        } else if (info.pct > 0) {
+          state.innerHTML = '<span class="learn-state">' + learnSVG + '学习中 ' + info.pct + '%</span>';
+        } else {
+          state.innerHTML = '未开始';
+        }
       }
       if (tags) {
         tags.innerHTML = info.tags.map(function (t) {
@@ -2838,6 +4082,988 @@
       if (id && TABS[id]) openTab(id);
     });
     window.addEventListener('resize', function () { paintNotch(); fitVideo(); renderTrend(); });
+  })();
+</script>
+<script>
+  /* 子页面交互：我的学习 Tab / 列表检索 / 资料目录筛选 */
+  (function () {
+    var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
+    var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
+    var toast = function (msg) { if (window.__kbToast) window.__kbToast(msg); };
+
+    // ---------- 我的学习：四个 Tab 面板 ----------
+    var learnTabs = $$('#learnTabs .ltab');
+    var learnPanels = $$('#learnPane .lpanel');
+    var learnEmpty = $('#learnEmpty');
+
+    function activeLearnPanel() {
+      for (var i = 0; i < learnPanels.length; i++) if (!learnPanels[i].hidden) return learnPanels[i];
+      return null;
+    }
+    function showLearnPanel(name) {
+      learnTabs.forEach(function (t) { t.classList.toggle('sel', t.dataset.tab === name); });
+      learnPanels.forEach(function (p) { p.hidden = p.dataset.panel !== name; });
+      if (learnEmpty) learnEmpty.hidden = true;
+      // 切换 Tab 时清空检索，复原当前面板
+      var input = $('#view-learning .ph-head input');
+      if (input && input.value) {
+        input.value = '';
+        $$('.lrec, .req-row, .doc', activeLearnPanel()).forEach(function (row) { row.hidden = false; });
+      }
+    }
+    learnTabs.forEach(function (tab) {
+      tab.addEventListener('click', function () { showLearnPanel(tab.dataset.tab); });
+    });
+
+    function updateLearnCount(name) {
+      var tab = learnTabs.filter(function (t) { return t.dataset.tab === name; })[0];
+      var panel = learnPanels.filter(function (p) { return p.dataset.panel === name; })[0];
+      if (!tab || !panel) return;
+      var n = panel.querySelectorAll('.lrec, .req-row, .doc').length;
+      var el = tab.querySelector('.n');
+      if (el) el.textContent = '(' + n + ')';
+    }
+
+    // 下载申请：撤销 / 下载
+    $$('#learnPane .req-row .btn-ghost').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (btn.textContent.trim() === '撤销') {
+          var row = btn.closest('.req-row');
+          if (row) row.remove();
+          updateLearnCount('reqs');
+          toast('已撤销下载申请');
+        } else {
+          toast('已加入下载队列');
+        }
+      });
+    });
+
+    // 我的收藏：取消收藏
+    var unfav = $('#learnPane [data-unfav]');
+    if (unfav) {
+      unfav.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var rec = unfav.closest('.lrec');
+        if (rec) rec.remove();
+        var empty = $('#learnPane .lpanel[data-panel="fav"] [data-empty]');
+        if (empty) empty.hidden = false;
+        updateLearnCount('fav');
+        toast('已取消收藏');
+      });
+    }
+
+    // ---------- 资料中心：目录筛选 + 检索 ----------
+    var matDocs = $$('#view-materials .doc');
+    var matInput = $('#view-materials .ph-head input');
+    var matEmpty = $('#matEmpty');
+    var matTree = $('#view-materials .tree');
+    var matPath = '';
+    var MAT_CATS = {
+      '门店水电施工标准手册.pdf': '门店施工',
+      '基础装修验收篇（木）图文标准.xlsx': '门店施工',
+      '沿海大风区域门店施工手册.pptx': '门店施工',
+      '门店设计参考图集.png': '门店设计/新店设计标准/设计费用标准',
+      '基础建店费用申报标准.pdf': '门店设计/新店设计标准/基础建店费用申报标准',
+      '设计费用标准.xlsx': '门店设计/新店设计标准/设计费用标准',
+      '设备费用标准.pptx': '门店设计/新店设计标准/设备费用标准',
+      '施工增项标准.png': '门店造价/增项标准/施工增项标准',
+      '设计增项标准.pdf': '门店造价/增项标准/设计增项标准',
+      '门店水电施工标准手册.xlsx': '门店施工'
+    };
+    matDocs.forEach(function (row) {
+      var t = row.querySelector('.doc-title');
+      row.dataset.cat = (t && MAT_CATS[t.textContent.trim()]) || '门店施工';
+    });
+
+    function treePath(tree, item) {
+      var items = $$('.tree-item', tree);
+      var lv = function (el) { return el.classList.contains('lv3') ? 3 : (el.classList.contains('lv2') ? 2 : 1); };
+      var path = [item.querySelector('.ti-label').textContent];
+      var cur = item;
+      for (var l = lv(item); l > 1; l--) {
+        var idx = items.indexOf(cur), parent = null;
+        for (var j = idx - 1; j >= 0; j--) {
+          if (lv(items[j]) === l - 1) { parent = items[j]; break; }
+        }
+        if (!parent) break;
+        path.unshift(parent.querySelector('.ti-label').textContent);
+        cur = parent;
+      }
+      return path;
+    }
+
+    function applyMat() {
+      var q = (matInput && matInput.value || '').trim().toLowerCase();
+      var shown = 0;
+      matDocs.forEach(function (row) {
+        var cat = row.dataset.cat || '';
+        var okCat = !matPath || cat === matPath || cat.indexOf(matPath + '/') === 0;
+        var okQ = !q || row.textContent.toLowerCase().indexOf(q) >= 0;
+        var show = okCat && okQ;
+        row.hidden = !show;
+        if (show) shown++;
+      });
+      if (matEmpty) {
+        matEmpty.textContent = q ? '没有匹配的资料' : '该目录下暂无资料';
+        matEmpty.hidden = shown > 0;
+      }
+    }
+    if (matInput) matInput.addEventListener('input', applyMat);
+    if (matTree) {
+      matTree.addEventListener('click', function (e) {
+        var item = e.target.closest('.tree-item');
+        if (!item) return;
+        var path = treePath(matTree, item);
+        matPath = path[0] === '全部资料' ? '' : path.join('/');
+        applyMat();
+      });
+    }
+
+    // ---------- 视频学堂：检索 ----------
+    var vidCards = $$('#view-videos .vcard2');
+    var vidInput = $('#view-videos .ph-head input');
+    var vidEmpty = $('#vidEmpty');
+    if (vidInput) {
+      vidInput.addEventListener('input', function () {
+        var q = this.value.trim().toLowerCase(), shown = 0;
+        vidCards.forEach(function (card) {
+          var show = !q || card.textContent.toLowerCase().indexOf(q) >= 0;
+          card.hidden = !show;
+          if (show) shown++;
+        });
+        if (vidEmpty) vidEmpty.hidden = shown > 0;
+      });
+    }
+
+    // ---------- 我的学习：检索当前面板 ----------
+    var learnInput = $('#view-learning .ph-head input');
+    if (learnInput) {
+      learnInput.addEventListener('input', function () {
+        var q = this.value.trim().toLowerCase();
+        var panel = activeLearnPanel();
+        if (!panel) return;
+        var rows = $$('.lrec, .req-row, .doc', panel), shown = 0;
+        rows.forEach(function (row) {
+          var show = !q || row.textContent.toLowerCase().indexOf(q) >= 0;
+          row.hidden = !show;
+          if (show) shown++;
+        });
+        if (learnEmpty) {
+          learnEmpty.hidden = shown > 0;
+          learnEmpty.textContent = '没有匹配的内容';
+        }
+      });
+    }
+  })();
+</script>
+<script>
+  /* 管理页交互：分类 / 资料与视频 / 标签 / 下载审批 / 已读记录 / 操作记录 */
+  (function () {
+    var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
+    var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
+    var toast = function (msg) { if (window.__kbToast) window.__kbToast(msg); };
+
+    /* ---------- 分类管理 ---------- */
+    var catTree = $('#catTree');
+    if (catTree) {
+      var catName = $('[data-cat-name]'), catCount = $('[data-cat-count]');
+      var catParent = $('[data-cat-parent]'), catNum = $('[data-cat-num]');
+      var catRecent = $('#catRecent');
+      var catEmpty = $('#catEmpty');
+      var catIconRow = $('#catIconRow'), catIconGrid = $('#catIconGrid');
+      var CAT_ICONS = ['design', 'accept', 'cost', 'engineering', 'maintenance'];
+      var CAT_ICON_NAMES = { design: '门店设计', accept: '门店验收', cost: '门店造价', engineering: '门店工程', maintenance: '门店维保' };
+      var catCustomIcons = [];
+      var catCustomSeq = 0;
+      /* 一级分类默认图标：按名称关键词匹配预置图标，匹配不到则留默认占位 */
+      var CAT_ICON_RULES = [
+        ['maintenance', ['维保', '维修', '售后']],
+        ['accept', ['验收', '巡检', '交付']],
+        ['cost', ['造价', '成本', '预算', '费用']],
+        ['design', ['设计', '视觉', '效果图']],
+        ['engineering', ['工程', '施工', '培训', '工地']]
+      ];
+      function guessCatIcon(name) {
+        var n = name || '';
+        for (var i = 0; i < CAT_ICON_RULES.length; i++) {
+          var words = CAT_ICON_RULES[i][1];
+          for (var j = 0; j < words.length; j++) {
+            if (n.indexOf(words[j]) >= 0) return CAT_ICON_RULES[i][0];
+          }
+        }
+        return '';
+      }
+      function autoCatIcon(node) {
+        if (!node || !node.classList.contains('lv1')) return;
+        if (node.getAttribute('data-icon-manual') === '1') return;
+        var key = guessCatIcon(node.getAttribute('data-name'));
+        if (key) node.setAttribute('data-icon', key);
+        else node.removeAttribute('data-icon');
+      }
+      function catIconSrc(key) {
+        if (!key) return '';
+        if (CAT_ICONS.indexOf(key) >= 0) return './assets/kb-cat/cat-' + key + '.png';
+        for (var i = 0; i < catCustomIcons.length; i++) {
+          if (catCustomIcons[i].id === key) return catCustomIcons[i].src;
+        }
+        return '';
+      }
+      function renderCatIcon(node) {
+        syncCatTreeIcon(node);
+        markCatIconTiles();
+      }
+      function syncCatTreeIcon(node) {
+        if (!node) return;
+        var img = node.querySelector('.cat-ic');
+        var src = node.classList.contains('lv1') ? catIconSrc(node.getAttribute('data-icon')) : '';
+        if (!src) {
+          if (img) img.parentNode.removeChild(img);
+          return;
+        }
+        if (!img) {
+          img = document.createElement('img');
+          img.className = 'cat-ic';
+          img.alt = '';
+          var caret = node.querySelector('.ti-caret');
+          node.insertBefore(img, caret ? caret.nextSibling : node.firstChild);
+        }
+        img.src = src;
+      }
+
+      function fmtCount(docs, videos) {
+        var parts = [];
+        if (docs) parts.push('资料 ' + docs + ' 份');
+        if (videos) parts.push('视频 ' + videos + ' 个');
+        return (parts.length ? parts.join(' · ') : '暂无内容') + '（含子分类）';
+      }
+      function recentFor(node) {
+        var docs = parseInt(node.getAttribute('data-docs') || '0', 10);
+        if (!docs) return '<p class="a-note" style="padding:12px 0">该分类下暂无内容</p>';
+        return '<div class="a-recent-item"><span class="a-tag">资料</span><span class="t">门店水电施工标准手册.pdf</span><span class="ver">V1.0</span><span class="d">11-24</span></div>' +
+          '<div class="a-recent-item"><span class="a-tag">资料</span><span class="t">基础装修验收篇（木）图文标准.xlsx</span><span class="ver">V1.0</span><span class="d">11-23</span></div>' +
+          '<div class="a-recent-item"><span class="a-tag">资料</span><span class="t">沿海大风区域门店施工手册.pptx</span><span class="d">11-23</span></div>';
+      }
+      function selectCat(node) {
+        $$('.cat-node', catTree).forEach(function (n) { n.classList.toggle('sel', n === node); });
+        var name = node.getAttribute('data-name');
+        var parent = node.getAttribute('data-parent');
+        var type = node.getAttribute('data-type');
+        var docs = node.getAttribute('data-docs');
+        var videos = node.getAttribute('data-videos');
+        catName.value = name;
+        catCount.textContent = name.length + ' / 20';
+        catParent.value = parent;
+        catNum.textContent = fmtCount(docs, videos);
+        $$('.type-card').forEach(function (c) { c.classList.toggle('on', c.getAttribute('data-type-val') === type); });
+        catRecent.innerHTML = recentFor(node);
+        catIconRow.hidden = !node.classList.contains('lv1');
+        renderCatIcon(node);
+      }
+      $$('.cat-node', catTree).forEach(function (node) {
+        node.addEventListener('click', function () { selectCat(node); });
+        bindCatCaret(node);
+        bindCatMore(node);
+      });
+      function bindCatCaret(node) {
+        var caret = node.querySelector('.ti-caret');
+        if (!caret) return;
+        caret.addEventListener('click', function (e) {
+          e.stopPropagation();
+          caret.classList.toggle('closed');
+          applyCatCollapse();
+        });
+      }
+      function applyCatCollapse() {
+        var nodes = $$('.cat-node', catTree);
+        var lv = function (el) { return el.classList.contains('lv3') ? 3 : (el.classList.contains('lv2') ? 2 : 1); };
+        var hiddenNodes = [];
+        nodes.forEach(function (n, i) {
+          n.style.display = hiddenNodes.indexOf(n) >= 0 ? 'none' : '';
+          var caret = n.querySelector('.ti-caret');
+          if (caret && caret.classList.contains('closed')) {
+            for (var j = i + 1; j < nodes.length; j++) {
+              if (lv(nodes[j]) <= lv(n)) break;
+              hiddenNodes.push(nodes[j]);
+            }
+          }
+        });
+      }
+      applyCatCollapse();
+      $$('.cat-node.lv1', catTree).forEach(function (n) { autoCatIcon(n); syncCatTreeIcon(n); });
+      /* 一级目录默认按图标预设顺序（CAT_ICONS）排列，子级跟随父级整块移动 */
+      (function () {
+        var blocks = [], cur = null;
+        Array.prototype.slice.call(catTree.children).forEach(function (el) {
+          if (el.classList.contains('cat-node') && el.classList.contains('lv1')) { cur = [el]; blocks.push(cur); }
+          else if (cur && el.classList.contains('cat-node')) { cur.push(el); }
+          else { cur = null; }
+        });
+        var anchor = document.getElementById('catEmpty');
+        blocks.sort(function (a, b) { return CAT_ICONS.indexOf(a[0].getAttribute('data-icon')) - CAT_ICONS.indexOf(b[0].getAttribute('data-icon')); });
+        blocks.forEach(function (b) { b.forEach(function (el) { catTree.insertBefore(el, anchor); }); });
+      })();
+      catName.addEventListener('input', function () {
+        catCount.textContent = this.value.length + ' / 20';
+      });
+      $$('.type-card').forEach(function (card) {
+        card.addEventListener('click', function () {
+          $$('.type-card').forEach(function (c) { c.classList.toggle('on', c === card); });
+        });
+      });
+      var catSave = $('[data-cat-save]');
+      if (catSave) catSave.addEventListener('click', function () {
+        var sel = $('.cat-node.sel', catTree);
+        if (sel) {
+          sel.setAttribute('data-name', catName.value.trim() || '未命名分类');
+          var nm = $('.nm', sel);
+          if (nm) nm.textContent = catName.value.trim() || '未命名分类';
+          autoCatIcon(sel);
+          renderCatIcon(sel);
+        }
+        toast('已保存分类修改');
+      });
+      /* 分类图标：仅一级分类；预置图标按名称默认匹配，也可上传自定义 */
+      var catIconCustomGrid = $('#catIconCustomGrid');
+      var catIconFile = $('#catIconFile');
+      var catIconUpload = $('[data-cat-icon-upload]');
+      function markCatIconTiles() {
+        var sel = $('.cat-node.sel', catTree);
+        var key = sel && sel.getAttribute('data-icon');
+        $$('.cat-icon-item', catIconGrid).forEach(function (it) {
+          it.classList.toggle('on', it.getAttribute('data-icon') === key);
+        });
+        $$('.cat-icon-item', catIconCustomGrid).forEach(function (it) {
+          it.classList.toggle('on', it.getAttribute('data-icon') === key);
+        });
+      }
+      function applyCatIcon(key, msg) {
+        var sel = $('.cat-node.sel', catTree);
+        if (!sel) return;
+        sel.setAttribute('data-icon', key);
+        sel.setAttribute('data-icon-manual', '1');
+        renderCatIcon(sel);
+        toast(msg || '已设置分类图标，移动端资料中心同步展示');
+      }
+      function renderCustomIcons() {
+        $$('.cat-icon-custom', catIconCustomGrid).forEach(function (el) { el.parentNode.removeChild(el); });
+        if (catIconUpload) catIconUpload.hidden = catCustomIcons.length >= 1;
+        catCustomIcons.slice(0, 1).forEach(function (ic) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'cat-icon-item cat-icon-custom';
+          btn.setAttribute('data-icon', ic.id);
+          btn.innerHTML = '<img src="' + ic.src + '" alt="" /><span>' + ic.name + '</span>' +
+            '<i class="del" role="button" aria-label="删除图标"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg></i>';
+          btn.addEventListener('click', function (e) {
+            if (e.target.closest && e.target.closest('.del')) {
+              e.stopPropagation();
+              catCustomIcons = catCustomIcons.filter(function (x) { return x.id !== ic.id; });
+              $$('.cat-node[data-icon="' + ic.id + '"]', catTree).forEach(function (n) {
+                n.removeAttribute('data-icon-manual');
+                autoCatIcon(n);
+                syncCatTreeIcon(n);
+              });
+              renderCustomIcons();
+              markCatIconTiles();
+              var cur = $('.cat-node.sel', catTree);
+              if (cur) renderCatIcon(cur);
+              toast('已删除自定义图标，使用中的分类已回到预置图标');
+              return;
+            }
+            applyCatIcon(ic.id);
+          });
+          catIconCustomGrid.appendChild(btn);
+        });
+      }
+      $$('.cat-icon-item', catIconGrid).forEach(function (it) {
+        it.addEventListener('click', function () { applyCatIcon(it.getAttribute('data-icon')); });
+      });
+      if (catIconUpload) catIconUpload.addEventListener('click', function () {
+        if (catCustomIcons.length >= 1) { toast('自定义图标只能上传 1 张，请先删除已上传的图标'); return; }
+        catIconFile.value = '';
+        catIconFile.click();
+      });
+      if (catIconFile) catIconFile.addEventListener('change', function () {
+        var file = this.files && this.files[0];
+        if (!file) return;
+        if (['image/png', 'image/jpeg', 'image/svg+xml'].indexOf(file.type) < 0) { toast('仅支持 PNG / JPG / SVG 格式'); return; }
+        if (file.size > 2 * 1024 * 1024) { toast('图标不能超过 2MB，请压缩后再上传'); return; }
+        var reader = new FileReader();
+        reader.onload = function () {
+          var img = new Image();
+          img.onload = function () {
+            if (Math.abs(img.naturalWidth - img.naturalHeight) > Math.max(img.naturalWidth, img.naturalHeight) * 0.05) {
+              toast('请上传正方形图标，当前 ' + img.naturalWidth + '×' + img.naturalHeight);
+              return;
+            }
+            var id = 'custom-' + (++catCustomSeq);
+            var name = (file.name || '自定义图标').replace(/\.[^.]+$/, '');
+            if (name.length > 6) name = name.slice(0, 6) + '…';
+            catCustomIcons.slice(0).forEach(function (old) {
+              $$('.cat-node[data-icon="' + old.id + '"]', catTree).forEach(function (n) {
+                n.removeAttribute('data-icon-manual');
+                autoCatIcon(n);
+                syncCatTreeIcon(n);
+              });
+            });
+            catCustomIcons = [{ id: id, src: reader.result, name: name }];
+            renderCustomIcons();
+            applyCatIcon(id, img.naturalWidth < 96
+              ? '已上传并生效，建议 96×96 以上以保证清晰度'
+              : '已上传自定义图标，移动端资料中心同步展示');
+          };
+          img.onerror = function () { toast('图片解析失败，请换一张试试'); };
+          img.src = reader.result;
+        };
+        reader.onerror = function () { toast('读取文件失败，请重试'); };
+        reader.readAsDataURL(file);
+      });
+      var catSearch = $('[data-cat-search]');
+      if (catSearch) catSearch.addEventListener('input', function () {
+        var q = this.value.trim().toLowerCase(), shown = 0;
+        $$('.cat-node', catTree).forEach(function (n) {
+          var hit = !q || n.textContent.toLowerCase().indexOf(q) >= 0;
+          n.hidden = !hit;
+          if (q) n.style.display = '';
+          if (hit) shown++;
+        });
+        if (!q) applyCatCollapse();
+        catEmpty.hidden = shown > 0;
+      });
+      var catNew = $('[data-cat-new]');
+      if (catNew) catNew.addEventListener('click', function () {
+        var node = document.createElement('div');
+        node.className = 'cat-node lv1';
+        node.setAttribute('data-name', '新分类');
+        node.setAttribute('data-parent', '—');
+        node.setAttribute('data-type', '资料+视频');
+        node.setAttribute('data-docs', '0');
+        node.setAttribute('data-videos', '0');
+        node.innerHTML = '<svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg><span class="nm">新分类</span><span class="cnt">0</span>';
+        node.addEventListener('click', function () { selectCat(node); });
+        catTree.insertBefore(node, catEmpty);
+        bindCatCaret(node);
+        bindCatMore(node);
+        autoCatIcon(node);
+        refreshCatCarets();
+        selectCat(node);
+        toast('已新建一级分类，可修改名称后保存');
+      });
+
+      /* 分类树 hover 操作菜单：新建子分类 / 上移 / 下移 / 删除分类 */
+      var catMenu = document.createElement('div');
+      catMenu.className = 'cat-menu'; catMenu.hidden = true;
+      document.body.appendChild(catMenu);
+      var catMenuNode = null;
+      function lvOf(el) { return el.classList.contains('lv3') ? 3 : (el.classList.contains('lv2') ? 2 : 1); }
+      function catNodes() { return $$('.cat-node', catTree); }
+      function blockOf(node) {
+        var nodes = catNodes(), i = nodes.indexOf(node), j = i + 1, L = lvOf(node);
+        while (j < nodes.length && lvOf(nodes[j]) > L) j++;
+        return { nodes: nodes, i: i, j: j };
+      }
+      function parentOf(node) {
+        var nodes = catNodes(), i = nodes.indexOf(node), L = lvOf(node);
+        if (L === 1) return null;
+        for (var k = i - 1; k >= 0; k--) if (lvOf(nodes[k]) === L - 1) return nodes[k];
+        return null;
+      }
+      function childrenOf(parent) {
+        var nodes = catNodes(), out = [];
+        if (!parent) { nodes.forEach(function (n) { if (lvOf(n) === 1) out.push(n); }); return out; }
+        var b = blockOf(parent), L = lvOf(parent);
+        for (var k = b.i + 1; k < b.j; k++) if (lvOf(nodes[k]) === L + 1) out.push(nodes[k]);
+        return out;
+      }
+      function refreshCatCarets() {
+        var nodes = catNodes();
+        nodes.forEach(function (n, i) {
+          n.classList.toggle('leaf', i + 1 >= nodes.length || lvOf(nodes[i + 1]) <= lvOf(n));
+        });
+      }
+      function closeCatMenu() {
+        catMenu.hidden = true;
+        if (catMenuNode) catMenuNode.classList.remove('menu-open');
+        catMenuNode = null;
+      }
+      function openCatMenu(node, btn) {
+        closeCatMenu();
+        catMenuNode = node; node.classList.add('menu-open');
+        var sibs = childrenOf(parentOf(node)), idx = sibs.indexOf(node);
+        catMenu.innerHTML = '';
+        function item(label, disabled, fn) {
+          var b = document.createElement('button');
+          b.type = 'button'; b.textContent = label; b.disabled = !!disabled;
+          b.addEventListener('click', function () { closeCatMenu(); fn(); });
+          catMenu.appendChild(b);
+        }
+        item('新建子分类', lvOf(node) >= 3, function () { newSubCat(node); });
+        item('上移', idx <= 0, function () { moveCat(node, -1); });
+        item('下移', idx >= sibs.length - 1, function () { moveCat(node, 1); });
+        var sep = document.createElement('div'); sep.className = 'sep'; catMenu.appendChild(sep);
+        item('删除分类', false, function () { confirmDeleteCat(node); });
+        catMenu.hidden = false;
+        var r = btn.getBoundingClientRect(), w = catMenu.offsetWidth, h = catMenu.offsetHeight;
+        var left = Math.min(Math.max(8, r.right - w), window.innerWidth - w - 8);
+        var top = r.bottom + 4;
+        if (top + h > window.innerHeight - 8) top = r.top - h - 4;
+        catMenu.style.left = left + 'px'; catMenu.style.top = top + 'px';
+      }
+      function bindCatMore(node) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'more'; b.setAttribute('aria-label', '分类操作');
+        b.innerHTML = '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3.4" r="1.2"/><circle cx="8" cy="8" r="1.2"/><circle cx="8" cy="12.6" r="1.2"/></svg>';
+        b.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (catMenuNode === node && !catMenu.hidden) closeCatMenu(); else openCatMenu(node, b);
+        });
+        node.appendChild(b);
+      }
+      function moveCat(node, dir) {
+        var sibs = childrenOf(parentOf(node)), idx = sibs.indexOf(node), tgt = sibs[idx + dir];
+        if (!tgt) return;
+        var a = blockOf(node), b = blockOf(tgt);
+        var frag = document.createDocumentFragment();
+        for (var k = a.i; k < a.j; k++) frag.appendChild(a.nodes[k]);
+        var anchor = dir < 0 ? b.nodes[b.i] : b.nodes[b.j - 1].nextSibling;
+        catTree.insertBefore(frag, anchor);
+        applyCatCollapse(); refreshCatCarets();
+      }
+      function newSubCat(parent) {
+        var L = lvOf(parent) + 1;
+        var node = document.createElement('div');
+        node.className = 'cat-node lv' + L;
+        node.setAttribute('data-name', '新分类');
+        node.setAttribute('data-parent', parent.getAttribute('data-name'));
+        var type = parent.getAttribute('data-type') || '资料+视频';
+        node.setAttribute('data-type', type);
+        node.setAttribute('data-docs', '0'); node.setAttribute('data-videos', '0');
+        var badge = type === '仅资料' ? '<span class="badge">仅资料</span>' : (type === '仅视频' ? '<span class="badge blue">仅视频</span>' : '');
+        node.innerHTML = '<svg class="ti-caret" viewBox="0 0 16 16"><use href="#ic-caret"/></svg><span class="nm">新分类</span>' + badge + '<span class="cnt">0</span>';
+        var b = blockOf(parent);
+        catTree.insertBefore(node, b.nodes[b.j - 1].nextSibling);
+        node.addEventListener('click', function () { selectCat(node); });
+        bindCatCaret(node); bindCatMore(node);
+        var caret = parent.querySelector('.ti-caret');
+        if (caret) caret.classList.remove('closed');
+        applyCatCollapse(); refreshCatCarets();
+        selectCat(node);
+        toast('已新建' + (L === 2 ? '二级' : '三级') + '分类，可修改名称后保存');
+      }
+      /* 删除分类二次确认 */
+      var kbMask = document.createElement('div');
+      kbMask.className = 'kb-mask'; kbMask.hidden = true;
+      kbMask.innerHTML = '<div class="kb-dialog" role="dialog" aria-modal="true" aria-labelledby="kbDlgTitle"><h3 id="kbDlgTitle">删除分类</h3><p></p><div class="ops"><button type="button" class="a-btn" data-kb-cancel>取消</button><button type="button" class="a-btn danger-solid" data-kb-ok>删除</button></div></div>';
+      document.body.appendChild(kbMask);
+      var kbPending = null;
+      function confirmDeleteCat(node) {
+        kbPending = node;
+        var b = blockOf(node), n = b.j - b.i - 1;
+        kbMask.querySelector('p').textContent = '确定删除「' + node.getAttribute('data-name') + '」？' + (n ? '其 ' + n + ' 个子分类将一并删除，' : '') + '分类下内容移入「未分类」，删除后不可恢复。';
+        kbMask.hidden = false;
+      }
+      function closeKbMask() { kbMask.hidden = true; kbPending = null; }
+      kbMask.addEventListener('click', function (e) { if (e.target === kbMask) closeKbMask(); });
+      kbMask.querySelector('[data-kb-cancel]').addEventListener('click', closeKbMask);
+      kbMask.querySelector('[data-kb-ok]').addEventListener('click', function () {
+        var node = kbPending; closeKbMask();
+        if (!node || !node.parentNode) return;
+        var b = blockOf(node), parent = parentOf(node), removed = [];
+        for (var k = b.i; k < b.j; k++) removed.push(b.nodes[k]);
+        removed.forEach(function (n) { n.parentNode.removeChild(n); });
+        applyCatCollapse(); refreshCatCarets();
+        var next = parent || catNodes()[0];
+        if (next) selectCat(next);
+        else {
+          catName.value = ''; catCount.textContent = '0 / 20'; catParent.value = '—';
+          catNum.textContent = '暂无内容';
+          catRecent.innerHTML = '<p class="a-note" style="padding:12px 0">请先新建分类</p>';
+          catIconRow.hidden = true;
+        }
+        toast('已删除分类「' + node.getAttribute('data-name') + '」');
+      });
+      document.addEventListener('click', function (e) {
+        if (!catMenu.hidden && !catMenu.contains(e.target)) closeCatMenu();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { closeCatMenu(); closeKbMask(); }
+      });
+      catTree.addEventListener('scroll', closeCatMenu);
+      window.addEventListener('resize', closeCatMenu);
+      window.addEventListener('hashchange', closeCatMenu);
+      refreshCatCarets();
+    }
+
+    /* ---------- 资料与视频管理 ---------- */
+    var manageTable = $('#manageTable');
+    if (manageTable) {
+      var mRows = $$('tbody tr', manageTable);
+      var mSearch = $('[data-manage-search]');
+      var mEmpty = $('#manageEmpty');
+      var mCat = '';
+      var mType = '全部类型', mStatus = '全部状态';
+      var typeSel = $('[data-manage-type]'), statusSel = $('[data-manage-status]');
+      var TYPES = ['全部类型', 'PDF', 'Excel', 'PPT', '视频', '图片'];
+      var STATUSES = ['全部状态', '已发布', '已下架'];
+      function applyManage() {
+        var q = (mSearch.value || '').trim().toLowerCase(), shown = 0;
+        mRows.forEach(function (row) {
+          var hay = row.textContent.toLowerCase();
+          var ok = (!q || hay.indexOf(q) >= 0) &&
+            (!mCat || hay.indexOf(mCat.toLowerCase()) >= 0) &&
+            (mType === '全部类型' || row.getAttribute('data-type') === mType) &&
+            (mStatus === '全部状态' || row.getAttribute('data-status') === mStatus);
+          row.hidden = !ok;
+          if (ok) shown++;
+        });
+        mEmpty.hidden = shown > 0;
+      }
+      if (mSearch) mSearch.addEventListener('input', applyManage);
+      if (typeSel) typeSel.addEventListener('click', function () {
+        mType = TYPES[(TYPES.indexOf(mType) + 1) % TYPES.length];
+        typeSel.textContent = mType;
+        applyManage();
+      });
+      if (statusSel) statusSel.addEventListener('click', function () {
+        mStatus = STATUSES[(STATUSES.indexOf(mStatus) + 1) % STATUSES.length];
+        statusSel.textContent = mStatus;
+        applyManage();
+      });
+      /* 双计数用中点分隔：244 · 44（前资料后视频），比斜杠易读、比图标省位 */
+      $$('.cat-node .cnt', catTree).forEach(function (c) {
+        var m = (c.textContent || '').trim().match(/^(\d+)\s*\/\s*(\d+)$/);
+        if (!m) return;
+        c.textContent = m[1] + ' · ' + m[2];
+      });
+      var mTree = $('#manageTree');
+      if (mTree) {
+        var mCatEmpty = $('#manageCatEmpty');
+        var mCatSearch = $('[data-manage-cat-search]');
+        var mHint = $('#manageHint'), mPagerTotal = $('#managePagerTotal'), mPagerLast = $('#managePagerLast');
+        function applyManageCatSearch() {
+          var q = ((mCatSearch && mCatSearch.value) || '').trim().toLowerCase(), shown = 0;
+          $$('.cat-node', mTree).forEach(function (n) {
+            var hit = !q || n.textContent.toLowerCase().indexOf(q) >= 0;
+            n.hidden = !hit;
+            if (q) n.style.display = '';
+            if (hit) shown++;
+          });
+          if (!q) applyManageCollapse();
+          mCatEmpty.hidden = shown > 0;
+        }
+        /* 折叠：点箭头只收合子级、不改变选中；状态跨镜像重建保留 */
+        var mClosed = {};
+        function mLv(n) { return n.classList.contains('lv3') ? 3 : n.classList.contains('lv2') ? 2 : 1; }
+        function applyManageCollapse() {
+          var ns = $$('.cat-node', mTree), stack = [];
+          ns.forEach(function (n, i) {
+            var lv = mLv(n);
+            while (stack.length && stack[stack.length - 1] >= lv) stack.pop();
+            n.style.display = stack.length ? 'none' : '';
+            var hasKids = i + 1 < ns.length && mLv(ns[i + 1]) > lv;
+            n.classList.toggle('leaf', !hasKids);
+            var closed = !!mClosed[n.getAttribute('data-mcat')];
+            var caret = $('.ti-caret', n);
+            if (caret) caret.classList.toggle('closed', closed && hasKids);
+            if (hasKids && closed) stack.push(lv);
+          });
+        }
+        /* 分类树镜像：层级 / 图标 / 徽标 / 计数与分类管理完全一致；分类增删移后自动重建 */
+        function syncManageTree() {
+          var total = 0;
+          $$('.cat-node.lv1', catTree).forEach(function (n) {
+            total += (parseInt(n.getAttribute('data-docs'), 10) || 0) + (parseInt(n.getAttribute('data-videos'), 10) || 0);
+          });
+          var frag = document.createDocumentFragment();
+          var root = document.createElement('div');
+          root.className = 'cat-node lv1 root';
+          root.setAttribute('data-mcat', '');
+          root.innerHTML = '<svg class="root-ic" viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-layers"/></svg><span class="nm">全部内容</span><span class="cnt">' + total + '</span>';
+          frag.appendChild(root);
+          $$('.cat-node', catTree).forEach(function (n) {
+            var d = n.cloneNode(true);
+            d.classList.remove('sel', 'menu-open', 'leaf');
+            d.hidden = false;
+            d.style.display = '';
+            var more = $('.more', d);
+            if (more) more.remove();
+            d.setAttribute('data-mcat', n.getAttribute('data-name') || $('.nm', n).textContent);
+            frag.appendChild(d);
+          });
+          $$('.cat-node', mTree).forEach(function (n) { n.remove(); });
+          mTree.insertBefore(frag, mCatEmpty);
+          var sel = null;
+          $$('.cat-node', mTree).forEach(function (n) {
+            if ((n.getAttribute('data-mcat') || '') === mCat) sel = n;
+          });
+          if (!sel) { mCat = ''; sel = $('.cat-node', mTree); }
+          sel.classList.add('sel');
+          if (mHint) mHint.textContent = '共 ' + total + ' 项';
+          if (mPagerTotal) mPagerTotal.textContent = '共 ' + total + ' 条';
+          if (mPagerLast) mPagerLast.textContent = Math.max(1, Math.ceil(total / 10));
+          applyManageCollapse();
+          applyManageCatSearch();
+          applyManage();
+        }
+        mTree.addEventListener('click', function (e) {
+          var caret = e.target.closest ? e.target.closest('.ti-caret') : null;
+          if (caret && mTree.contains(caret)) {
+            var key = caret.closest('.cat-node').getAttribute('data-mcat');
+            if (mClosed[key]) delete mClosed[key]; else mClosed[key] = true;
+            applyManageCollapse();
+            return;
+          }
+          var node = e.target.closest ? e.target.closest('.cat-node') : null;
+          if (!node || !mTree.contains(node)) return;
+          $$('.cat-node', mTree).forEach(function (n) { n.classList.toggle('sel', n === node); });
+          mCat = node.getAttribute('data-mcat') || '';
+          applyManage();
+        });
+        if (mCatSearch) mCatSearch.addEventListener('input', applyManageCatSearch);
+        syncManageTree();
+        var mSyncQueued = false;
+        new MutationObserver(function () {
+          if (mSyncQueued) return;
+          mSyncQueued = true;
+          requestAnimationFrame(function () { mSyncQueued = false; syncManageTree(); });
+        }).observe(catTree, { childList: true, subtree: true, characterData: true });
+      }
+      $$('[data-manage-preview]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var row = btn.closest('tr');
+          var title = row.getAttribute('data-title');
+          var isVideo = row.getAttribute('data-kind') === 'video';
+          if (window.__kbOpen) {
+            if (isVideo) window.__kbOpen('video', { title: title });
+            else window.__kbOpen('file', { title: title + (row.getAttribute('data-type') === 'Excel' ? '.xlsx' : '.pdf') });
+          }
+        });
+      });
+      $$('[data-manage-off]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var row = btn.closest('tr');
+          row.setAttribute('data-status', '已下架');
+          var st = $('.a-status', row);
+          if (st) { st.className = 'a-status'; st.textContent = '已下架'; }
+          btn.remove();
+          toast('已下架该内容');
+        });
+      });
+      $$('[data-manage-more]').forEach(function (btn) {
+        btn.addEventListener('click', function () { toast('更多操作：版本管理 / 关联内容 / 权限设置'); });
+      });
+    }
+
+    /* ---------- 标签管理 ---------- */
+    var tagGrid = $('#tagGrid');
+    if (tagGrid) {
+      var tagEmpty = $('#tagEmpty');
+      function updateTagCount(card) {
+        var cnt = $$('.tag-chip', card).length;
+        var el = $('.tag-card-cnt', card);
+        if (el) el.textContent = '共 ' + cnt + ' 个';
+      }
+      function refreshTagEmpty() {
+        var cards = $$('.tag-card:not(.new)', tagGrid);
+        tagEmpty.hidden = cards.length > 0;
+      }
+      $$('[data-tag-input]', tagGrid).forEach(function (input) {
+        input.addEventListener('keydown', function (e) {
+          if (e.key !== 'Enter') return;
+          var v = this.value.trim();
+          if (!v) return;
+          var chip = document.createElement('span');
+          chip.className = 'tag-chip';
+          chip.innerHTML = v + ' <i>0</i>';
+          var chips = $('.tag-chips', this.closest('.tag-card'));
+          chips.appendChild(chip);
+          this.value = '';
+          updateTagCount(this.closest('.tag-card'));
+          toast('已添加标签「' + v + '」');
+        });
+      });
+      $$('[data-tag-del]', tagGrid).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var card = btn.closest('.tag-card');
+          var name = $('.tag-card-title', card).textContent;
+          card.remove();
+          refreshTagEmpty();
+          toast('已删除标签维度「' + name + '」');
+        });
+      });
+      $$('[data-tag-rename]', tagGrid).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var card = btn.closest('.tag-card');
+          var title = $('.tag-card-title', card);
+          var input = document.createElement('input');
+          input.type = 'text';
+          input.value = title.textContent;
+          input.className = 'a-cell-main';
+          input.style.cssText = 'border:1px solid #0073FF;border-radius:4px;padding:0 6px;height:24px;width:120px;font-family:inherit;outline:none';
+          title.replaceWith(input);
+          input.focus();
+          input.select();
+          var done = function () {
+            var newTitle = document.createElement('span');
+            newTitle.className = 'tag-card-title';
+            newTitle.textContent = input.value.trim() || '未命名维度';
+            input.replaceWith(newTitle);
+            toast('已修改标签维度名称');
+          };
+          input.addEventListener('keydown', function (e) { if (e.key === 'Enter') done(); });
+          input.addEventListener('blur', done);
+        });
+      });
+      function newTagCard() {
+        var card = document.createElement('div');
+        card.className = 'tag-card';
+        card.innerHTML = '<div class="tag-card-head"><span class="tag-card-title">新标签维度</span><span class="tag-card-cnt">共 0 个</span><div class="tag-card-ops"><button class="a-btn link" data-tag-rename>改名</button><button class="a-btn link danger" data-tag-del>删除维度</button></div></div>' +
+          '<div class="tag-chips"></div><div class="tag-add"><input type="text" placeholder="输入标签名，回车添加" data-tag-input /></div>';
+        var newCard = $('.tag-card.new', tagGrid);
+        tagGrid.insertBefore(card, newCard);
+        var input = $('[data-tag-input]', card);
+        input.addEventListener('keydown', function (e) {
+          if (e.key !== 'Enter') return;
+          var v = this.value.trim();
+          if (!v) return;
+          var chip = document.createElement('span');
+          chip.className = 'tag-chip';
+          chip.innerHTML = v + ' <i>0</i>';
+          $('.tag-chips', card).appendChild(chip);
+          this.value = '';
+          updateTagCount(card);
+          toast('已添加标签「' + v + '」');
+        });
+        $('[data-tag-del]', card).addEventListener('click', function () {
+          card.remove(); refreshTagEmpty(); toast('已删除标签维度「新标签维度」');
+        });
+        $('[data-tag-rename]', card).addEventListener('click', function () {
+          var title = $('.tag-card-title', card);
+          title.textContent = '点击改名';
+          title.contentEditable = 'true';
+          title.focus();
+          title.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); title.blur(); } });
+          title.addEventListener('blur', function () { title.contentEditable = 'false'; toast('已修改标签维度名称'); });
+        });
+        refreshTagEmpty();
+        input.focus();
+        toast('已新建标签维度');
+      }
+      $$('[data-tag-new], [data-tag-new-inline]').forEach(function (btn) {
+        btn.addEventListener('click', newTagCard);
+      });
+    }
+
+    /* ---------- 下载审批 ---------- */
+    var approveTable = $('#approveTable');
+    if (approveTable) {
+      var aSearch = $('[data-approve-search]');
+      var aEmpty = $('#approveEmpty');
+      var pendingEl = $('[data-approve-pending]');
+      var passedEl = $('[data-approve-passed]');
+      var rejectedEl = $('[data-approve-rejected]');
+      function applyApprove() {
+        var q = (aSearch.value || '').trim().toLowerCase(), shown = 0;
+        $$('tbody tr[data-state]', approveTable).forEach(function (row) {
+          var ok = !q || row.textContent.toLowerCase().indexOf(q) >= 0;
+          row.hidden = !ok;
+          if (ok && !row.hidden) shown++;
+        });
+        aEmpty.hidden = shown > 0;
+      }
+      if (aSearch) aSearch.addEventListener('input', applyApprove);
+      function setResult(row, type) {
+        var cell = row.children[row.children.length - 1];
+        cell.innerHTML = '<span class="a-status ' + (type === 'pass' ? 'ok' : '') + '">' + (type === 'pass' ? '已通过' : '已驳回') + '</span>';
+        row.setAttribute('data-state', type);
+        var pending = parseInt(pendingEl.textContent, 10) || 0;
+        pendingEl.textContent = Math.max(0, pending - 1);
+        if (type === 'pass') passedEl.textContent = (parseInt(passedEl.textContent, 10) || 0) + 1;
+        else rejectedEl.textContent = (parseInt(rejectedEl.textContent, 10) || 0) + 1;
+        toast(type === 'pass' ? '已通过该下载申请' : '已驳回该下载申请');
+      }
+      $$('[data-approve-pass]', approveTable).forEach(function (btn) {
+        btn.addEventListener('click', function () { setResult(btn.closest('tr'), 'pass'); });
+      });
+      $$('[data-approve-reject]', approveTable).forEach(function (btn) {
+        btn.addEventListener('click', function () { setResult(btn.closest('tr'), 'reject'); });
+      });
+      $$('[data-approve-log]', approveTable).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var row = btn.closest('tr');
+          var next = row.nextElementSibling;
+          if (next && next.classList.contains('a-log-row')) { next.remove(); return; }
+          var logRow = document.createElement('tr');
+          logRow.className = 'a-log-row';
+          logRow.innerHTML = '<td colspan="8"><div class="a-log">' +
+            '<div class="a-log-item"><span class="t">2026-11-24 15:18:12</span><span class="who">周云鹏</span><span>提交下载申请</span></div>' +
+            '<div class="a-log-item"><span class="t">2026-11-24 15:18:20</span><span class="who">系统</span><span>进入待审批队列</span></div>' +
+            '</div></td>';
+          row.after(logRow);
+        });
+      });
+    }
+
+    /* ---------- 已读记录 ---------- */
+    var readsView = $('#view-reads');
+    if (readsView) {
+      var readTabs = $$('[data-reads-tab]', readsView);
+      var readPanels = $$('[data-reads-panel]', readsView);
+      function showReadPanel(name) {
+        readTabs.forEach(function (t) { t.classList.toggle('on', t.getAttribute('data-reads-tab') === name); });
+        readPanels.forEach(function (p) { p.hidden = p.getAttribute('data-reads-panel') !== name; });
+        var empty = $('[data-reads-empty]', readsView.querySelector('[data-reads-panel="' + name + '"]'));
+        if (empty) empty.hidden = true;
+      }
+      readTabs.forEach(function (t) {
+        t.addEventListener('click', function () { showReadPanel(t.getAttribute('data-reads-tab')); });
+      });
+      readPanels.forEach(function (panel) {
+        var segs = $$('[data-seg]', panel);
+        var tables = $$('[data-reads-table]', panel);
+        var search = $('[data-reads-search]', panel);
+        var empty = $('[data-reads-empty]', panel);
+        function showSeg(name) {
+          segs.forEach(function (s) { s.classList.toggle('on', s.getAttribute('data-seg') === name); });
+          tables.forEach(function (tb) { tb.hidden = tb.getAttribute('data-reads-table') !== name; });
+          empty.hidden = true;
+          if (search) filter();
+        }
+        function filter() {
+          var q = (search.value || '').trim().toLowerCase();
+          var active = tables.find(function (tb) { return !tb.hidden; });
+          if (!active) return;
+          var rows = $$('tbody tr', active), shown = 0;
+          rows.forEach(function (row) {
+            var ok = !q || row.textContent.toLowerCase().indexOf(q) >= 0;
+            row.hidden = !ok;
+            if (ok) shown++;
+          });
+          empty.hidden = shown > 0;
+        }
+        segs.forEach(function (s) {
+          s.addEventListener('click', function () { showSeg(s.getAttribute('data-seg')); });
+        });
+        if (search) search.addEventListener('input', filter);
+      });
+    }
+
+    /* ---------- 操作记录 ---------- */
+    var oplogTable = $('#oplogTable');
+    if (oplogTable) {
+      var oSearch = $('[data-oplog-search]');
+      var oEmpty = $('#oplogEmpty');
+      if (oSearch) oSearch.addEventListener('input', function () {
+        var q = this.value.trim().toLowerCase(), shown = 0;
+        $$('tbody tr', oplogTable).forEach(function (row) {
+          var ok = !q || row.textContent.toLowerCase().indexOf(q) >= 0;
+          row.hidden = !ok;
+          if (ok) shown++;
+        });
+        oEmpty.hidden = shown > 0;
+      });
+    }
   })();
 </script>
 </body>
